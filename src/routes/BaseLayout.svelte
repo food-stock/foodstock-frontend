@@ -8,6 +8,7 @@
 <div class="container">
 <header>
     <div id="header">
+        <button id="bttonL"><i class="fa-solid fa-plus"></i></button>
         Bonjour, {user}
         <button id="btton"><i id="icon_search" class="fa-solid fa-magnifying-glass"></i></button>
     </div>
@@ -79,7 +80,7 @@ main {
     margin-right: 22px;
 }
 
-#btton , #buttonfooter {
+#btton , #buttonfooter, #bttonL{
   background: none;
   border: none;
   padding: 0;
@@ -94,6 +95,12 @@ main {
   float: right;
 }
 #btton:hover {
+    color: #3fb945;
+}
+#bttonL {
+  float: left;
+}
+#bttonL:hover {
     color: #3fb945;
 }
 </style>

@@ -1,0 +1,309 @@
+<script>
+  import BaseLayout from '../BaseLayout.svelte';
+  import { onMount } from 'svelte';
+  import Cookies from 'js-cookie';
+
+  let id = Cookies.get('id');
+  let Entity = [];
+  let food_info = {};
+  let data = {};
+  let productIsDisplayed = false;
+  let entity_id = 3;
+  let yaPlusOpened = false;
+  let openQuantityM = false;
+  let integer;
+  let decimal;
+
+  function getDaysDifference(dateString) {
+    const today = new Date();
+    const consumptionDate = new Date(dateString);
+    const timeDiff = consumptionDate - today;
+    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    return daysDiff;
+  }
+
+  function getColorClass(daysDifference) {
+    if (daysDifference > 5) {
+      return 'green';
+    } else if (daysDifference > 2 && daysDifference <=5) {
+      return 'orange';
+    } else {
+      return 'red';
+    }
+  }
+
+  function increaseUnit() {
+    integer = parseInt(integer) +  1;
+  }
+
+  function decreaseUnit() {
+    if (parseInt(integer) > 1) {
+      integer = parseInt(integer) - 1;
+    }
+  }
+
+  function setDecimal0() {
+    decimal = 0;
+  }
+
+  function setDecimal025() {
+    decimal = 0.25;
+  }
+
+  function setDecimal05() {
+    decimal = 0.5;
+  }
+
+  function setDecimal075() {
+    decimal = 0.75;
+  }
+
+  function registerQuantity() {
+    let quantity = parseInt(integer) + decimal;
+    //Update the quantity in the database
+    
+  }
+
+  async function yAPlus() {
+    productIsDisplayed = true;
+    yaPlusOpened = true;
+    openQuantityM = false;
+    Entity = [];
+  }
+
+  async function openQuantityMenu() {
+    productIsDisplayed = true;
+    yaPlusOpened = false;
+    openQuantityM = true;
+    Entity = [];
+  }
+
+  async function openStockMenu() {
+    yaPlusOpened = false;
+    productIsDisplayed = false;
+    openQuantityM = false;
+    Entity = [];
+    const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${entity_id}/${id}`);
+    data = await response.json();
+    Entity = data.entity;
+    Entity = Entity.map(entity => ({
+        ...entity,
+        daysDifference: getDaysDifference(entity.date_of_consumption),
+        colorClass: getColorClass(getDaysDifference(entity.date_of_consumption)),
+      }));
+  }
+
+  onMount(async () => {
+    integer = 1;
+    decimal = 0;
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${entity_id}/${id}`);
+      data = await response.json();
+      Entity = data.entity;
+      Entity = Entity.map(entity => ({
+        ...entity,
+        daysDifference: getDaysDifference(entity.date_of_consumption),
+        colorClass: getColorClass(getDaysDifference(entity.date_of_consumption)),
+      }));
+      food_info = data.food_info[0];
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  });
+</script>
+
+<BaseLayout>
+  <div id="container-entity">
+  <div id="foodname">{food_info.food__name}</div>
+  </div>
+  <div id="container-buttons">
+    {#if productIsDisplayed}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="iconic" on:click={openStockMenu} id="btton"><i class="fa-solid fa-caret-left"></i></div>
+    {/if}
+
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="adjust" on:click={openQuantityMenu} id="btton">Ajuster la quantité</div>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="nomore" on:click={yAPlus} id="btton">Y a plus </div>
+  </div>
+
+  <div id="container-entity">
+<img id="picture" alt="Product" src="{food_info.food__picture}">
+
+{#if Entity.length > 1}
+Catégorie : {food_info.food__category__name} <br>
+Présent dans : 
+{#each Entity as item}
+<ul class="no-bullet">
+<div id="container-buttons">
+<div class="name" id="btton">{item.stock__name} </div>
+<div class="qtty" id="btton">{item.quantity} restant(es)</div>
+<div class="{item.colorClass}" id="btton">{item.daysDifference} <i class="fa-solid fa-calendar-days"></i></div>
+</div>
+<li>Acheté(e) le : {item.date_of_purchase} </li>
+</ul>
+{/each}
+{/if}
+
+{#if yaPlusOpened}
+<br>
+Il y en a déjà plus ? <br>
+<div id="container-buttons">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div class="nomore" on:click={openQuantityMenu} id="btton">Y a plus</div>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div class="remaining" on:click={yAPlus} id="btton">Il en reste</div>
+</div>
+{/if}
+
+{#if openQuantityM}
+Il en reste :
+<div class="unit-controls">
+  <button class="unit-button" id="decrease-unit" on:click={decreaseUnit}>-</button>
+  <input type="text" class="unit-input" id="unit-input" bind:value={integer}>
+  <button class="unit-button" id="increase-unit" on:click={increaseUnit}>+</button>
+</div>
+Avec un peu plus de précision : 
+<div class="button-container">
+  <button class="button" id="button-4" on:click={setDecimal0}>0</button>
+  <button class="button" id="button-1" on:click={setDecimal025}>&frac14;</button>
+  <button class="button" id="button-2"on:click={setDecimal05} >&frac12;</button>
+  <button class="button" id="button-3"on:click={setDecimal075} >&frac34;</button>
+</div>
+<div id="container-buttons">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div class="nomore" on:click={registerQuantity} id="btton">C'est tout bon !</div>
+</div>
+{/if}
+
+
+</div>
+</BaseLayout>
+
+<style>
+
+  .red {
+    background-color: red;
+    border: solid 1px red;
+  }
+
+  .green {
+    background-color: green;
+    border: solid 1px green;
+  }
+
+  .orange {
+    background-color: orange;
+    border: solid 1px orange;
+  }
+
+  #picture {
+    width: 100px;
+    height: auto;
+    padding: 10px;
+  }
+
+  #container-entity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #container-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  #btton {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    color : white;
+  }
+
+  .adjust {
+    background-color: green;
+    border: solid 1px green;
+  }
+
+  .nomore {
+    background-color: red;
+    border: solid 1px red;
+  }
+
+  .iconic {
+    background-color: blue;
+    border: solid 1px blue;
+  }
+
+  .remaining {
+    background-color: orange;
+    border: solid 1px orange;
+  }
+
+  ul.no-bullet {
+  width: 80vw;
+  list-style-type: none;
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  }
+
+  .name {
+    background-color: grey;
+    border: solid 1px grey;
+  }
+
+  .qtty {
+    background-color: grey;
+    border: solid 1px grey;
+  }
+
+  #foodname {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button, .unit-button {
+  margin-top: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 7px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #eaeaea;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #ccc;
+}
+
+.unit-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.unit-input {
+  width: 50px;
+  height: 30px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 0 10px;
+  margin-top: 20px;
+}
+  
+</style>
