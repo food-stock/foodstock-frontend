@@ -20,10 +20,10 @@ The frontend and backend are separated in two different repositories. The backen
 
 ## Features
 - [x] Basic pages
-- [ ] Add a convenient way to pick a date (might use [thisone](https://nehakadam.github.io/DateTimePicker/))
-- [ ] A solid authentication system using FastAPI
+- [ ] Add a convenient way to pick a date for mobile (might use [this one](https://nehakadam.github.io/DateTimePicker/))
+- [ ] A solid authentication system 
 - [ ] Diverse means of authentication (Google, Facebook, Apple, etc.)
-- [ ] OCR to enter food including barcode and date of validity
+- [ ] OCR to enter food by reading barcode and date of validity on the product
 - [ ] Integrating proximity to find people who want to give food and NGOs distance from the user
 - [ ] Push notifications to warn the user of the expiration of a food
 - [ ] Connexions with local supermarkets to get food details and date of validity directly from a single qr code
@@ -32,4 +32,4 @@ The frontend and backend are separated in two different repositories. The backen
 
 ## Getting food details using OpenFoodFacts API
 
-> From [barcode](https://openfoodfacts.github.io/api-documentation/#jump-2READrequests-Getnutritionfactsforaspecificbarcode)
+From [barcode](https://openfoodfacts.github.io/api-documentation/#jump-2READrequests-Getnutritionfactsforaspecificbarcode)
