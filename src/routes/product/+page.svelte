@@ -3,16 +3,23 @@
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
 
+
+  import { page } from '$app/stores'
+
+  const params = new URLSearchParams($page.url.search);
+  const food_id = params.get('food_id');
+
   let id = Cookies.get('id');
   let Entity = [];
   let food_info = {};
   let data = {};
   let productIsDisplayed = false;
-  let entity_id = 3;
   let yaPlusOpened = false;
   let openQuantityM = false;
   let integer;
-  let decimal;
+  let decimal = 0;
+  let itemdedited;
+  let showEntity = true;
 
   function getDaysDifference(dateString) {
     const today = new Date();
@@ -58,24 +65,50 @@
     decimal = 0.75;
   }
 
-  function registerQuantity() {
+  async function registerQuantity() {
     let quantity = parseInt(integer) + decimal;
-    //Update the quantity in the database
-    
+    console.log(quantity);
+    const entity_id = itemdedited.id;
+    const response = fetch(`http://127.0.0.1:8000/update_entity_quantity/${entity_id}/${quantity}`);
+    Entity.forEach(entity => {
+        if (entity.id === entity_id) {
+          entity.quantity = quantity;
+        }
+    });
+    openQuantityM = false;
+    yaPlusOpened = false;
+    productIsDisplayed = false;
+    showEntity = true;
   }
 
-  async function yAPlus() {
+  function missclick() {
+    openQuantityM = false;
+    yaPlusOpened = false;
+    productIsDisplayed = false;
+    showEntity = true;
+  }
+
+  function nomore() {
+    integer = 0;
+    decimal = 0;
+    registerQuantity();
+  }
+
+  async function yAPlus(item) {
+    showEntity = false;
+    itemdedited = item;
     productIsDisplayed = true;
     yaPlusOpened = true;
     openQuantityM = false;
-    Entity = [];
   }
 
-  async function openQuantityMenu() {
+  async function openQuantityMenu(item) {
+    showEntity = false;
+    itemdedited = item;
+    integer = parseInt(item.quantity);
     productIsDisplayed = true;
     yaPlusOpened = false;
     openQuantityM = true;
-    Entity = [];
   }
 
   async function openStockMenu() {
@@ -83,7 +116,7 @@
     productIsDisplayed = false;
     openQuantityM = false;
     Entity = [];
-    const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${entity_id}/${id}`);
+    const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}`);
     data = await response.json();
     Entity = data.entity;
     Entity = Entity.map(entity => ({
@@ -91,13 +124,12 @@
         daysDifference: getDaysDifference(entity.date_of_consumption),
         colorClass: getColorClass(getDaysDifference(entity.date_of_consumption)),
       }));
+    showEntity = true;
   }
 
   onMount(async () => {
-    integer = 1;
-    decimal = 0;
     try {
-      const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${entity_id}/${id}`);
+      const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}`);
       data = await response.json();
       Entity = data.entity;
       Entity = Entity.map(entity => ({
@@ -105,7 +137,7 @@
         daysDifference: getDaysDifference(entity.date_of_consumption),
         colorClass: getColorClass(getDaysDifference(entity.date_of_consumption)),
       }));
-      food_info = data.food_info[0];
+      food_info = data.food_info[0]
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -121,40 +153,45 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="iconic" on:click={openStockMenu} id="btton"><i class="fa-solid fa-caret-left"></i></div>
     {/if}
-
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="adjust" on:click={openQuantityMenu} id="btton">Ajuster la quantité</div>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="nomore" on:click={yAPlus} id="btton">Y a plus </div>
   </div>
 
   <div id="container-entity">
 <img id="picture" alt="Product" src="{food_info.food__picture}">
 
-{#if Entity.length > 1}
+
+{#if showEntity}
 Catégorie : {food_info.food__category__name} <br>
 Présent dans : 
-{#each Entity as item}
-<ul class="no-bullet">
-<div id="container-buttons">
-<div class="name" id="btton">{item.stock__name} </div>
-<div class="qtty" id="btton">{item.quantity} restant(es)</div>
-<div class="{item.colorClass}" id="btton">{item.daysDifference} <i class="fa-solid fa-calendar-days"></i></div>
-</div>
-<li>Acheté(e) le : {item.date_of_purchase} </li>
-</ul>
-{/each}
+  {#each Entity as item}
+    {#if item.quantity > 0}
+    <ul class="no-bullet">
+      <div id="container-buttons">
+        <div class="name" id="btton">{item.stock__name} </div>
+        <div class="qtty" id="btton">{item.quantity} restant(es)</div>
+        <div class="{item.colorClass}" id="btton">{item.daysDifference} <i class="fa-solid fa-calendar-days"></i></div>
+      </div>
+      <li>Acheté(e) le : {item.date_of_purchase} </li>
+
+      <div id="container-buttons">
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
+          <div class="adjust" on:click={() => openQuantityMenu(item)} id="btton">Ajuster la quantité</div>
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
+          <div class="nomore" on:click={()=>yAPlus(item)} id="btton">Y a plus </div>
+      </div>
+    </ul>
+    {/if}
+  {/each}
 {/if}
 
 {#if yaPlusOpened}
-<br>
-Il y en a déjà plus ? <br>
-<div id="container-buttons">
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="nomore" on:click={openQuantityMenu} id="btton">Y a plus</div>
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="remaining" on:click={yAPlus} id="btton">Il en reste</div>
-</div>
+  <br>
+  Il y en a déjà plus ? <br>
+  <div id="container-buttons">
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <div class="nomore" on:click={nomore} id="btton">Y a plus</div>
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <div class="remaining" on:click={missclick} id="btton">Nooon, il en reste</div>
+  </div>
 {/if}
 
 {#if openQuantityM}
@@ -199,8 +236,8 @@ Avec un peu plus de précision :
   }
 
   #picture {
-    width: 100px;
-    height: auto;
+    width: auto;
+    height: 150px;
     padding: 10px;
   }
 

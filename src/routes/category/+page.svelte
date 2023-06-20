@@ -1,9 +1,12 @@
 <script>
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
-  import { createEventDispatcher } from 'svelte';
+  import { page } from '$app/stores'
 
-  const dispatch = createEventDispatcher();
+  const params = new URLSearchParams($page.url.search);
+  const cat_id = params.get('q');
+  const stock_id = params.get('stock_id');
+
   let Entities = [];
 
   function getDaysDifference(dateString) {
@@ -27,11 +30,10 @@
 
   onMount(async () => {
     try {
-      let stock = 1;
-      let category = 1;
-      const response = await fetch(`http://127.0.0.1:8000/get_entities_for_stock_and_category/${stock}/${category}`);
+      const response = await fetch(`http://127.0.0.1:8000/get_entities_for_stock_and_category/${stock_id}/${cat_id}`);
       let data = await response.json();
       data = data.entities;
+      console.log(data);
       Entities = data.map(entity => ({
         ...entity,
         daysDifference: getDaysDifference(entity.date_of_consumption),
@@ -44,10 +46,9 @@
 </script>
 
 <BaseLayout>
-  Entities <br>
   <div id="cat-container">
     {#each Entities as item}
-      <a id="cat-link" href="/product/?q={item.id}">
+      <a id="cat-link" href="/product/?food_id={item.food_id}">
         <div id="cat">
           {item.food__name} <br>
           {item.quantity}

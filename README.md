@@ -2,6 +2,10 @@
 
 Foodstock is a web application that allows you to manage your food stock. It is composed of a frontend and a backend. This is the frontend part.
 
+## Screenshots
+
+
+
 ## Architecture
 - A stock page that allows you to see all your food
 - A list page that allows you to see all your lists

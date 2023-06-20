@@ -34,7 +34,7 @@
 @import '@fortawesome/fontawesome-free/css/all.css';
 
 main {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 #header {
@@ -67,8 +67,6 @@ main {
     bottom: 0;
     left: 0;
     right: 0;
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
 }
 

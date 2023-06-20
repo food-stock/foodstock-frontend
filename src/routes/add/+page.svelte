@@ -148,6 +148,7 @@
           {#if stockOptions.length > 0}
             <ul>
               {#each stockOptions as stock}
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <li on:click={() => selectStockOption(stock)}>{stock.name}</li>
               {/each}
             </ul>
