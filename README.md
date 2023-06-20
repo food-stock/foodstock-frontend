@@ -3,7 +3,7 @@
 Foodstock is a web application that allows you to manage your food stock. It is composed of a frontend and a backend. This is the frontend part.
 
 ## Screenshots
-
+<img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/stockpage.png" alt="Main Stock Page" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/categorypage.png" alt="Category Page" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/productpage.png" alt="Product Page" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/adjustquantity.png" alt="Adjust Quantities" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/nomore.png" alt="Mark the Product as Out of Stock" width="250px" height="auto">
 
 
 ## Architecture
