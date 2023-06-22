@@ -33,7 +33,6 @@
       const response = await fetch(`http://127.0.0.1:8000/get_entities_for_stock_and_category/${stock_id}/${cat_id}`);
       let data = await response.json();
       data = data.entities;
-      console.log(data);
       Entities = data.map(entity => ({
         ...entity,
         daysDifference: getDaysDifference(entity.date_of_consumption),

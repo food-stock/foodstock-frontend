@@ -1,8 +1,6 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
-// main.ts
-import Router from './Router.svelte';
-import { App } from './types'; // Import your Svelte app component type definition if needed
+import { App } from './types'; 
+import './src/i18n.ts';
+
 
 const app: App = new Router({
   target: document.body
@@ -10,10 +8,6 @@ const app: App = new Router({
 
 declare global {
 	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface Platform {}
 	}
 }
 

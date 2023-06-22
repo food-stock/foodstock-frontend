@@ -1,0 +1,51 @@
+{
+    "BaseLayout": {
+      "Hi": "Hello"
+    },
+    "Settings": {
+      "Title": "Settings",
+      "Language": "Language",
+      "ManageStock": "Manage Stock",
+      "LogOut": "Log Out"
+    },
+    "Product": {
+      "Category": "Category",
+      "PresentInStock": "Present in:",
+      "Remaining": "remaining",
+      "BoughtOn": "Bought on",
+      "AdjustQuantity": "Adjust Quantity",
+      "NoMore": "No more!",
+      "NoMore?": "No more?",
+      "ThereAreSome": "There are some left!",
+      "QtyRemaining": "Quantity remaining:",
+      "Precision": "and more precisely:",
+      "AllGood": "All good!",
+      "MissClick": "Cancel"
+    },
+    "Search": {
+      "Title": "Search for a product in your stocks:",
+      "HaveToChoose": "Just have to choose..."
+    },
+    "Add": {
+      "TypeName": "Type the name of the product:",
+      "YouChose": "You chose:",
+      "SearchAStock": "Search for a stock:",
+      "OrOthers": "or others:",
+      "WillBeAdded": "will be added to:",
+      "HowMany": "How many?",
+      "CDate": "Expiration Date:"
+    },
+    "Manage": {
+      "SearchUser": "Search for a user:",
+      "NoUserWithAccess": "No users currently have access to this stock except you",
+      "EditStock": "Edit Stock",
+      "RenameStock": "Rename Stock",
+      "SetDefaultStock": "Set as Default Stock",
+      "DeleteStock": "Delete Stock",
+      "ManageAccess": "Manage Access",
+      "Back" : "Go Back",
+      "Delete" : "Delete",
+      "Manage" : "Manage"
+    }
+  }
+  

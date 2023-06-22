@@ -3,15 +3,14 @@
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
+  import { _} from 'svelte-i18n'
 
   let defaultStock = {
     id: 1,
     name: 'Frigo',
   };
-  let selectedStockId = 1;
   let id = Cookies.get('id');
   let inputneeded = true;
-  let inputstockneeded = true;
   let defaultstock = true;  
   let optionchosen;
   let stockchosen;
@@ -26,7 +25,7 @@
   let stockOptions = [];
 
   const fetchData = debounce(async () => {
-    if (searchInput.length > 3) {
+    if (searchInput.length > 2) {
       const response = await fetch(`http://127.0.0.1:8000/search/${searchInput}`);
       const data = await response.json();
       options = data.food;
@@ -42,12 +41,6 @@
       const quantitys = quantity;
       const date_of_consumptionl = date_of_consumption;
       const response = await fetch(`http://127.0.0.1:8000/create_entity/${stock_id}/${food_id}/${quantitys}/${date_of_consumptionl}`);
-
-      if (response.status === 200) {
-        console.log('Entity created');
-      } else {
-        console.error('Error creating entity');
-      }
     }
     catch (error) {
       console.error('Error fetching categories:', error);
@@ -75,7 +68,6 @@
       stocks = await response.json();
       //Keep only the 2 first stocks
       printedStocks = stocks.stocks.slice(0, 2);
-      console.log(printedStocks);
       defaultstock = !defaultstock;
     } catch (error) {
       console.error('Error fetching stock:', error);
@@ -118,9 +110,9 @@
   <div id="container">
     {#if inputneeded}
     {#if options.length === 0}
-    Tapes le nom du produit :
+    {$_('Add.TypeName')}
     {:else}
-    Plus qu'à choisir ...
+    {$_('Search.HaveToChoose')}
     <ul>
       {#each options as option}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -130,11 +122,11 @@
     {/if}
     <input id="input" type="text" bind:value={searchInput} on:input={handleInput} />
     {:else}
-        Tu as choisi :
+    {$_('Add.YouChose')}
         <div id="btn">{optionchosen.name}</div>
 
         {#if !defaultstock}
-          Rechercher un stock :
+        {$_('Add.SearchAtock')}
           {#if printedStocks.length > 0}
           <div id="list-stock">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -143,7 +135,7 @@
           <a id="cat-link" on:click={gotoStock2}>{printedStocks[1].name}</a>
           </div>
           {/if}
-          ou autres : <br>
+          {$_('Add.OrOthers')}<br>
           <input type="text" bind:value={stockSearchInput} on:input={handleStockInput} />
           {#if stockOptions.length > 0}
             <ul>
@@ -154,13 +146,13 @@
             </ul>
           {/if}
         {:else}
-        Sera ajouté à : <p on:click={toogleDefaultStock}>non ?</p> 
+        {$_('Add.WillBeAdded')} : <p on:click={toogleDefaultStock}>non ?</p> 
         <div id="btn">{stockchosen.name}</div>
         {/if}
 
-        Combien ?
+        {$_('Add.HowMany')}
         <input id="input" type="number" bind:value={quantity}/>
-        Date de péremption ?
+        {$_('Add.CDate')}
         <input id="input" type="date" bind:value={date_of_consumption} />
         <div id="validation">
           <!-- svelte-ignore a11y-click-events-have-key-events -->

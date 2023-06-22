@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
 
+  import { _} from 'svelte-i18n'
 
   import { page } from '$app/stores'
 
@@ -67,7 +68,6 @@
 
   async function registerQuantity() {
     let quantity = parseInt(integer) + decimal;
-    console.log(quantity);
     const entity_id = itemdedited.id;
     const response = fetch(`http://127.0.0.1:8000/update_entity_quantity/${entity_id}/${quantity}`);
     Entity.forEach(entity => {
@@ -148,35 +148,29 @@
   <div id="container-entity">
   <div id="foodname">{food_info.food__name}</div>
   </div>
-  <div id="container-buttons">
-    {#if productIsDisplayed}
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="iconic" on:click={openStockMenu} id="btton"><i class="fa-solid fa-caret-left"></i></div>
-    {/if}
-  </div>
 
   <div id="container-entity">
 <img id="picture" alt="Product" src="{food_info.food__picture}">
 
 
 {#if showEntity}
-Catégorie : {food_info.food__category__name} <br>
-Présent dans : 
+{$_('Product.Category')} : {food_info.food__category__name} <br>
+{$_('Product.PresentInStock')} 
   {#each Entity as item}
     {#if item.quantity > 0}
     <ul class="no-bullet">
       <div id="container-buttons">
         <div class="name" id="btton">{item.stock__name} </div>
-        <div class="qtty" id="btton">{item.quantity} restant(es)</div>
+        <div class="qtty" id="btton">{item.quantity} {$_('Product.Remaining')} </div>
         <div class="{item.colorClass}" id="btton">{item.daysDifference} <i class="fa-solid fa-calendar-days"></i></div>
       </div>
-      <li>Acheté(e) le : {item.date_of_purchase} </li>
+      <li>{$_('Product.BoughtOn')} le : {item.date_of_purchase} </li>
 
       <div id="container-buttons">
           <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <div class="adjust" on:click={() => openQuantityMenu(item)} id="btton">Ajuster la quantité</div>
+          <div class="adjust" on:click={() => openQuantityMenu(item)} id="btton">{$_('Product.AdjustQuantity')}</div>
           <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <div class="nomore" on:click={()=>yAPlus(item)} id="btton">Y a plus </div>
+          <div class="nomore" on:click={()=>yAPlus(item)} id="btton">{$_('Product.NoMore')} </div>
       </div>
     </ul>
     {/if}
@@ -185,23 +179,23 @@ Présent dans :
 
 {#if yaPlusOpened}
   <br>
-  Il y en a déjà plus ? <br>
+  {$_('Product.NoMore?')} <br>
   <div id="container-buttons">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <div class="nomore" on:click={nomore} id="btton">Y a plus</div>
+      <div class="nomore" on:click={nomore} id="btton">{$_('Product.NoMore')}</div>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <div class="remaining" on:click={missclick} id="btton">Nooon, il en reste</div>
+      <div class="remaining" on:click={missclick} id="btton">{$_('Product.ThereAreSome')}</div>
   </div>
 {/if}
 
 {#if openQuantityM}
-Il en reste :
+{$_('Product.QtyRemaining')}
 <div class="unit-controls">
   <button class="unit-button" id="decrease-unit" on:click={decreaseUnit}>-</button>
   <input type="text" class="unit-input" id="unit-input" bind:value={integer}>
   <button class="unit-button" id="increase-unit" on:click={increaseUnit}>+</button>
 </div>
-Avec un peu plus de précision : 
+{$_('Product.Precision')}
 <div class="button-container">
   <button class="button" id="button-4" on:click={setDecimal0}>0</button>
   <button class="button" id="button-1" on:click={setDecimal025}>&frac14;</button>
@@ -210,7 +204,9 @@ Avec un peu plus de précision :
 </div>
 <div id="container-buttons">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="nomore" on:click={registerQuantity} id="btton">C'est tout bon !</div>
+  <div class="nomore" on:click={registerQuantity} id="btton">{$_('Product.AllGood')}</div>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div class="remaining" on:click={missclick} id="btton">{$_('Product.MissClick')}</div>
 </div>
 {/if}
 

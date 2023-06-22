@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation'; 
   import Cookies from 'js-cookie';
-  //console.log(localStorage.getItem('isRegistered'));
   let fname = '';
   let lname = '';
   let username = '';

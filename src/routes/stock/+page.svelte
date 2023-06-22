@@ -41,9 +41,7 @@
     try {
       const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`);
       stocks = await response.json();
-      console.log(stocks);
       listofStocks = stocks.stocks.slice(2);
-      console.log(listofStocks);
       categories = [];
       display_arrow = false;
     } catch (error) {
@@ -70,7 +68,6 @@
     try {
       const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`);
       stocks = await response.json();
-      console.log(stocks);
       //Keep only the 2 first stocks
       printedStocks = stocks.stocks.slice(0, 2);
     } catch (error) {
@@ -81,7 +78,6 @@
       const response = await fetch(`http://127.0.0.1:8000/get_categories_for_stock/${printedStocks[0].id}`);
       const data = await response.json();
       categories = data.categories;
-      console.log(categories);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -96,13 +92,13 @@
       <a id="cat-link" on:click={gotoStock1}>{printedStocks[0].name}</a></div>
     {/if}
     {#if printedStocks.length > 1}
-    <div class="stock-item {stockchosen.id === printedStocks[1].id ? 'selected-stock' : ''}">
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <a id="cat-link" on:click={gotoStock2}>{printedStocks[1].name}</a></div>
+        <div class="stock-item {stockchosen.id === printedStocks[1].id ? 'selected-stock' : ''}">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <a id="cat-link" on:click={gotoStock2}>{printedStocks[1].name}</a></div>
     {/if}
     {#if display_arrow}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="stock-itemA"><a id="cat-link" on:click={otherStocks}><i class="fa-solid fa-arrow-right"></i></a></div>
+        <div class="stock-itemA"><a id="cat-link" on:click={otherStocks}><i class="fa-solid fa-arrow-right"></i></a></div>
     {/if}
   </div>
   {#if categories.length > 0}
@@ -170,6 +166,7 @@
     border-radius: 20px;
     cursor: pointer;
     text-align: center;
+    word-wrap: break-word;
   }
 
   .stock-itemA{
