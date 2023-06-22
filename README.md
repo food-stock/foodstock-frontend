@@ -3,8 +3,11 @@
 Foodstock is a web application that allows you to manage your food stock. It is composed of a frontend and a backend. This is the frontend part.
 
 ## Screenshots (not the best looking but functional)
-<img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/stockpage.png" alt="Main Stock Page" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/categorypage.png" alt="Category Page" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/productpage.png" alt="Product Page" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/adjustquantity.png" alt="Adjust Quantities" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/nomore.png" alt="Mark the Product as Out of Stock" width="250px" height="auto">
 
+Updates are coming soon
+<!--
+<img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/stockpage.png" alt="Main Stock Page" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/categorypage.png" alt="Category Page" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/productpage.png" alt="Product Page" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/adjustquantity.png" alt="Adjust Quantities" width="250px" height="auto"><img src="https://raw.githubusercontent.com/food-stock/foodstock-frontend/master/screenshots/nomore.png" alt="Mark the Product as Out of Stock" width="250px" height="auto">
+-->
 
 
 ## Architecture
@@ -29,7 +32,7 @@ The frontend and backend are separated in two different repositories. The backen
 - [ ] Push notifications to warn the user of the expiration of a food
 - [ ] Connexions with local supermarkets to get food details and date of validity directly from a single qr code
 - [ ] Responsivness for desktop
-- [ ] Add i18n support for translations
+- [x] Add i18n support for translations (translations are now missing)
 
 ## Getting food details using OpenFoodFacts API
 
