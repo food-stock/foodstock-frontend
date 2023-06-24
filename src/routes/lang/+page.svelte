@@ -1,6 +1,7 @@
 <script>
   import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
+  import { _} from 'svelte-i18n'
 
   let access_token = Cookies.get('access_token');
   let refresh_token = Cookies.get('refresh_token');
@@ -19,9 +20,9 @@
 </script>
 
 <BaseLayout>
-<a id="retour" href="/settings">Retour</a>
+<a id="retour" href="/settings">{$_('Settings.Back')}</a>
 <br>
-  Unfortunatly, we dont support other languages then french for now.
+  Unfortunatly, we dont support other languages then french/english for now.
 <br>
   Future supported languages : 
   <ul>

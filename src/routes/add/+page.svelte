@@ -5,6 +5,7 @@
   import { debounce } from 'lodash-es';
   import { _} from 'svelte-i18n';
   import { goto } from '$app/navigation'; 
+  import {page} from '$app/stores';
 
   let access_token = Cookies.get('access_token');
   let refresh_token = Cookies.get('refresh_token');
@@ -18,15 +19,18 @@
     id: 1,
     name: 'Frigo',
   };
+
   let id = Cookies.get('id');
   let inputneeded = true;
   let defaultstock = true;  
   let optionchosen;
-  let stockchosen;
+  let stockchosen = defaultStock;
   let quantity;
   let date_of_consumption;
-  let inputstockneeded = true;
-
+  let inputstockneeded;
+  let isScanned = false;
+  let idIfScanned = 0;
+  let food;
 
   let searchInput = '';
   let options = [];
@@ -53,10 +57,8 @@
       const quantitys = quantity;
       const date_of_consumptionl = date_of_consumption;
       const response = await fetch(`http://127.0.0.1:8000/create_entity/${stock_id}/${food_id}/${quantitys}/${date_of_consumptionl}/`, {
-      headers: headers,
-      method: 'POST'
-    });
-    goto('/stock');
+      headers: headers, method: 'POST'});
+      goto('/stock');
     }
     catch (error) {
       console.error('Error fetching categories:', error);
@@ -84,7 +86,6 @@
       headers: headers
     });
       stocks = await response.json();
-      //Keep only the 2 first stocks
       if (stocks.stocks.length > 2) {
         printedStocks = stocks.stocks.slice(0, 2);
       } else {
@@ -125,67 +126,94 @@
     stockchosen = stock;
   }
 
-  onMount(() => {
-    stockchosen = defaultStock;
+  onMount(async () => {
+    const params = new URLSearchParams($page.url.search);
+    try {
+      const barcode = params.get('barcode');
+      const response = await fetch(`http://127.0.0.1:8000/get_product_from_barcode/${barcode}/`, {
+        headers: headers});
+      let data = await response.json();
+      food = data.food;
+      if (food.length > 0) {
+        optionchosen = food[0];
+        inputneeded = false;
+      }
+      else {
+        inputneeded = true;
+      }
+    }
+    catch (error) {
+      console.error('Error fetching the food:', error);
+    }
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`, {
+        headers: headers
+      });
+      stocks = await response.json();
+      stockchosen = stocks.stocks[0];
+    } catch (error) {
+      console.error('Error fetching stock:', error);
+    }
   });
 </script>
 
 <BaseLayout>
   <div id="container">
     {#if inputneeded}
-    {#if options.length === 0}
-    {$_('Add.TypeName')}
-    {:else}
-    {$_('Search.HaveToChoose')}
-    <ul>
-      {#each options as option}
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <li on:click={() => selectOption(option)}>{option.name}</li>
-      {/each}
-    </ul>
-    {/if}
+      {#if options.length === 0}
+        {$_('Add.TypeName')}
+      {:else}
+        {$_('Search.HaveToChoose')}
+        <ul>
+          {#each options as option}
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <li on:click={() => selectOption(option)}>{option.name}</li>
+          {/each}
+        </ul>
+      {/if}
     <input id="input" type="text" bind:value={searchInput} on:input={handleInput} />
     {:else}
-    {$_('Add.YouChose')}
-        <div id="btn">{optionchosen.name}</div>
+      {#if isScanned} {$_('Add.YouScanned')} {:else} {$_('Add.YouChose')} {/if}
+          <div id="btn">{optionchosen.name}</div>
 
-        {#if !defaultstock}
-        {$_('Add.SearchAStock')}
-          {#if printedStocks.length > 0}
-          <div id="list-stock">
-            <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <a id="cat-link" on:click={gotoStock1}>{printedStocks[0].name}</a>
-          {#if printedStocks.length > 1}
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <a id="cat-link" on:click={gotoStock2}>{printedStocks[1].name}</a>
-          {/if}
-          </div>
-          {/if}
-          {$_('Add.OrOthers')}<br>
-          <input type="text" bind:value={stockSearchInput} on:input={handleStockInput} />
-          {#if stockOptions.length > 0}
-            <ul>
-              {#each stockOptions as stock}
+          {#if !defaultstock}
+          {$_('Add.SearchAStock')}
+            {#if printedStocks.length > 0}
+              <div id="list-stock">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <li on:click={() => selectStockOption(stock)}>{stock.name}</li>
-              {/each}
-            </ul>
+              <a id="cat-link" on:click={gotoStock1}>{printedStocks[0].name}</a>
+            {#if printedStocks.length > 1}
+              <!-- svelte-ignore a11y-click-events-have-key-events -->
+              <a id="cat-link" on:click={gotoStock2}>{printedStocks[1].name}</a>
+            {/if}
+            </div>
+            {/if}
+            {$_('Add.OrOthers')}<br>
+            <input type="text" bind:value={stockSearchInput} on:input={handleStockInput} />
+            {#if stockOptions.length > 0}
+              <ul>
+                {#each stockOptions as stock}
+                  <!-- svelte-ignore a11y-click-events-have-key-events -->
+                  <li on:click={() => selectStockOption(stock)}>{stock.name}</li>
+                {/each}
+              </ul>
+            {/if}
+          {:else}
+          {$_('Add.WillBeAdded')} : 
+          <div id="btn">{stockchosen.name}</div>
+          <p on:click={toogleDefaultStock}>{$_('Add.Nah')}</p> 
           {/if}
-        {:else}
-        {$_('Add.WillBeAdded')} : <p on:click={toogleDefaultStock}>non ?</p> 
-        <div id="btn">{stockchosen.name}</div>
-        {/if}
 
-        {$_('Add.HowMany')}
-        <input id="input" type="number" bind:value={quantity}/>
-        {$_('Add.CDate')}
-        <input id="input" type="date" bind:value={date_of_consumption} />
-        <div id="validation">
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-         <div id="bttonY" on:click={validateAdd}><i class="fa-solid fa-check"></i></div>
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <a id="link" href="/stock"><div id="bttonN"><i class="fa-solid fa-xmark"></i></div></a>
-       </div>
+          {$_('Add.HowMany')}
+          <input id="input" type="number" bind:value={quantity}/>
+          {$_('Add.CDate')}
+          <input id="input" type="date" bind:value={date_of_consumption} />
+          <div id="validation">
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+          <div id="bttonY" on:click={validateAdd}><i class="fa-solid fa-check"></i></div>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <a id="link" href="/stock"><div id="bttonN"><i class="fa-solid fa-xmark"></i></div></a>
+        </div>
 
     {/if}
 

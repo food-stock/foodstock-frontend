@@ -20,6 +20,9 @@
 
 </script>
 
+<a href="/scanproduct">
+    <button id="bttonB"><i class="fa-solid fa-barcode"></i></button>
+</a>
 <a href="/add">
     <button id="bttonA"><i class="fa-solid fa-plus"></i></button>
 </a>
@@ -46,8 +49,8 @@
 </main>
   
 <footer>
-<!--
     <div id="whitespace"></div>
+<!--
     <div id="footer">
         <a id="buttonfooter" href="/stock"><i id="icon_house" class="fa-solid fa-house"></i></a>
         <a id="buttonfooter" href="/list"><i id="icon_list" class="fa-solid fa-list"></i></a>
@@ -84,6 +87,7 @@ main {
     color: black;
 }
 
+/*
 #footer {
     background-color: grey;
     color: #fff;
@@ -107,6 +111,8 @@ main {
     margin-left: 22px;
     margin-right: 22px;
 }
+
+*/
 
 #btton , #buttonfooter, #bttonL{
   background: none;
@@ -163,6 +169,23 @@ main {
   right: 10px;
   font-size: 35px;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+#bttonB {
+    width: 60px;
+    height: 60px;
+    border-radius: 40px;
+    color: #3fb945;
+    border : none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    position: fixed; 
+    bottom: 135px; 
+    right: 10px;
+    font-size: 35px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
 #whitespace {

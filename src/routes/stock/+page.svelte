@@ -8,10 +8,10 @@
   let printedStocks = [];
   let listofStocks = [];
   let display_arrow = true;
-  let id = Cookies.get('id');
   let stockchosen = { id: 1, name: 'Frigo' };
 
   let access_token = Cookies.get('access_token');
+  let id = Cookies.get('id');
   let refresh_token = Cookies.get('refresh_token');
   const headers = {
     'Authorization': `JWT ${access_token}`,
@@ -74,7 +74,14 @@
       });
       const data = await response.json();
       stocks = data.stocks;
-      printedStocks = stocks.slice(0, 2);
+      if (stocks.length < 2) {
+        printedStocks = stocks.slice(0, 2);
+      }
+      else {
+        printedStocks = stocks.slice(0, 2);
+      }
+      stockchosen = printedStocks[0];
+      
       await fetchCategoriesForStock(printedStocks[0].id);
 
       try {

@@ -130,7 +130,6 @@
     });
     data = await response.json();
     Entity = data.entity;
-    Entity = Entity.filter(entity => entity.quantity > 0);
     Entity = Entity.map(entity => ({
         ...entity,
         daysDifference: getDaysDifference(entity.date_of_consumption),
@@ -146,7 +145,6 @@
     });
       data = await response.json();
       Entity = data.entity;
-      Entity = Entity.filter(entity => entity.quantity > 0);
       Entity = Entity.map(entity => ({
         ...entity,
         daysDifference: getDaysDifference(entity.date_of_consumption),
@@ -182,7 +180,7 @@
         <div class="qtty" id="btton">{item.quantity} {$_('Product.Remaining')} </div>
         <div class="{item.colorClass}" id="btton">{item.daysDifference} <i class="fa-solid fa-calendar-days"></i></div>
       </div>
-      <li>{$_('Product.BoughtOn')} le : {item.date_of_purchase} </li>
+      <li>{$_('Product.BoughtOn')} : {item.date_of_purchase} </li>
 
       <div id="container-buttons">
           <!-- svelte-ignore a11y-click-events-have-key-events -->

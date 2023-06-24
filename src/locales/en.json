@@ -6,7 +6,8 @@
       "Title": "Settings",
       "Language": "Language",
       "ManageStock": "Manage Stock",
-      "LogOut": "Log Out"
+      "LogOut": "Log Out",
+      "Back" :"Go Back"
     },
     "Product": {
       "Category": "Category",
@@ -34,7 +35,9 @@
       "OrOthers": "or others:",
       "WillBeAdded": "will be added to:",
       "HowMany": "How many?",
-      "CDate": "Expiration Date:"
+      "CDate": "Expiration Date:",
+      "YouScanned"  : "You have scanned:",
+      "Nah" : "nah ?"
     },
     "Manage": {
       "SearchUser": "Search for a user:",
@@ -50,6 +53,10 @@
       "SetPersonalStock" : "Set as Personal Stock",
       "ConfirmDelete" : "Confirm Delete",
       "ErrorPersonal" : "OOOps! Something went wrong !"
+    },
+    "Scan" : {
+      "Start" : "Start Scan",
+      "Stop" : "Stop Scan"
     }
   }
   

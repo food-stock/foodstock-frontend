@@ -1,7 +1,7 @@
 <script>
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
-  import { page } from '$app/stores'
+  import { page } from '$app/stores';
   import Cookies from 'js-cookie';
 
   let access_token = Cookies.get('access_token');
@@ -44,7 +44,6 @@
     });
       let data = await response.json();
       data = data.entities;
-      data = data.filter(entity => entity.quantity > 0);
       Entities = data.map(entity => ({
         ...entity,
         daysDifference: getDaysDifference(entity.date_of_consumption),

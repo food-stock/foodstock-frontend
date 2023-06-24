@@ -1,11 +1,19 @@
 <script>
   import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
-
+  import {goto} from '$app/navigation';
   import { _} from 'svelte-i18n'
 
   async function logOut() {
+    try {
     Cookies.remove('id');
+    Cookies.remove('username');
+    Cookies.remove('access_token');
+    Cookies.remove('refresh_token');
+    }
+    finally {
+      goto('/login');
+    }
   }
 
 </script>
