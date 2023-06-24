@@ -3,7 +3,16 @@
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
-  import { _} from 'svelte-i18n'
+  import { _} from 'svelte-i18n';
+  import { goto } from '$app/navigation'; 
+
+  let access_token = Cookies.get('access_token');
+  let refresh_token = Cookies.get('refresh_token');
+  const headers = {
+    'Authorization': `JWT ${access_token}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
 
   let defaultStock = {
     id: 1,
@@ -16,6 +25,7 @@
   let stockchosen;
   let quantity;
   let date_of_consumption;
+  let inputstockneeded = true;
 
 
   let searchInput = '';
@@ -26,7 +36,9 @@
 
   const fetchData = debounce(async () => {
     if (searchInput.length > 2) {
-      const response = await fetch(`http://127.0.0.1:8000/search/${searchInput}`);
+      const response = await fetch(`http://127.0.0.1:8000/search/${searchInput}/`, {
+      headers: headers
+    });
       const data = await response.json();
       options = data.food;
     } else {
@@ -40,7 +52,11 @@
       const stock_id = stockchosen.id;
       const quantitys = quantity;
       const date_of_consumptionl = date_of_consumption;
-      const response = await fetch(`http://127.0.0.1:8000/create_entity/${stock_id}/${food_id}/${quantitys}/${date_of_consumptionl}`);
+      const response = await fetch(`http://127.0.0.1:8000/create_entity/${stock_id}/${food_id}/${quantitys}/${date_of_consumptionl}/`, {
+      headers: headers,
+      method: 'POST'
+    });
+    goto('/stock');
     }
     catch (error) {
       console.error('Error fetching categories:', error);
@@ -64,10 +80,16 @@
 
   async function toogleDefaultStock() {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`);
+      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`, {
+      headers: headers
+    });
       stocks = await response.json();
       //Keep only the 2 first stocks
-      printedStocks = stocks.stocks.slice(0, 2);
+      if (stocks.stocks.length > 2) {
+        printedStocks = stocks.stocks.slice(0, 2);
+      } else {
+        printedStocks = stocks.stocks;
+      }
       defaultstock = !defaultstock;
     } catch (error) {
       console.error('Error fetching stock:', error);
@@ -85,7 +107,9 @@
   }
 
   const fetchStockData = debounce(async () => {
-    const response = await fetch(`http://127.0.0.1:8000/search_stocks_with_access/${stockSearchInput}/${id}`);
+    const response = await fetch(`http://127.0.0.1:8000/search_stocks_with_access/${stockSearchInput}/${id}/`, {
+      headers: headers
+    });
     const data = await response.json();
     stockOptions = data.stocks;
   }, 300);
@@ -126,13 +150,15 @@
         <div id="btn">{optionchosen.name}</div>
 
         {#if !defaultstock}
-        {$_('Add.SearchAtock')}
+        {$_('Add.SearchAStock')}
           {#if printedStocks.length > 0}
           <div id="list-stock">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
           <a id="cat-link" on:click={gotoStock1}>{printedStocks[0].name}</a>
+          {#if printedStocks.length > 1}
           <!-- svelte-ignore a11y-click-events-have-key-events -->
           <a id="cat-link" on:click={gotoStock2}>{printedStocks[1].name}</a>
+          {/if}
           </div>
           {/if}
           {$_('Add.OrOthers')}<br>

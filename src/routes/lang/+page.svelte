@@ -1,8 +1,14 @@
 <script>
   import BaseLayout from '../BaseLayout.svelte';
-  import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
-  import { debounce } from 'lodash-es';
+
+  let access_token = Cookies.get('access_token');
+  let refresh_token = Cookies.get('refresh_token');
+  const headers = {
+    'Authorization': `JWT ${access_token}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
 
   let id = Cookies.get('id');
 

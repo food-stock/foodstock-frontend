@@ -3,14 +3,23 @@
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
-  import { _} from 'svelte-i18n'
+  import { _ } from 'svelte-i18n'
 
+  let access_token = Cookies.get('access_token');
+  let refresh_token = Cookies.get('refresh_token');
+  const headers = {
+    'Authorization': `JWT ${access_token}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+  
   let stocks = [];
   let users = [];
   let id = Cookies.get('id');
   let printstocks = true;
   let stockEdit;
   let isDefault;
+  let isPersonal;
   let printUsers = false;
   let searchUsers = false;
   let searchInput = '';
@@ -26,24 +35,47 @@
   async function toogleDefault() {
     const stockid = stockEdit.id;
     isDefault = !isDefault;
-    const response = await fetch(`http://127.0.0.1:8000/set_stock_default/${stockid}/${isDefault}`);
+    const response = await fetch(`http://127.0.0.1:8000/set_stock_default/${stockid}/${isDefault}/`, {
+      headers: headers, method: 'POST'
+    });
+  }
+
+  async function tooglePersonal() {
+    const stockid = stockEdit.id;
+    isPersonal = !isPersonal;
+    const response = await fetch(`http://127.0.0.1:8000/set_stock_personal/${stockid}/${isDefault}/`, {
+      headers: headers, method: 'POST'
+    });
+    if (!response.ok) {
+      isPersonal = !isPersonal;
+      alert("Error");
+    }
   }
 
   async function deleteStockEdited() {
     const stockid = stockEdit.id;
-    const response = await fetch(`http:/127.0.0.1:8000/delete_stock/${stockid}`);
+    //Pop up to confirm
+    if (confirm("Are you sure you want to delete this stock ?")) {
+      const response = await fetch(`http://127.0.0.1:8000/delete_stock/${stockid}/`, {
+      headers: headers, method: 'POST'
+    });
+    }
   }
 
   async function renameStockEdited() {
     const newName = stockEdit.name;
     const stockid = stockEdit.id;
-    const response = await fetch(`http://127.0.0.1:8000/rename_stock/${stockid}/${newName}`);
+    const response = await fetch(`http://127.0.0.1:8000/rename_stock/${stockid}/${newName}/`, {
+      headers: headers, method: 'POST'
+    });
   }
 
   async function manageAccess() {
     printUsers = true;
     const stockid = stockEdit.id;
-    const data = await fetch(`http://127.0.0.1:8000/get_users_accessing_stock/${stockid}`);
+    const data = await fetch(`http://127.0.0.1:8000/get_users_accessing_stock/${stockid}/`, {
+      headers: headers
+    });
     const temp = await data.json();
     users = temp.users;
   }
@@ -52,7 +84,9 @@
     hasChosen = false;
     const stockid = stockEdit.id;
     const userid = user.id; 
-    const data = await fetch(`http://127.0.0.1:8000/add_user_access_to_stock/${stockid}/${userid}`);
+    const data = await fetch(`http://127.0.0.1:8000/add_user_access_to_stock/${stockid}/${userid}/`, {
+      headers: headers, method: 'POST'
+    });
     user.text = "✓";
     users = users.filter((u) => u.id !== userid);
     users.push(user);
@@ -62,7 +96,9 @@
   async function removeUserfromStock(user) {
     const stockid = stockEdit.id;
     const userid = user.id; 
-    const data = await fetch(`http://127.0.0.1:8000/remove_user_access_to_stock/${stockid}/${userid}`);
+    const data = await fetch(`http://127.0.0.1:8000/remove_user_access_to_stock/${stockid}/${userid}/`, {
+      headers: headers, method: 'POST'
+    });
     //Remove the user from the list
     users = users.filter((u) => u.id !== userid);
   }
@@ -79,11 +115,17 @@
   }
 
   const fetchData = debounce(async () => {
-    if (searchInput.length > 2) {
+    if (searchInput.length > 1) {
       const stock_id = stockEdit.id;
-      const response = await fetch(`http://127.0.0.1:8000/search_for_users/${searchInput}/${stock_id}`);
+      const response = await fetch(`http://127.0.0.1:8000/search_for_users/${searchInput}/${stock_id}/`, {
+      headers: headers
+    });
       const data = await response.json();
       options = data.users;
+      //limit to the 10 first results
+      if (options.length > 10) {
+        options = options.slice(0, 10);
+      }
       //for each, add a .text containing <i class="fa-solid fa-plus"></i> or <i class="fa-solid fa-check"></i>
       options = options.map((option) => ({
         ...option,
@@ -97,7 +139,9 @@
   onMount(async () => {
     //Fetch the stocks of the user
     try {
-      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`);
+      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`, {
+      headers: headers
+    });
       stocks = await response.json();
       stocks = stocks.stocks;
     } catch (error) {
@@ -179,8 +223,12 @@
     <input type="checkbox" on:change={toogleDefault} value={isDefault}/> <br>
     {$_('Manage.DeleteStock')} :
     <button on:click={deleteStockEdited}>{$_('Manage.Delete')}</button> <br>
+    {$_('Manage.SetPersonalStock')}
+    <input type="checkbox" on:change={tooglePersonal} value={isPersonal}/> <br>
+    {#if !isPersonal}
     {$_('Manage.ManageAccess')}
     <button on:click={manageAccess}>{$_('Manage.Manage')}</button> <br>
+    {/if}
     
   </div>
 {/if}
@@ -214,14 +262,6 @@
     border-radius: 20px;
     cursor: pointer;
     text-align: center;
-  }
-
-  .li {
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    text-decoration: none;
   }
 
 </style>

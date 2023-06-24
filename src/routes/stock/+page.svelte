@@ -9,37 +9,47 @@
   let listofStocks = [];
   let display_arrow = true;
   let id = Cookies.get('id');
-  let stockchosen = {id: 1, name: 'Frigo'};
+  let stockchosen = { id: 1, name: 'Frigo' };
 
-  async function gotoStock1() {
-    display_arrow = true;
-    listofStocks = [];
-    stockchosen = printedStocks[0];
+  let access_token = Cookies.get('access_token');
+  let refresh_token = Cookies.get('refresh_token');
+  const headers = {
+    'Authorization': `JWT ${access_token}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+
+  async function fetchCategoriesForStock(stockId) {
     try {
-      const response = await fetch('http://127.0.0.1:8000/get_categories_for_stock/1');
+      const response = await fetch(`http://127.0.0.1:8000/get_categories_for_stock/${stockId}/`, {
+        headers: headers
+      });
       const data = await response.json();
       categories = data.categories;
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
+  }
+
+  async function gotoStock1() {
+    display_arrow = true;
+    listofStocks = [];
+    stockchosen = printedStocks[0];
+    await fetchCategoriesForStock(stockchosen.id);
   }
 
   async function gotoStock2() {
     display_arrow = true;
     listofStocks = [];
     stockchosen = printedStocks[1];
-    try {
-      const response = await fetch('http://127.0.0.1:8000/get_categories_for_stock/2');
-      const data = await response.json();
-      categories = data.categories;
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
+    await fetchCategoriesForStock(stockchosen.id);
   }
 
   async function otherStocks() {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`);
+      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`, {
+        headers: headers
+      });
       stocks = await response.json();
       listofStocks = stocks.stocks.slice(2);
       categories = [];
@@ -54,32 +64,30 @@
     listofStocks = [];
     stockchosen = stock;
     printedStocks = [stock];
-    try { 
-      const response = await fetch(`http://127.0.0.1:8000/get_categories_for_stock/${stockchosen.id}`);
-      const data = await response.json();
-      categories = data.categories;
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
+    await fetchCategoriesForStock(stockchosen.id);
   }
 
   onMount(async () => {
-    //Fetch the stocks of the user
     try {
-      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`);
-      stocks = await response.json();
-      //Keep only the 2 first stocks
-      printedStocks = stocks.stocks.slice(0, 2);
+      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`, {
+        headers: headers
+      });
+      const data = await response.json();
+      stocks = data.stocks;
+      printedStocks = stocks.slice(0, 2);
+      await fetchCategoriesForStock(printedStocks[0].id);
+
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/get_categories_for_stock/${printedStocks[0].id}/`, {
+          headers: headers
+        });
+        const data = await response.json();
+        categories = data.categories;
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
     } catch (error) {
       console.error('Error fetching stock:', error);
-    }
-    //Fetch the categories of the first stock
-    try {
-      const response = await fetch(`http://127.0.0.1:8000/get_categories_for_stock/${printedStocks[0].id}`);
-      const data = await response.json();
-      categories = data.categories;
-    } catch (error) {
-      console.error('Error fetching categories:', error);
     }
   });
 </script>

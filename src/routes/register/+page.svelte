@@ -2,6 +2,15 @@
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation'; 
   import Cookies from 'js-cookie';
+
+  let access_token = Cookies.get('access_token');
+  let refresh_token = Cookies.get('refresh_token');
+  const headers = {
+    'Authorization': `JWT ${access_token}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+  
   let fname = '';
   let lname = '';
   let username = '';
@@ -10,25 +19,29 @@
   let password = '';
 
   async function handleSubmit() {
-    const response = await fetch(`http://localhost:8000/user?password=${password}`, {
+    const dict = {
+        'username': username,
+        'email': email,
+        'first_name': fname,
+        'last_name': lname,
+        'password': password,
+    }
+    const response = await fetch(`http://localhost:8000/register/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify( { fname, lname, dob , email, username})
+      body: JSON.stringify( dict)
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      Cookies.set('isRegistered', 'true');
-      Cookies.set('username', username);
-      Cookies.set('id', data.id);
-      Cookies.set('fname', fname);
-      Cookies.set('lname', lname);
-      Cookies.set('email', email);
-      Cookies.set('dob', dob);
-      goto('/mailconfirm');
+    if (response.status == 500) {
+        console.error('Username already exists');
+        return;
     } else {
-      console.error('Failed to create user');
-    }
+      const data = await response.json();
+      Cookies.set('username', username);
+      Cookies.set('id', data.user_id);
+      goto('/login');
+    } 
+
   }
 </script>
 
@@ -54,10 +67,12 @@
               <input type="email" bind:value={email} />
             </label> <br>
           
+            <!--
             <label>
               Date of Birth:
               <input type="date" bind:value={dob} />
             </label> <br>
+            -->
           
             <label>
               Password:

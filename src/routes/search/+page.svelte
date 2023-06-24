@@ -3,6 +3,14 @@
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
 
+  let access_token = Cookies.get('access_token');
+  let refresh_token = Cookies.get('refresh_token');
+  const headers = {
+    'Authorization': `JWT ${access_token}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+
   let id = Cookies.get('id');
   import { _} from 'svelte-i18n'
 
@@ -12,7 +20,9 @@
 
   const fetchData = debounce(async () => {
     if (searchInput.length > 1) {
-      const response = await fetch(`http://127.0.0.1:8000/search_product_among_stocks/${searchInput}/${id}`);
+      const response = await fetch(`http://127.0.0.1:8000/search_product_among_stocks/${searchInput}/${id}/`, {
+      headers: headers
+    });
       const data = await response.json();
       options = data.entities;
     } else {

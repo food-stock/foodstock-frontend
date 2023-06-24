@@ -2,10 +2,16 @@
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
-
   import { _} from 'svelte-i18n'
-
   import { page } from '$app/stores'
+
+  let access_token = Cookies.get('access_token');
+  let refresh_token = Cookies.get('refresh_token');
+  const headers = {
+    'Authorization': `JWT ${access_token}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
 
   const params = new URLSearchParams($page.url.search);
   const food_id = params.get('food_id');
@@ -69,7 +75,10 @@
   async function registerQuantity() {
     let quantity = parseInt(integer) + decimal;
     const entity_id = itemdedited.id;
-    const response = fetch(`http://127.0.0.1:8000/update_entity_quantity/${entity_id}/${quantity}`);
+    const response = fetch(`http://127.0.0.1:8000/update_entity_quantity/${entity_id}/${quantity}/`, {
+      headers: headers,
+      method: 'POST'
+    });
     Entity.forEach(entity => {
         if (entity.id === entity_id) {
           entity.quantity = quantity;
@@ -116,9 +125,12 @@
     productIsDisplayed = false;
     openQuantityM = false;
     Entity = [];
-    const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}`);
+    const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}/`, {
+      headers: headers
+    });
     data = await response.json();
     Entity = data.entity;
+    Entity = Entity.filter(entity => entity.quantity > 0);
     Entity = Entity.map(entity => ({
         ...entity,
         daysDifference: getDaysDifference(entity.date_of_consumption),
@@ -129,9 +141,12 @@
 
   onMount(async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}`);
+      const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}/`, {
+      headers: headers
+    });
       data = await response.json();
       Entity = data.entity;
+      Entity = Entity.filter(entity => entity.quantity > 0);
       Entity = Entity.map(entity => ({
         ...entity,
         daysDifference: getDaysDifference(entity.date_of_consumption),
@@ -155,9 +170,12 @@
 
 {#if showEntity}
 {$_('Product.Category')} : {food_info.food__category__name} <br>
+  {#if Entity.length === 0}
+    {$_('Product.NotPresentInStock')}
+  {:else}
+{#if Entity.length > 0}
 {$_('Product.PresentInStock')} 
   {#each Entity as item}
-    {#if item.quantity > 0}
     <ul class="no-bullet">
       <div id="container-buttons">
         <div class="name" id="btton">{item.stock__name} </div>
@@ -173,8 +191,9 @@
           <div class="nomore" on:click={()=>yAPlus(item)} id="btton">{$_('Product.NoMore')} </div>
       </div>
     </ul>
-    {/if}
   {/each}
+{/if}
+{/if}
 {/if}
 
 {#if yaPlusOpened}

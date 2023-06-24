@@ -20,7 +20,8 @@
         "QtyRemaining": "Il en reste :",
         "Precision": "et plus précisiément :",
         "AllGood": "C'est tout bon !",
-        "MissClick": "Annuler"
+        "MissClick": "Annuler",
+        "NotPresentInStock": "Ce produit n'est pas présent dans vos stocks"
     }, 
     "Search" : {
         "Title" : "Chercher un produit dans vos stocks :",
@@ -45,6 +46,9 @@
         "ManageAcess" : "Gérer les accès",
         "Back" : "Retour",
         "Delete" : "Supprimer",
-        "Manage" : "Gérer"
+        "Manage" : "Gérer",
+        "SetPersonalStock" : "Définir comme stock personnel",
+        "ConfirmeDelete" : "Confirmer la suppression",
+        "ErrorPersonal" : "Oupps, quelque chose s'est mal passé, veuillez réessayer"
     }
 }

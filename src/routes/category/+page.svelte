@@ -2,6 +2,15 @@
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import { page } from '$app/stores'
+  import Cookies from 'js-cookie';
+
+  let access_token = Cookies.get('access_token');
+  let refresh_token = Cookies.get('refresh_token');
+  const headers = {
+    'Authorization': `JWT ${access_token}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
 
   const params = new URLSearchParams($page.url.search);
   const cat_id = params.get('q');
@@ -30,9 +39,12 @@
 
   onMount(async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/get_entities_for_stock_and_category/${stock_id}/${cat_id}`);
+      const response = await fetch(`http://127.0.0.1:8000/get_entities_for_stock_and_category/${stock_id}/${cat_id}/`, {
+      headers: headers
+    });
       let data = await response.json();
       data = data.entities;
+      data = data.filter(entity => entity.quantity > 0);
       Entities = data.map(entity => ({
         ...entity,
         daysDifference: getDaysDifference(entity.date_of_consumption),

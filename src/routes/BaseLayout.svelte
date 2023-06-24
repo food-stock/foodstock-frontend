@@ -8,8 +8,6 @@
     register('fr', () => import('../locales/fr.json'));
     register('en', () => import('../locales/en.json'));
 
-    console.log('init i18n');
-
     init({
     fallbackLocale: 'en',
     initialLocale: 'en',

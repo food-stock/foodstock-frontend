@@ -3,20 +3,24 @@
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';
 
+  let access_token = Cookies.get('access_token');
+  let refresh_token = Cookies.get('refresh_token');
+  const headers = {
+    'Authorization': `JWT ${access_token}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+
   let username = '';
   let password = '';
 
   async function handleSubmit() {
     try {
       const formData = new URLSearchParams();
-      formData.append('grant_type', '');
       formData.append('username', username);
       formData.append('password', password);
-      formData.append('scope', '');
-      formData.append('client_id', '');
-      formData.append('client_secret', '');
 
-      const response = await fetch('http://localhost:8000/token', {
+      const response = await fetch('http://localhost:8000/token/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -27,19 +31,14 @@
 
       if (response.ok) {
         const data2 = await response.json();
-        Cookies.set('access_token', data2.access_token);
+        Cookies.set('access_token', data2.access);
+        Cookies.set('refresh_token', data2.refresh);
         Cookies.set('username', username);
-        const data = data2.user;
-        Cookies.set('id', data.id);
-        Cookies.set('fname', data.fname);
-        Cookies.set('lname', data.lname);
-        Cookies.set('email', data.email);
-        Cookies.set('dob', data.dob);
+        Cookies.set('id', 1);
         goto('/stock');
       } else {
         const error = await response.json();
         console.error('Error during login:', error);
-        // Réinitialiser les champs de texte
         username = '';
         password = '';
       }

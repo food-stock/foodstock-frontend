@@ -20,7 +20,8 @@
       "QtyRemaining": "Quantity remaining:",
       "Precision": "and more precisely:",
       "AllGood": "All good!",
-      "MissClick": "Cancel"
+      "MissClick": "Cancel",
+      "NotPresentInStock": "This product is not present in your stock(s)"
     },
     "Search": {
       "Title": "Search for a product in your stocks:",
@@ -45,7 +46,10 @@
       "ManageAccess": "Manage Access",
       "Back" : "Go Back",
       "Delete" : "Delete",
-      "Manage" : "Manage"
+      "Manage" : "Manage",
+      "SetPersonalStock" : "Set as Personal Stock",
+      "ConfirmDelete" : "Confirm Delete",
+      "ErrorPersonal" : "OOOps! Something went wrong !"
     }
   }
   

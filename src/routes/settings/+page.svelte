@@ -2,8 +2,6 @@
   import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
 
-  let id = Cookies.get('id');
-
   import { _} from 'svelte-i18n'
 
   async function logOut() {
