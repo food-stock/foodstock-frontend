@@ -57,6 +57,12 @@
     "Scan" : {
       "Start" : "Start Scan",
       "Stop" : "Stop Scan"
+    },
+    "Notifications" : {
+      "Title" : "Notifications",
+      "NoNotifications" : "No notifications",
+      "EnableNotifications" : "Enable Notifications",
+      "DisableNotifications" : "Disable Notifications"
     }
   }
   

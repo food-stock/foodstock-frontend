@@ -13,3 +13,14 @@ const config = {
 };
 
 export default config;
+
+const production = true;
+
+const svelteConfig = {
+	compilerOptions: {
+	  dev: !production,
+	  css: false
+	}
+  };
+  
+module.exports = svelteConfig;

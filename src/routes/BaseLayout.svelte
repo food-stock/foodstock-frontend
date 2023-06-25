@@ -1,5 +1,6 @@
 <script>
     //export const ssr = false; 
+    import '../app.d.ts';
     import Cookies from 'js-cookie';
     let user = Cookies.get('username');
 
