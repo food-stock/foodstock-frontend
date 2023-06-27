@@ -17,7 +17,7 @@
     import { _} from 'svelte-i18n'
 
     import { locale } from 'svelte-i18n';
-    locale.set('en')
+    locale.set('en');
 
 </script>
 

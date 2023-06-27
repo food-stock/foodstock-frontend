@@ -29,7 +29,7 @@ The frontend and backend are separated in two different repositories. The backen
 - [ ] Diverse means of authentication (Google, Facebook, Apple, etc.)
 - [ ] OCR to enter food by reading barcode and date of validity on the product
 - [ ] Integrating proximity to find people who want to give food and NGOs distance from the user
-- [ ] Push notifications to warn the user of the expiration of a food
+- [ ] Push notifications to warn the user of the expiration of a food : right now, I am able to get user endpoints to send notifications but I have troubles sending them in the Django backend
 - [ ] Connexions with local supermarkets to get food details and date of validity directly from a single qr code
 - [ ] Responsivness for desktop
 - [x] Add i18n support for translations (translations are now missing)

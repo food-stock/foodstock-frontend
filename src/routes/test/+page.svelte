@@ -9,7 +9,6 @@
 
   let access_token = Cookies.get('access_token');
   let id = Cookies.get('id');
-  let refresh_token = Cookies.get('refresh_token');
 
   const headers = {
     'Authorization': `JWT ${access_token}`,

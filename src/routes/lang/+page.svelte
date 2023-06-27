@@ -4,7 +4,6 @@
   import { _} from 'svelte-i18n'
 
   let access_token = Cookies.get('access_token');
-  let refresh_token = Cookies.get('refresh_token');
   const headers = {
     'Authorization': `JWT ${access_token}`,
     'Content-Type': 'application/json',
