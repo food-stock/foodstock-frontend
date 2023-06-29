@@ -12,9 +12,9 @@ Updates are coming soon
 
 ## Architecture
 - [x] A stock page that allows you to see all your food
-- [ ] A list page that allows you to see all your lists
-- [ ] social page that allows you to give or get food for free with links to NGOs
 - [x] A profile page that allows you to see your profile and your settings
+- [ ] A social page that allows you to give or get food for free with links to NGOs
+- [ ] A list page that allows you to see all your lists
 
 The frontend and backend are separated in two different repositories. The backend is available [here](https://github.com/food-stock/foodstock-frontend).
 
