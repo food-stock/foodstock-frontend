@@ -155,6 +155,7 @@
 </script>
 
 <BaseLayout>
+  
 <Back {name} {link} />
 {#if printstocks}
   <div id="list-stock">

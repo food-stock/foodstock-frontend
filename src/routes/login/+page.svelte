@@ -96,7 +96,7 @@
 
 <style>
   #container {
-    background: linear-gradient(to bottom, #3fb945, rgba(255, 255, 255, 1));
+    background: linear-gradient(to bottom, var(--green-color), rgba(255, 255, 255, 1));
     display: inline-flex;
     flex-direction: column;
     align-items: center;
@@ -141,7 +141,7 @@
   #btn {
     margin : 20px;
     text-align: center;
-    background-color: #3fb945;
+    background-color:var(--green-color);
     border: none;
     color: white;
     padding: 15px 32px;

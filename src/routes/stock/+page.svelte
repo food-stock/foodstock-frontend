@@ -2,7 +2,8 @@
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
-  import BlueItem from '$lib/BlueItem.svelte';
+  import { _} from 'svelte-i18n';
+  import {goto} from '$app/navigation';
 
   let categories = [];
   let stocks = [];
@@ -68,6 +69,9 @@
   }
 
   onMount(async () => {
+    if (Cookies.get('access_token') == undefined) {
+      goto('/login');
+    }
     try {
       const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`, {
         headers: headers
@@ -75,10 +79,13 @@
       const data = await response.json();
       stocks = data.stocks;
       if (stocks.length < 2) {
-        printedStocks = stocks.slice(0, 2);
+        printedStocks = stocks;
       }
       else {
         printedStocks = stocks.slice(0, 2);
+      }
+      if (stocks.length < 2) {
+        display_arrow = false;
       }
       stockchosen = printedStocks[0];
       
@@ -117,12 +124,14 @@
     {/if}
   </div>
   {#if categories.length > 0}
-  <br>Categories <br>
-  <div id="cat-container">
-    {#each categories as item}
-      <a id="cat-link" href="/category/?q={item.id}&stock_id={stockchosen.id}"><div id="cat">{item.name}</div></a>
-    {/each}
-  </div>
+    <br>Categories <br>
+    <div id="cat-container">
+      {#each categories as item}
+        <a id="cat-link" href="/category/?q={item.id}&stock_id={stockchosen.id}"><div id="cat">{item.name}</div></a>
+      {/each}
+    </div>
+  {:else }
+      <div>{$_('Stock.NoItem')} </div>
   {/if}
   {#if listofStocks.length > 0}
   <div id="list-stock-2" class="unwrapped">

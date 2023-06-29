@@ -11,4 +11,7 @@ declare module 'virtual:pwa-register/svelte' {
 	  offlineReady: Writable<boolean>
 	  updateServiceWorker: (reloadPage?: boolean) => Promise<void>
 	}
+
+	export const prerender = true;
+
   }

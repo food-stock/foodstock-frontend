@@ -18,8 +18,30 @@
     import { locale } from 'svelte-i18n';
     locale.set('en');
 
+    
+  function toggle() {
+        window.document.body.classList.toggle('dark-mode')
+    }
+
 </script>
 
+<div class="menu">
+    <button style="position:fixed;top:0;left:0;"><i class="fa-solid fa-xmark"></i></button>
+    <a id="bder" href="/settings">
+        <i class="fa-solid fa-heart"></i> Social
+    </a> <br>
+    <a id="bder"  href="/settings">
+        <i class="fa-solid fa-money-bill"></i>Support us
+    </a> <br>
+    <a id="bder" href="/settings">
+        <i class="fa-duotone fa-gear"></i> Settings
+    </a> <br>
+    
+    <a id="cat-link" on:click={toggle}>
+        <i class="fa-solid fa-moon"></i>{$_('Settings.DarkMode')} 
+    </a>
+</div>
+  
 <a href="/scanproduct">
     <button id="bttonB"><i class="fa-solid fa-barcode"></i></button>
 </a>
@@ -59,15 +81,56 @@
 
 @import '@fortawesome/fontawesome-free/css/all.css';
 
+.menu {
+    position : fixed;
+    height: 100vh;
+    width: 70vw;
+    top : 0;
+    left: 0;
+    background-color: #0084f6;
+    color : white;
+    z-index : 1;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#bder {
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    justify-content: center;
+    color : white;
+    text-decoration: none;
+    margin : 10px;
+}
+
 main {
     margin : 0;
     overflow: hidden;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+:global(:root){
+       --green-color: #3fb945
+    }
+
+:global(body) {
+		background-color: #f2eee2;
+		color: #0084f6;
+		transition: background-color 0.3s
+	}
+
+:global(body.dark-mode) {
+		background-color: #1d3040;
+		color: #bfc2c7;
+	}
+
 #header {
     color: black;
-    background-color: #3fb945;
+    background-color: var(--green-color);
     position : fixed;
     top : 0;
     left: 0;
@@ -108,7 +171,7 @@ main {
   width: 60px;
   height: 60px;
   border-radius: 40px;
-  color: #3fb945;
+  color: var(--green-color) ;
   border : none;
   padding: 0;
   font: inherit;
@@ -124,7 +187,7 @@ main {
   width: 60px;
   height: 60px;
   border-radius: 40px;
-  color: #3fb945;
+  color: var(--green-color) ;
   border : none;
   padding: 0;
   font: inherit;
@@ -141,7 +204,7 @@ main {
     width: 60px;
     height: 60px;
     border-radius: 40px;
-    color: #3fb945;
+    color: var(--green-color) ;
     border : none;
     padding: 0;
     font: inherit;
@@ -161,6 +224,30 @@ main {
 #whitespace2 {
     height: 40px;
 }
+
+:global(body.dark-mode) #bttonB {
+    background-color: #0084f6;
+    color : white;
+}
+
+:global(body.dark-mode) #bttonH {
+    background-color: #0084f6;
+    color : white;
+}
+
+:global(body.dark-mode) #bttonA {
+    background-color: #0084f6;
+    color : white;
+}
+
+:global(body.dark-mode) #btton {
+    color: white;
+}
+
+:global(body.dark-mode)  #bttonL {
+    color: white;
+}
+
 </style>
 
 

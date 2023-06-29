@@ -198,7 +198,7 @@
               </ul>
             {/if}
           {:else}
-          {$_('Add.WillBeAdded')} : 
+          {$_('Add.WillBeAdded')} 
           <div id="btn">{stockchosen.name}</div>
           <p on:click={toogleDefaultStock}>{$_('Add.Nah')}</p> 
           {/if}

@@ -64,7 +64,7 @@
 
     #bton {
         border : none;
-        background-color:  #3fb945;
+        background-color: var(--green-color);
         border-radius: 20px;
         padding: 10px;
         font-size: 20px;

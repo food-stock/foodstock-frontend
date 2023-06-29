@@ -2,7 +2,7 @@
   import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
   import {goto} from '$app/navigation';
-  import { _} from 'svelte-i18n'
+  import { _} from 'svelte-i18n';
 
   async function logOut() {
     Cookies.remove('id');
@@ -11,6 +11,7 @@
     Cookies.remove('refresh_token');
     goto('/');
   }
+
 
 </script>
 
@@ -31,7 +32,7 @@
 
 <style>
   h1 {
-    color : #3fb945;
+    color : var(--green-color);
   }
 
   #container {
@@ -61,9 +62,14 @@
     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
   }
 
+  :global(body.dark-mode) #cat-link {
+    background-color: black;
+    color: white;
+  }
+
  #cat-link {
     text-decoration: none;
     margin : 10px;
-    color : #3fb945;
+    color : var(--green-color);
   }
 </style>

@@ -106,7 +106,7 @@
 
 <style>
   h1 {
-    color: #3fb945;
+    color: var(--green-color);
   }
 
   main {
@@ -123,7 +123,7 @@
 
   button {
     padding: 10px 20px;
-    background-color: #3fb945;
+    background-color: var(--green-color);
     color: white;
     border: none;
     border-radius: 5px;

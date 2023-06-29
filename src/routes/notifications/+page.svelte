@@ -194,7 +194,7 @@ function postSubscribeObj(statusType, subscription, callback) {
 
 <style>
   h1 {
-    color : #3fb945;
+    color : var(--green-color);
   }
 
   #container {
@@ -227,6 +227,6 @@ function postSubscribeObj(statusType, subscription, callback) {
  #cat-link {
     text-decoration: none;
     margin : 10px;
-    color : #3fb945;
+    color : var(--green-color);
   }
 </style>

@@ -103,7 +103,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, #3fb945, rgba(255, 255, 255, 1));
+    background: linear-gradient(to bottom, var(--green-color), rgba(255, 255, 255, 1));
     height: 100vh;
   }
 
@@ -118,7 +118,7 @@
   button {
     margin-top: 10px;
     padding: 10px 20px;
-    background-color: #3fb945;
+    background-color: var(--green-color);
     border: none;
     color: white;
     font-size: 16px;
