@@ -1,6 +1,5 @@
 <script>
     //export const ssr = false; 
-    import '../app.d.ts';
     import Cookies from 'js-cookie';
     let user = Cookies.get('username');
 
@@ -31,34 +30,27 @@
     <button id="bttonH"><i class="fa-solid fa-home"></i></button>
 </a>
 
-<div class="container">
+<!--<i class="fa-solid fa-gear"></i>-->
 <header>
     <div id="header">
         <a href="/settings">
-            <button id="bttonL"><i class="fa-solid fa-gear"></i></button>
+            <button id="bttonL"><i class="fa-solid fa-bars"></i></button>
         </a>
         {$_('BaseLayout.Hi')}, {user}
         <a href="/search">
             <button id="btton"><i id="icon_search" class="fa-solid fa-magnifying-glass"></i></button>
         </a>
     </div>
-        
 </header>
 
+<div class="container">
+    <div id="whitespace2"></div>
 <main>
     <slot></slot>
 </main>
   
 <footer>
     <div id="whitespace"></div>
-<!--
-    <div id="footer">
-        <a id="buttonfooter" href="/stock"><i id="icon_house" class="fa-solid fa-house"></i></a>
-        <a id="buttonfooter" href="/list"><i id="icon_list" class="fa-solid fa-list"></i></a>
-        <a id="buttonfooter" href="/social"><i id="icon_heart" class="fa-solid fa-heart"></i></a>
-        <a id="buttonfooter" href="/stock"><i id="icon_user" class="fa-solid fa-user"></i></a>
-    </div>
--->
 </footer>
 
 </div>
@@ -68,17 +60,23 @@
 @import '@fortawesome/fontawesome-free/css/all.css';
 
 main {
+    margin : 0;
     overflow: hidden;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #header {
     color: black;
-    border-radius: 10px;
+    background-color: #3fb945;
+    position : fixed;
+    top : 0;
+    left: 0;
+    width: 95vw;
+    padding: 10px;
     text-align: center;
     font-size: 20px;
     font-family: 'Roboto', sans-serif;
-    margin: 10px;
-    margin-top: 20px;
+    justify-content: center;
 }
 
 #icon_search {
@@ -88,34 +86,7 @@ main {
     color: black;
 }
 
-/*
-#footer {
-    background-color: grey;
-    color: #fff;
-    padding: 2px;
-    padding-bottom: 10px;
-    text-align: center;
-    font-size: 20px;
-    font-family: 'Roboto', sans-serif;
-    margin-top: auto;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
-}
-
-#icon_house, #icon_list, #icon_heart, #icon_user {
-    color: #3fb945;
-    font-size: 30px;
-    margin: 10px;
-    margin-left: 22px;
-    margin-right: 22px;
-}
-
-*/
-
-#btton , #buttonfooter, #bttonL{
+#btton , #bttonL{
   background: none;
   border: none;
   padding: 0;
@@ -129,14 +100,8 @@ main {
 #btton {
   float: right;
 }
-#btton:hover {
-    color: #3fb945;
-}
 #bttonL {
   float: left;
-}
-#bttonL:hover {
-    color: #3fb945;
 }
 
 #bttonA {
@@ -191,6 +156,10 @@ main {
 
 #whitespace {
     height: 60px;
+}
+
+#whitespace2 {
+    height: 40px;
 }
 </style>
 

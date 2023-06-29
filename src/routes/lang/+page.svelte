@@ -1,7 +1,12 @@
 <script>
   import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
-  import { _} from 'svelte-i18n'
+  import { _} from 'svelte-i18n';
+  import Back from '$lib/Back.svelte';
+
+  //back
+  let name = $_('Manage.Back');;
+  let link = '/managestocks';
 
   let access_token = Cookies.get('access_token');
   const headers = {
@@ -19,7 +24,7 @@
 </script>
 
 <BaseLayout>
-<a id="retour" href="/settings">{$_('Settings.Back')}</a>
+  <Back {name} {link} />
 <br>
   Unfortunatly, we dont support other languages then french/english for now.
 <br>
@@ -49,12 +54,5 @@
     background-color: beige;
     text-align: center;
     margin : 10px;
-  }
-
-  #retour {
-    text-decoration: none;
-    color :#3fb945;
-    margin : 10px;
-    padding: 10px;
   }
 </style>

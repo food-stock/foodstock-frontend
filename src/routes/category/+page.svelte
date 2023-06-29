@@ -97,7 +97,6 @@
     height: 38vw;
     text-align: center;
     font-size: 26px;
-    font-family: 'Roboto', sans-serif;
     margin: 10px;
   }
 

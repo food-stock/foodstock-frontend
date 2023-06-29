@@ -2,6 +2,7 @@
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
+  import BlueItem from '$lib/BlueItem.svelte';
 
   let categories = [];
   let stocks = [];
@@ -149,7 +150,6 @@
     height: 38vw;
     text-align: center;
     font-size: 26px;
-    font-family: 'Roboto', sans-serif;
     margin: 10px;
     padding-top: 5px;
   }
@@ -161,7 +161,6 @@
 
   #list-stock, #list-stock-2{
     font-size: 26px;
-    font-family: 'Roboto', sans-serif;
     margin: 10px;
     padding: 10px;
     display: inline-flex;

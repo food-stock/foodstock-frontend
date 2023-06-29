@@ -83,6 +83,10 @@
       "PasswordRequirements" : "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character",
       "PasswordMatch" : "Passwords must match",
       "Title" : "Your new stock management app to reduce food waste !"
+    },
+    "Root": {
+      "Title" : "FoodStock",
+      "Sub" : "Your new stock management app to reduce food waste !"
     }
   }
   

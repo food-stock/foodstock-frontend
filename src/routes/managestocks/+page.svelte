@@ -1,5 +1,6 @@
 <script>
   import BaseLayout from '../BaseLayout.svelte';
+  import Back from '$lib/Back.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
@@ -11,6 +12,10 @@
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   };
+
+  //back
+  let name = $_('Manage.Back');
+  let link = '/settings';
   
   let stocks = [];
   let users = [];
@@ -150,6 +155,7 @@
 </script>
 
 <BaseLayout>
+<Back {name} {link} />
 {#if printstocks}
   <div id="list-stock">
     {#each stocks as stock}
@@ -244,7 +250,6 @@
 
   #list-stock {
     font-size: 26px;
-    font-family: 'Roboto', sans-serif;
     margin: 10px;
     padding: 10px;
     display: block;

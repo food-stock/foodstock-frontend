@@ -5,15 +5,11 @@
   import { _} from 'svelte-i18n'
 
   async function logOut() {
-    try {
     Cookies.remove('id');
     Cookies.remove('username');
     Cookies.remove('access_token');
     Cookies.remove('refresh_token');
-    }
-    finally {
-      goto('/login');
-    }
+    goto('/');
   }
 
 </script>
@@ -28,7 +24,7 @@
         <a id="cat-link" href="/lang">{$_('Settings.Language')}</a>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-missing-attribute -->
-        <a id="cat-link" on:click={()=>{logOut}}>{$_('Settings.LogOut')}</a>
+        <a id="cat-link" on:click={logOut}>{$_('Settings.LogOut')}</a>
     </div>
   </div>
 </BaseLayout>

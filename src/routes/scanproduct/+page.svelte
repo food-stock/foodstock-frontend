@@ -61,15 +61,23 @@
         min-height: 500px;
         background-color: black;
     }
+
+    #bton {
+        border : none;
+        background-color:  #3fb945;
+        border-radius: 20px;
+        padding: 10px;
+        font-size: 20px;
+    }
 </style>
 
 <BaseLayout>
   <main>
     <reader id="reader"/>
     {#if scanning}
-        <button on:click={stop}> {$_('Scan.Stop')}</button>
+        <button id="bton" on:click={stop}> {$_('Scan.Stop')}</button>
     {:else}
-        <button on:click={start}> {$_('Scan.Start')}</button>
+        <button id="bton" on:click={start}> {$_('Scan.Start')}</button>
     {/if}
   </main>
 </BaseLayout>

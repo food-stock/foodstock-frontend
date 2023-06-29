@@ -4,15 +4,6 @@
   import Cookies from 'js-cookie';
   import { _ } from 'svelte-i18n';
 
-  let refresh_token = Cookies.get('refresh_token');
-
-  let access_token = Cookies.get('access_token');
-  const headers = {
-    'Authorization': `JWT ${access_token}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
-
   let username = '';
   let password = '';
   let errorB = false;
@@ -23,9 +14,8 @@
       formData.append('username', username);
       formData.append('password', password);
 
-      const response = await fetch('http://localhost:8000/token/', {
+      const response = await fetch('http://127.0.0.1:8000/token/', {
         method: 'POST',
-        headers: headers,
         body: formData
       });
 
@@ -35,10 +25,17 @@
           Cookies.set('refresh_token', data2.refresh);
           Cookies.set('username', username);
 
-          const response2 = await fetch(`http://localhost:8000/user/${username}/`, {
+          const headers = {
+            'Authorization': `JWT ${data2.access}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+
+          const response2 = await fetch(`http://localhost:8000/get_user_id`, {
             method: 'GET',
             headers: headers
           });
+
           if (response2.ok) {
             const data = await response2.json();
             Cookies.set('id', data.id);
@@ -48,16 +45,36 @@
             console.error('Error during login:', error);
           }
       } else {
-          const error = await response.json();
-          console.error('Error during login:', error);
+          console.error('Error during login');
           username = '';
           password = '';
           errorB = true;
       }
     } catch (error) {
         console.error('Error during login:', error);
+        username = '';
+        password = '';
+        errorB = true;
     }
   }
+
+  async function refreshToken() {
+      const refresh_token = Cookies.get('refresh_token');
+      const header = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+      const formData = new URLSearchParams();
+      formData.append('refresh', refresh_token);
+      const response = await fetch('http://localhost:8000/token/refresh/', {
+        method: 'POST',
+        headers: header,
+        body: formData
+      });
+      const data = await response.json();
+      Cookies.set('access_token', data.access);
+  }
+  
 </script>
 
 <BaseLayout>
