@@ -33,14 +33,22 @@
   }
 
   async function gotoStock1() {
-    display_arrow = true;
+    if (printedStocks.length == 1) {
+      display_arrow = false;
+    } else {
+      display_arrow = true;
+    }
     listofStocks = [];
     stockchosen = printedStocks[0];
     await fetchCategoriesForStock(stockchosen.id);
   }
 
   async function gotoStock2() {
-    display_arrow = true;
+    if (printedStocks.length == 2) {
+      display_arrow = false;
+    } else {
+      display_arrow = true;
+    }
     listofStocks = [];
     stockchosen = printedStocks[1];
     await fetchCategoriesForStock(stockchosen.id);
@@ -152,8 +160,7 @@
   }
 
   #cat {
-    background-color: grey;
-    color : white;
+    background-color: var(--grey-color);
     border-radius: 10px;
     width: 40vw;
     height: 38vw;
@@ -165,7 +172,6 @@
 
   #cat-link {
     text-decoration: none;
-    color: white;
   }
 
   #list-stock, #list-stock-2{
@@ -180,7 +186,7 @@
   }
 
   .stock-item, .stock-itemA{
-    background-color: aqua;
+    background-color: var(--blue-color);
     width: 30vw;
     height: 10vw;
     margin: 10px;

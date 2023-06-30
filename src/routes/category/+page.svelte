@@ -71,15 +71,15 @@
 <style>
 
   .green {
-    color: green;
+    color: var(--green-color);
   }
 
   .orange {
-    color: orange;
+    color: var(--orange-color);
   }
 
   .red {
-    color: red;
+    color: var(--red-color);
   }
 
   #cat-container {
@@ -90,7 +90,7 @@
   }
 
   #cat {
-    background-color: grey;
+    background-color: var(--grey-color);
     color: white;
     border-radius: 10px;
     width: 40vw;

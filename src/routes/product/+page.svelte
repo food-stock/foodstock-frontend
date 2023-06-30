@@ -233,18 +233,18 @@
 <style>
 
   .red {
-    background-color: red;
-    border: solid 1px red;
+    background-color: var(--red-color);
+    border: solid 1px var(--red-color);
   }
 
   .green {
-    background-color: green;
-    border: solid 1px green;
+    background-color: var(--green-color);
+    border: solid 1px var(--green-color);
   }
 
   .orange {
-    background-color: orange;
-    border: solid 1px orange;
+    background-color: var(--orange-color);
+    border: solid 1px var(--orange-color);
   }
 
   #picture {
@@ -273,23 +273,23 @@
   }
 
   .adjust {
-    background-color: green;
-    border: solid 1px green;
+    background-color:var(--green-color);
+    border: solid 1px var(--green-color);
   }
 
   .nomore {
-    background-color: red;
-    border: solid 1px red;
+    background-color: var(--red-color);
+    border: solid 1px var(--red-color);
   }
 
   .iconic {
-    background-color: blue;
-    border: solid 1px blue;
+    background-color: var(--blue-color);
+    border: solid 1px var(--blue-color);
   }
 
   .remaining {
-    background-color: orange;
-    border: solid 1px orange;
+    background-color: var(--orange-color);
+    border: solid 1px var(--orange-color);
   }
 
   ul.no-bullet {
@@ -300,15 +300,12 @@
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   }
 
-  .name {
-    background-color: grey;
-    border: solid 1px grey;
+  .name , .qtty {
+    background-color: var(--grey-color);
+    border: solid 1px var(--grey-color);
   }
 
-  .qtty {
-    background-color: grey;
-    border: solid 1px grey;
-  }
+   
 
   #foodname {
     font-size: 30px;
@@ -330,14 +327,14 @@
   border-radius: 7px;
   padding: 10px 20px;
   border: none;
-  background-color: #eaeaea;
+  background-color: var(--grey-color);
   color: #333;
   font-weight: bold;
   cursor: pointer;
 }
 
 .button:hover {
-  background-color: #ccc;
+  background-color: var(--grey-color);
 }
 
 .unit-controls {
