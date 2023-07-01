@@ -16,7 +16,7 @@
 </script>
 
 <BaseLayout>
-  <!--<img id="picture" src="/static/logo.png" alt="Logo">-->
+  <!--<img id="picture" src="./static/logo.png" alt="Logo">-->
   <div id="container">
     <h1>
       {$_('Settings.Title')}</h1>
@@ -56,7 +56,7 @@
     cursor: pointer;
     padding: 20px;
     border-radius: 15px;
-    background-color: white;
+    background-color: var(--white-color);
     text-decoration: none ;
     font-size: 30px;
     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
@@ -64,7 +64,7 @@
 
   :global(body.dark-mode) #cat-link {
     background-color: black;
-    color: white;
+    color: var(--white-color);
   }
 
  #cat-link {

@@ -269,7 +269,7 @@
     padding: 10px;
     border-radius: 15px;
     cursor: pointer;
-    color : white;
+    color : var(--white-color);
   }
 
   .adjust {

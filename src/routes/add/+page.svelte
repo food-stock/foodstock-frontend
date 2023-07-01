@@ -239,7 +239,7 @@
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    background-color: #fff;
+    background-color: var(--white-color);
     border: 1px solid black;
     display: flex;
     justify-content: center;
@@ -257,7 +257,7 @@
     cursor: pointer;
     padding: 10px;
     border-radius: 15px;
-    background-color: beige;
+    background-color: var(--beige-color);
   }
 
   #input {
@@ -273,7 +273,7 @@
   }
 
  p {
-  background-color: aqua;
+  background-color: var(--blue-color);
   align-items: center;
   justify-content: center;
   margin-right: auto;

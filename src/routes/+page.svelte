@@ -35,7 +35,7 @@ let isRegistered = false;
 #bton {
     text-decoration: none;
     border: none;
-    background-color: aliceblue;
+    background-color: var(--blue-color);
     margin : 10px;
 }
 

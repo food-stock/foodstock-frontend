@@ -3,6 +3,7 @@
   import Cookies from 'js-cookie';
   import { _} from 'svelte-i18n';
   import Back from '$lib/Back.svelte';
+  import {goto} from '$app/navigation';
 
   //back
   let name = $_('Manage.Back');;
@@ -24,7 +25,7 @@
 </script>
 
 <BaseLayout>
-  <Back {name} {link} />
+  <Back {name} on:click={goto('/')} />
 <br>
   Unfortunatly, we dont support other languages then french/english for now.
 <br>

@@ -2,7 +2,18 @@
   import BaseLayout from '../BaseLayout.svelte';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';
-  import { _} from 'svelte-i18n';
+
+  import { register, init, getLocaleFromNavigator } from 'svelte-i18n';
+
+  register('fr', () => import('../../locales/fr.json'));
+  register('en', () => import('../../locales/en.json'));
+
+    init({
+        fallbackLocale: getLocaleFromNavigator(),
+        initialLocale: 'en',
+    });
+
+    import { _ } from 'svelte-i18n'
 
   let access_token = Cookies.get('access_token');
   const headers = {
@@ -120,7 +131,7 @@
     padding: 10px 20px;
     background-color: var(--green-color);
     border: none;
-    color: white;
+    color: var(--white-color);
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
@@ -129,7 +140,7 @@
   #maintitle {
     font-size: 50px;
     font-weight: bold;
-    color: white;
+    color: var(--white-color);
     text-align: center;
     margin-top: 50px;
   }
@@ -137,7 +148,7 @@
   #subtitle {
     font-size: 30px;
     font-weight: bold;
-    color: white;
+    color: var(--white-color);
     text-align: center;
     margin-top: 50px;
   }

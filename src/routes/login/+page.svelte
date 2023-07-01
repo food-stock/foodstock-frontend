@@ -2,7 +2,19 @@
   import BaseLayout from '../BaseLayout.svelte';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';
-  import { _ } from 'svelte-i18n';
+
+  
+  import { register, init, getLocaleFromNavigator } from 'svelte-i18n';
+
+  register('fr', () => import('../../locales/fr.json'));
+  register('en', () => import('../../locales/en.json'));
+
+  init({
+        fallbackLocale: getLocaleFromNavigator(),
+        initialLocale: 'en',
+    });
+
+  import { _ } from 'svelte-i18n'
 
   let username = '';
   let password = '';
@@ -106,7 +118,7 @@
   #maintitle {
     font-size: 50px;
     font-weight: bold;
-    color: white;
+    color: var(--white-color);
     text-align: center;
     margin-top: 50px;
   }
@@ -114,7 +126,7 @@
   #subtitle {
     font-size: 30px;
     font-weight: bold;
-    color: white;
+    color: var(--white-color);
     text-align: center;
     margin-top: 50px;
   }
@@ -127,14 +139,14 @@
   #username {
     font-size: 20px;
     font-weight: bold;
-    color: white;
+    color: var(--white-color);
     margin-top: 50px;
   }
 
   #password {
     font-size: 20px;
     font-weight: bold;
-    color: white;
+    color: var(--white-color);
     margin-top: 50px;
   }
 
@@ -143,7 +155,7 @@
     text-align: center;
     background-color:var(--green-color);
     border: none;
-    color: white;
+    color: var(--white-color);
     padding: 15px 32px;
     text-decoration: none;
     font-size: 16px;

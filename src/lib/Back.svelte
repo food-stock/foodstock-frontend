@@ -2,20 +2,15 @@
     import {goto} from '$app/navigation';
 
     export let name;
-    export let link;
-
-    function goto2(link) {
-        goto(link)
-    }
 </script>
 
-<button class="blue-item" on:click={goto2}>
+<button class="blue-item">
     {name}
 </button>
   
   <style>
     .blue-item {
-    background-color: aqua;
+    background-color: var(--blue-color);
     width: 30vw;
     height: 10vw;
     margin: 10px;

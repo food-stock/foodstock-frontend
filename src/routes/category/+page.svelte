@@ -91,7 +91,7 @@
 
   #cat {
     background-color: var(--grey-color);
-    color: white;
+    color: var(--white-color);
     border-radius: 10px;
     width: 40vw;
     height: 38vw;
@@ -102,6 +102,6 @@
 
   #cat-link {
     text-decoration: none;
-    color: white;
+    color: var(--white-color);
   }
 </style>

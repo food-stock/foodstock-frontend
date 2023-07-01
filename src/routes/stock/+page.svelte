@@ -20,6 +20,22 @@
     'Accept': 'application/json'
   };
 
+  async function refreshToken() {
+      const refresh_token = Cookies.get('refresh_token');
+      const header = {
+        'Content-Type': 'application/json'
+      }
+      const formData = new URLSearchParams();
+      formData.append('refresh', refresh_token);
+      const response = await fetch('http://localhost:8000/token/refresh/', {
+        method: 'POST',
+        headers: header,
+        body: formData
+      });
+      const data = await response.json();
+      Cookies.set('access_token', data.access);
+  }
+
   async function fetchCategoriesForStock(stockId) {
     try {
       const response = await fetch(`http://127.0.0.1:8000/get_categories_for_stock/${stockId}/`, {
@@ -110,6 +126,8 @@
       }
     } catch (error) {
       console.error('Error fetching stock:', error);
+      await refreshToken();
+      onMount();
     }
   });
 </script>

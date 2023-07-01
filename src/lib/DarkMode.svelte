@@ -10,8 +10,8 @@
 
 <style>
         button {
-            background-color: #f76027;
-            color: white;
+            background-color: var(--blue-color);
+            color: var(--white-color);
             border: none;
             border-radius: 4px;
             padding: 0.5rem;
@@ -19,8 +19,8 @@
             
         }
         :global(body.dark-mode) button {
-            background-color: #0084f6;
-            color: white;
+            background-color: var(--blue-color);
+            color: var(--white-color);
         }
         
 </style>

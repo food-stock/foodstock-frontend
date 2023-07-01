@@ -40,10 +40,13 @@
         <i class="fa-solid fa-heart"></i> Social
     </a> <br>
     <a id="bder" href="/settings">
-        <i class="fa-solid fa-money-bill"></i> Support us
+        <i class="fa-duotone fa-gear"></i> Settings
+    </a> <br>
+    <a id="bder" href="/notifications">
+        <i class="fa-solid fa-bell"></i> Notifications
     </a> <br>
     <a id="bder" href="/settings">
-        <i class="fa-duotone fa-gear"></i> Settings
+        <i class="fa-solid fa-money-bill"></i> Support us
     </a> <br>
     
     <a id="cat-link" on:click={toggleDarkMode}>
@@ -91,8 +94,8 @@
         width: 70vw;
         top: 0;
         left: 0;
-        background-color: var(--blue-color);
-        color: white;
+        background-color: var(--green-color);
+        color: var(--white-color);
         z-index: 1;
         align-items: center;
         justify-content: center;
@@ -112,7 +115,7 @@
         font-size: 20px;
         font-family: 'Roboto', sans-serif;
         justify-content: center;
-        color: white;
+        color: var(--white-color);
         text-decoration: none;
         margin: 10px;
     }
@@ -133,7 +136,7 @@
         --dark-color : #1d3040;
         --grey-color: #bfc2c7;
         --beige-color :  #f2eee2;
-        white-color : white;
+        --white-color : #ffffff;
     }
     
     :global(body) {
@@ -149,7 +152,7 @@
     
     #header {
         color: black;
-        background-color: var(--blue-color);
+        background-color: var(--green-color);
         position: fixed;
         top: 0;
         left: 0;

@@ -244,7 +244,7 @@
 
   #cat-link {
     text-decoration: none;
-    color: white;
+    color: var(--white-color);
     justify-content: space-between;
     align-items: center;
   }

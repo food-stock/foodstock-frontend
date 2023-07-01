@@ -25,12 +25,12 @@ The frontend and backend are separated in two different repositories. The backen
 ## Features
 - [x] Basic pages
 - [x] Add i18n support for translations (some translations are now missing)
-- [x] Scanning barcodes to add food to the stock
+- [x] Scanning barcodes to add food to the stock. If the product barcode is not registered, it uses OpenFoodFact API (an online collaborative database that collects and shares information about food products) to get product details 
+- [ ] Push notifications to warn the user of the expiration of a food : right now, I am able to get suscribe and unsuscribe of notifications. Just need to set cron job to check for product expiration
 - [ ] A solid authentication system 
 - [ ] Diverse means of authentication (Google, Facebook, Apple, etc.)
 - [ ] OCR to enter food by reading barcode and date of validity on the product
-- [ ] Integrating proximity to find people who want to give food and NGOs distance from the user
-- [ ] Push notifications to warn the user of the expiration of a food : right now, I am able to get user endpoints but I have troubles sending notifications in the Django backend
+- [ ] Integrating proximity to find nearest NGOs or people to give food to including distance between the user and them
 - [ ] Responsivness for desktop
 - [ ] Add a convenient way to pick a date for mobile (might use [this one](https://nehakadam.github.io/DateTimePicker/))
 - [ ] Connexions with local supermarkets to get food details and date of validity directly from a single qr code
