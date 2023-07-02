@@ -24,7 +24,7 @@ The frontend and backend are separated in two different repositories. The backen
 
 ## Features
 - [x] Basic pages
-- [x] Add i18n support for translations (some translations are now missing)
+- [x] Add i18n support for translations (diy version, because [svelte-i18n](https://github.com/kaisermann/svelte-i18n) is hardly usable)
 - [x] Scanning barcodes to add food to the stock. If the product barcode is not registered, it uses OpenFoodFact API (an online collaborative database that collects and shares information about food products) to get product details 
 - [ ] Push notifications to warn the user of the expiration of a food : right now, I am able to get suscribe and unsuscribe of notifications. Just need to set cron job to check for product expiration
 - [ ] A solid authentication system , it needs now to check response to maybe refresh the token using the implemented Django endpoint.

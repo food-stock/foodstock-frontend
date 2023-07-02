@@ -1,4 +1,5 @@
-<script>
+<script lang='ts'>
+  import { translate } from '../../TranslationStore';
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import { page } from '$app/stores';

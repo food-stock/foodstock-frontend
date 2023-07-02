@@ -1,8 +1,8 @@
-<script>
+<script lang='ts'>
+  import { translate } from '../../TranslationStore';
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
-  import { _} from 'svelte-i18n'
   import { page } from '$app/stores'
 
   let access_token = Cookies.get('access_token');
@@ -166,26 +166,26 @@
 
 
 {#if showEntity}
-{$_('Product.Category')} : {food_info.food__category__name} <br>
+{translate('Product.Category')} : {food_info.food__category__name} <br>
   {#if Entity.length === 0}
-    {$_('Product.NotPresentInStock')}
+    {translate('Product.NotPresentInStock')}
   {:else}
 {#if Entity.length > 0}
-{$_('Product.PresentInStock')} 
+{translate('Product.PresentInStock')} 
   {#each Entity as item}
     <ul class="no-bullet">
       <div id="container-buttons">
         <div class="name" id="btton">{item.stock__name} </div>
-        <div class="qtty" id="btton">{item.quantity} {$_('Product.Remaining')} </div>
-        <div class="{item.colorClass}" id="btton">{item.daysDifference} <i class="fa-solid fa-calendar-days"></i></div>
+        <div class="qtty" id="btton">{item.quantity} {translate('Product.Remaining')} </div>
+        <div class="{item.colorClass}" id="btton"> <i class="fa-solid fa-calendar-days"></i> {item.daysDifference} </div>
       </div>
-      <li>{$_('Product.BoughtOn')} : {item.date_of_purchase} </li>
+      <li>{translate('Product.BoughtOn')} : {item.date_of_purchase} </li>
 
       <div id="container-buttons">
           <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <div class="adjust" on:click={() => openQuantityMenu(item)} id="btton">{$_('Product.AdjustQuantity')}</div>
+          <div class="adjust" on:click={() => openQuantityMenu(item)} id="btton">{translate('Product.AdjustQuantity')}</div>
           <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <div class="nomore" on:click={()=>yAPlus(item)} id="btton">{$_('Product.NoMore')} </div>
+          <div class="nomore" on:click={()=>yAPlus(item)} id="btton">{translate('Product.NoMore')} </div>
       </div>
     </ul>
   {/each}
@@ -195,34 +195,34 @@
 
 {#if yaPlusOpened}
   <br>
-  {$_('Product.NoMore?')} <br>
+  {translate('Product.NoMore?')} <br>
   <div id="container-buttons">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <div class="nomore" on:click={nomore} id="btton">{$_('Product.NoMore')}</div>
+      <div class="nomore" on:click={nomore} id="btton">{translate('Product.NoMore')}</div>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <div class="remaining" on:click={missclick} id="btton">{$_('Product.ThereAreSome')}</div>
+      <div class="remaining" on:click={missclick} id="btton">{translate('Product.ThereAreSome')}</div>
   </div>
 {/if}
 
 {#if openQuantityM}
-{$_('Product.QtyRemaining')}
+{translate('Product.QtyRemaining')}
 <div class="unit-controls">
   <button class="unit-button" id="decrease-unit" on:click={decreaseUnit}>-</button>
   <input type="text" class="unit-input" id="unit-input" bind:value={integer}>
   <button class="unit-button" id="increase-unit" on:click={increaseUnit}>+</button>
 </div>
-{$_('Product.Precision')}
+{translate('Product.Precision')}
 <div class="button-container">
-  <button class="button" id="button-4" on:click={setDecimal0}>0</button>
-  <button class="button" id="button-1" on:click={setDecimal025}>&frac14;</button>
-  <button class="button" id="button-2"on:click={setDecimal05} >&frac12;</button>
-  <button class="button" id="button-3"on:click={setDecimal075} >&frac34;</button>
+  <button class="button" class:selected={decimal === 0} id="button-4" on:click={setDecimal0}>0</button>
+  <button class="button" class:selected={decimal === 0.25} id="button-1" on:click={setDecimal025}>&frac14;</button>
+  <button class="button" class:selected={decimal === 0.5} id="button-2"on:click={setDecimal05} >&frac12;</button>
+  <button class="button" class:selected={decimal === 0.75} id="button-3"on:click={setDecimal075} >&frac34;</button>
 </div>
 <div id="container-buttons">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="nomore" on:click={registerQuantity} id="btton">{$_('Product.AllGood')}</div>
+  <div class="nomore" on:click={registerQuantity} id="btton">{translate('Product.AllGood')}</div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="remaining" on:click={missclick} id="btton">{$_('Product.MissClick')}</div>
+  <div class="remaining" on:click={missclick} id="btton">{translate('Product.MissClick')}</div>
 </div>
 {/if}
 
@@ -350,6 +350,10 @@
   text-align: center;
   margin: 0 10px;
   margin-top: 20px;
+}
+
+.selected {
+  color: var(--white-color);
 }
   
 </style>

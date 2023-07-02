@@ -1,8 +1,8 @@
-<script>
+<script lang='ts'>
+  import { translate } from '../../TranslationStore';
   import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
   import {goto} from '$app/navigation';
-  import { _} from 'svelte-i18n';
 
   async function logOut() {
     Cookies.remove('id');
@@ -16,16 +16,16 @@
 </script>
 
 <BaseLayout>
-  <!--<img id="picture" src="./static/logo.png" alt="Logo">-->
+  <img id="picture" src="/logo.png" alt="Logo">
   <div id="container">
     <h1>
-      {$_('Settings.Title')}</h1>
+      {translate('Settings.Title')}</h1>
     <div id="cat-container">
-        <a id="cat-link" href="/managestocks">{$_('Settings.ManageStock')}</a>
-        <a id="cat-link" href="/lang">{$_('Settings.Language')}</a>
+        <a id="cat-link" href="/managestocks">{translate('Settings.ManageStock')}</a>
+        <a id="cat-link" href="/lang">{translate('Settings.Language')}</a>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-missing-attribute -->
-        <a id="cat-link" on:click={logOut}>{$_('Settings.LogOut')}</a>
+        <a id="cat-link" on:click={logOut}>{translate('Settings.LogOut')}</a>
     </div>
   </div>
 </BaseLayout>
@@ -71,5 +71,10 @@
     text-decoration: none;
     margin : 10px;
     color : var(--green-color);
+  }
+
+  #picture {
+    width: 150px;
+    height: 150px;
   }
 </style>

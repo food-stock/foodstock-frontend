@@ -1,10 +1,11 @@
-<script>
-    import {goto} from '$app/navigation';
-
+<script >
     export let name;
+    export let link;
+
+    import { goto } from '$app/navigation';
 </script>
 
-<button class="blue-item">
+<button class="blue-item" on:click={()=>goto(link)}>
     {name}
 </button>
   

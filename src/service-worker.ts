@@ -68,9 +68,6 @@ worker.addEventListener('fetch', (event) => {
   if (isHttp && !isDevServerRequest && !skipBecauseUncached) {
     event.respondWith(
       (async () => {
-        // always serve static files and bundler-generated assets from cache.
-        // if your application has other URLs with data that will never change,
-        // set this variable to true for them and they will only be fetched once.
         const cachedAsset = isStaticAsset && (await caches.match(event.request));
 
         return cachedAsset || fetchAndCache(event.request);
@@ -79,21 +76,40 @@ worker.addEventListener('fetch', (event) => {
   }
 });
 
-// Register event listener for the 'push' event.
-self.addEventListener('push', function (event) {
-  // Retrieve the textual payload from event.data (a PushMessageData object).
-  // Other formats are supported (ArrayBuffer, Blob, JSON), check out the documentation
-  // on https://developer.mozilla.org/en-US/docs/Web/API/PushMessageData.
-  const eventInfo = event.data.text();
-  const data = JSON.parse(eventInfo);
-  const head = data.head || 'New Notification ðŸ•ºðŸ•º';
-  const body = data.body || 'This is default content. Your notification didn\'t have one ðŸ™„ðŸ™„';
 
-  // Keep the service worker alive until the notification is created.
+self.addEventListener('push', function (event) {
+  const iconUrl = '/logo.png';
+  const pushData = event.data.json(); // Parse the event data as JSON
+
+  // Extract the head, body, and click data from the push data
+  const head = pushData.head || 'FoodStock' || 'New Notification 🕺🕺';
+  const body = pushData.body || "This is default content. Your notification didn't have one 🙄🙄";
+  const clickData = pushData.click_data || {};
+
   event.waitUntil(
-      self.registration.showNotification(head, {
-          body: body,
-          icon: 'https://i.imgur.com/MZM3K5w.png'
-      })
+    self.registration.showNotification(head, {
+      body: body,
+      icon: iconUrl,
+      data: clickData  // Pass the click data to the notification
+    })
   );
+});
+
+self.addEventListener('notificationclick', function (event) {
+  event.notification.close();
+
+  // Retrieve the click data from the notification
+  const clickData = event.notification.data;
+
+  if (clickData) {
+    event.waitUntil(
+      clients.matchAll({
+        type: "window"
+      }).then(function () {
+        if (clients.openWindow) {
+          return clients.openWindow(clickData);
+        }
+      })
+    );
+  }
 });

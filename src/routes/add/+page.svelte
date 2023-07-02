@@ -1,9 +1,9 @@
-<script>
+<script lang='ts'>
+  import { translate } from '../../TranslationStore';
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
-  import { _} from 'svelte-i18n';
   import { goto } from '$app/navigation'; 
   import {page} from '$app/stores';
 
@@ -160,9 +160,9 @@
   <div id="container">
     {#if inputneeded}
       {#if options.length === 0}
-        {$_('Add.TypeName')}
+        {translate('Add.TypeName')}
       {:else}
-        {$_('Search.HaveToChoose')}
+        {translate('Search.HaveToChoose')}
         <ul>
           {#each options as option}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -172,11 +172,11 @@
       {/if}
     <input id="input" type="text" bind:value={searchInput} on:input={handleInput} />
     {:else}
-      {#if isScanned} {$_('Add.YouScanned')} {:else} {$_('Add.YouChose')} {/if}
+      {#if isScanned} {translate('Add.YouScanned')} {:else} {translate('Add.YouChose')} {/if}
           <div id="btn">{optionchosen.name}</div>
 
           {#if !defaultstock}
-          {$_('Add.SearchAStock')}
+          {translate('Add.SearchAStock')}
             {#if printedStocks.length > 0}
               <div id="list-stock">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -187,7 +187,7 @@
             {/if}
             </div>
             {/if}
-            {$_('Add.OrOthers')}<br>
+            {translate('Add.OrOthers')}<br>
             <input type="text" bind:value={stockSearchInput} on:input={handleStockInput} />
             {#if stockOptions.length > 0}
               <ul>
@@ -198,14 +198,14 @@
               </ul>
             {/if}
           {:else}
-          {$_('Add.WillBeAdded')} 
+          {translate('Add.WillBeAdded')} 
           <div id="btn">{stockchosen.name}</div>
-          <p on:click={toogleDefaultStock}>{$_('Add.Nah')}</p> 
+          <p on:click={toogleDefaultStock}>{translate('Add.Nah')}</p> 
           {/if}
 
-          {$_('Add.HowMany')}
+          {translate('Add.HowMany')}
           <input id="input" type="number" bind:value={quantity}/>
-          {$_('Add.CDate')}
+          {translate('Add.CDate')}
           <input id="input" type="date" bind:value={date_of_consumption} />
           <div id="validation">
             <!-- svelte-ignore a11y-click-events-have-key-events -->

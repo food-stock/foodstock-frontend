@@ -1,4 +1,5 @@
-<script>
+<script lang='ts'>
+  import { translate } from '../../TranslationStore';
   import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
@@ -11,7 +12,6 @@
   };
 
   let id = Cookies.get('id');
-  import { _} from 'svelte-i18n'
 
   let searchInput = '';
   let stockOptions = [];
@@ -38,9 +38,9 @@
 <BaseLayout>
   <div id="container">
       {#if options.length === 0}
-      {$_('Search.Title')}
+      {translate('Search.Title')}
       {:else}
-      {$_('Search.HaveToChoose')}
+      {translate('Search.HaveToChoose')}
         <ul>
           <div id="cat-container">
           {#each options as option}

@@ -1,4 +1,5 @@
-<script>
+<script lang='ts'>
+  import { translate } from '../../TranslationStore';
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
@@ -6,6 +7,7 @@
   let registration;
   let isSubscribed = false;
   let subscription;
+  let push = [];
 
   let access_token = Cookies.get('access_token');
   let id = Cookies.get('id');
@@ -16,7 +18,7 @@
     'Accept': 'application/json'
   };
 
-  const PUBLIC_VAPID_KEY = "BKjHSBAs0BFqGPsqYP34-y1rX-zJMZHUZEuQ8mEXK0dMhJ19LBEh8hP46F_-aH-XFHuFrlcxf5HkwLN2nE6Hba4";
+  const PUBLIC_VAPID_KEY = "BN7-oN3IimMixJoqqe8UmYzDYrRmCo_tS6QkhJ14tFbyYjHTrc2eG2tqlsqmhisJQdDdy8jTqZCmofKRE456Lzk";
 
   onMount(() => {
     if ('serviceWorker' in navigator) {
@@ -31,7 +33,19 @@
     } else {
       console.warn('Service workers are not supported in your browser.');
     }
+    if (!isSubscribed) {
+      getLatestPush();
+    }
   });
+
+  async function getLatestPush() {
+    const response = await fetch(`http://127.0.0.1:8000/get_latest_webpush/${id}/`, {
+      method: 'POST',
+      headers: headers,
+    });
+    const data = await response.json();
+    push = data.push;
+  }
 
   function checkSubscription() {
     registration.pushManager.getSubscription()
@@ -66,7 +80,6 @@
       headers: headers,
     });
     const response = await data.json();
-    console.log(response);
   } catch (error) {
     console.error('Error while subscribing or sending subscription to the server:', error);
   }
@@ -88,16 +101,16 @@ async function testSubscription() {
     registration.pushManager.getSubscription()
       .then((subscription) => {
         if (subscription) {
+          const encodedEndpoint = encodeURIComponent(subscription.endpoint);
           subscription.unsubscribe()
             .then(async () => {
               isSubscribed = false;
               try {
-                  const data = await fetch(`http://127.0.0.1:8000/remove_subscription/`, {
+                  const data = await fetch(`http://127.0.0.1:8000/remove_subscription/?endpoint=${encodedEndpoint}`, {
                     method: 'POST',
                     headers: headers,
                   });
                   const response = await data.json();
-                  console.log(response);
                 } catch (error) {
                   console.error('Error while subscribing or sending subscription to the server:', error);
                 }
@@ -113,18 +126,27 @@ async function testSubscription() {
   }
 </script>
 
-<main>
+<BaseLayout>
   <h1>Push Notifications</h1>
 
   {#if isSubscribed}
     <p>You are subscribed to push notifications.</p>
     <button on:click={unsubscribe}>Unsubscribe</button>
     <button on:click={testSubscription}>Test subscription</button>
+
+    <p>Your latest notifications</p>
+    {#each push as notification}
+    <div id="ndate">{notification.date}</div>
+    <div id="ncontainer">
+      <div id="ntitle">{notification.title}</div>
+      <div id="nbody">{notification.body}</div>
+    </div>
+    {/each}
   {:else}
     <p>You are not subscribed to push notifications.</p>
     <button on:click={subscribe}>Subscribe</button>
   {/if}
-</main>
+</BaseLayout>
 
 <style>
   h1 {
@@ -155,5 +177,26 @@ async function testSubscription() {
   button:disabled {
     background-color: gray;
     cursor: not-allowed;
+  }
+
+  #ncontainer {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+  }
+
+  #ntitle {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  #nbody {
+    font-size: 15px;
+  }
+
+  #ndate {
+    font-size: 10px;
   }
 </style>

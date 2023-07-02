@@ -1,33 +1,29 @@
-<script>
-    //export const ssr = false; 
+<script lang="ts">
+    // Import translations
+    import { loadTranslations, translate } from '../TranslationStore';
+    import {onMount} from 'svelte';
+  
     import Cookies from 'js-cookie';
+
     let user = Cookies.get('username');
-
-    import { register, init, getLocaleFromNavigator } from 'svelte-i18n';
-
-    register('fr', () => import('../locales/fr.json'));
-    register('en', () => import('../locales/en.json'));
-
-    init({
-        fallbackLocale: 'en',
-        initialLocale: 'en',
-    });
-
-    import { _ } from 'svelte-i18n'
-
-    import { locale } from 'svelte-i18n';
-    locale.set('en');
-
+  
+    
     let isMenuVisible = false;
-
+  
     function toggleMenu() {
-        isMenuVisible = !isMenuVisible;
+      isMenuVisible = !isMenuVisible;
+    }
+  
+    function toggleDarkMode() {
+      window.document.body.classList.toggle('dark-mode');
     }
 
-    function toggleDarkMode() {
-        window.document.body.classList.toggle('dark-mode');
-    }
-</script>
+    onMount(() => {
+      loadTranslations;
+    });
+  </script>
+  
+
 
 <div class="menu" class:visible={isMenuVisible}>
     <button id="bttonX" on:click={toggleMenu}>
@@ -40,7 +36,7 @@
         <i class="fa-solid fa-heart"></i> Social
     </a> <br>
     <a id="bder" href="/settings">
-        <i class="fa-duotone fa-gear"></i> Settings
+        <i class="fa-solid fa-gear"></i> Settings
     </a> <br>
     <a id="bder" href="/notifications">
         <i class="fa-solid fa-bell"></i> Notifications
@@ -48,9 +44,8 @@
     <a id="bder" href="/settings">
         <i class="fa-solid fa-money-bill"></i> Support us
     </a> <br>
-    
     <a id="cat-link" on:click={toggleDarkMode}>
-        <i class="fa-solid fa-moon"></i> {$_('Settings.DarkMode')} 
+        <i class="fa-solid fa-moon"></i> {translate('Settings.DarkMode')} 
     </a>
 </div>
   
@@ -67,7 +62,7 @@
 <header>
     <div id="header">
         <button id="bttonL" on:click={toggleMenu}><i class="fa-solid fa-bars"></i></button>
-        {$_('BaseLayout.Hi')}, {user}
+        {translate('BaseLayout.Hi')}, {user}
         <a href="/search">
             <button id="btton"><i id="icon_search" class="fa-solid fa-magnifying-glass"></i></button>
         </a>
@@ -87,6 +82,7 @@
 
 <style>
     @import '@fortawesome/fontawesome-free/css/all.css';
+    @import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1;200&display=swap');
     
     .menu {
         position: fixed;
@@ -123,7 +119,7 @@
     main {
         margin: 0;
         overflow: hidden;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-family: 'Ysabeau SC', sans-serif;
     }
     
     :global(:root) {
@@ -275,12 +271,10 @@
     }
     
     :global(body.dark-mode) #btton {
-        background-color: var(--blue-color);
         color: var(--white-color);
     }
     
     :global(body.dark-mode) #bttonL {
-        background-color: var(--blue-color);
         color: var(--white-color);
     }
     

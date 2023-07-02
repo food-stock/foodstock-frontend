@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
+  import { translate } from '../../TranslationStore';
   import BaseLayout from '../BaseLayout.svelte';
   import Back from '$lib/Back.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
-  import { _ } from 'svelte-i18n'
+  import { goto } from '$app/navigation';
 
   let access_token = Cookies.get('access_token');
   const headers = {
@@ -14,7 +15,7 @@
   };
 
   //back
-  let name = $_('Manage.Back');
+  let name = translate('Manage.Back');
   let link = '/settings';
   
   let stocks = [];
@@ -157,6 +158,7 @@
 <BaseLayout>
   
 <Back {name} {link} />
+
 {#if printstocks}
   <div id="list-stock">
     {#each stocks as stock}
@@ -169,8 +171,8 @@
 
 {:else if searchUsers}
   <div id="container">
-    <button on:click={()=>{searchUsers = false; printstocks = false;}}>{$_('Manage.Back')}</button>
-    <h1>{$_('Manage.SearchUser')}</h1>
+    <button on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
+    <h1>{translate('Manage.SearchUser')}</h1>
     <input type="text" bind:value={searchInput} on:input={handleInput} />
     {#if !hasChosen}
     <ul>
@@ -197,9 +199,9 @@
   
 
 {:else if printUsers}
-<button on:click={()=>{searchUsers = false; printstocks = false;}}>{$_('Manage.Back')}</button>
+<button on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
   {#if users.length === 0}
-  {$_('Manage.NoUserWithAccess')}<br>
+  {translate('Manage.NoUserWithAccess')}<br>
   {:else}
     <div id="list-stock">
       {#each users as user}
@@ -220,20 +222,20 @@
 
 {:else}
   <div id="container">
-<button on:click={()=>{searchUsers = false; printstocks = true;}}>{$_('Manage.Back')}</button>
-    <h1>{$_('Manage.EditStock')}</h1>
-    {$_('Manage.RenameStock')}:
+<button on:click={()=>{searchUsers = false; printstocks = true;}}>{translate('Manage.Back')}</button>
+    <h1>{translate('Manage.EditStock')}</h1>
+    {translate('Manage.RenameStock')}:
     <input type="text" bind:value={stockEdit.name} /> 
     <button on:click={renameStockEdited}><i class="fa-solid fa-check"></i></button> <br>
-    {$_('Manage.SetDefaultStock')}
+    {translate('Manage.SetDefaultStock')}
     <input type="checkbox" on:change={toogleDefault} value={isDefault}/> <br>
-    {$_('Manage.DeleteStock')} :
-    <button on:click={deleteStockEdited}>{$_('Manage.Delete')}</button> <br>
-    {$_('Manage.SetPersonalStock')}
+    {translate('Manage.DeleteStock')} :
+    <button on:click={deleteStockEdited}>{translate('Manage.Delete')}</button> <br>
+    {translate('Manage.SetPersonalStock')}
     <input type="checkbox" on:change={tooglePersonal} value={isPersonal}/> <br>
     {#if !isPersonal}
-    {$_('Manage.ManageAccess')}
-    <button on:click={manageAccess}>{$_('Manage.Manage')}</button> <br>
+    {translate('Manage.ManageAccess')}
+    <button on:click={manageAccess}>{translate('Manage.Manage')}</button> <br>
     {/if}
     
   </div>
@@ -259,7 +261,7 @@
 
   .stock-item{
     width: 70vw;
-    background-color: aqua;
+    background-color: var(--blue-color);
     width: 30vw;
     height: 10vw;
     margin: 10px;

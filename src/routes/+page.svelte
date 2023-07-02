@@ -1,15 +1,15 @@
-<script>
+<script lang='ts'>
+  import { translate } from '../TranslationStore';
 import { onMount } from 'svelte';
 import { goto } from '$app/navigation'; 
-import { _} from 'svelte-i18n'
 let isRegistered = false;
 </script>
 
 <main>
 <div id="whitespace"></div>
 <div id="container">
-    <div id="title">{$_('Root.Title')}</div>
-    <div id="sub">{$_("Root.Sub")}</div>
+    <div id="title">{translate('Root.Title')}</div>
+    <div id="sub">{translate("Root.Sub")}</div>
     <div id="cont-buttons">
         <button id ="bton" on:click={() => goto('/register')}>Register</button> 
         <button id="bton" on:click={() => goto('/login')}>Login</button>

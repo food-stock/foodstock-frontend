@@ -1,9 +1,9 @@
-<script>
+<script lang='ts'>
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
-  import { _} from 'svelte-i18n';
   import {goto} from '$app/navigation';
+  import { translate } from '../../TranslationStore';
 
   let categories = [];
   let stocks = [];
@@ -157,7 +157,7 @@
       {/each}
     </div>
   {:else }
-      <div>{$_('Stock.NoItem')} </div>
+      <div>{translate('Stock.NoItem')} </div>
   {/if}
   {#if listofStocks.length > 0}
   <div id="list-stock-2" class="unwrapped">
@@ -181,11 +181,10 @@
     background-color: var(--grey-color);
     border-radius: 10px;
     width: 40vw;
-    height: 38vw;
+    height: 20vw;
     text-align: center;
     font-size: 26px;
     margin: 10px;
-    padding-top: 5px;
   }
 
   #cat-link {

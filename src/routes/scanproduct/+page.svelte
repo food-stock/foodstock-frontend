@@ -1,11 +1,11 @@
 
-<script>
+<script lang='ts'>
+  import { translate } from '../../TranslationStore';
     import { Html5Qrcode } from 'html5-qrcode';
     import { onMount } from 'svelte';
     import BaseLayout from '../BaseLayout.svelte';
     import Cookies from 'js-cookie';
     import {goto} from '$app/navigation';
-    import { _} from 'svelte-i18n';
 
     let scanning = false
 
@@ -75,9 +75,9 @@
   <main>
     <reader id="reader"/>
     {#if scanning}
-        <button id="bton" on:click={stop}> {$_('Scan.Stop')}</button>
+        <button id="bton" on:click={stop}> {translate('Scan.Stop')}</button>
     {:else}
-        <button id="bton" on:click={start}> {$_('Scan.Start')}</button>
+        <button id="bton" on:click={start}> {translate('Scan.Start')}</button>
     {/if}
   </main>
 </BaseLayout>

@@ -1,20 +1,8 @@
-<script>
+<script lang='ts'>
+  import { translate } from '../../TranslationStore';
   import BaseLayout from '../BaseLayout.svelte';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';
-
-  
-  import { register, init, getLocaleFromNavigator } from 'svelte-i18n';
-
-  register('fr', () => import('../../locales/fr.json'));
-  register('en', () => import('../../locales/en.json'));
-
-  init({
-        fallbackLocale: getLocaleFromNavigator(),
-        initialLocale: 'en',
-    });
-
-  import { _ } from 'svelte-i18n'
 
   let username = '';
   let password = '';
@@ -89,30 +77,55 @@
   
 </script>
 
-<BaseLayout>
+<body>
+<main>
   <div id="container">
     <div id="maintitle">FoodStock</div>
-    <div id="subtitle">{$_('Login.Title')}</div>
+    <div id="subtitle">{translate('Login.Title')}</div>
     <form on:submit={handleSubmit}>
-      <div id="username">{$_('Login.Username')}</div> <input id="ipt" type="text" name="username" bind:value={username}>
-      <div id="password">{$_('Login.Password')}</div> <input id="ipt" type="password" name="password" bind:value={password}>
+      <div id="username">{translate('Login.Username')}</div> <input id="ipt" type="text" name="username" bind:value={username}>
+      <div id="password">{translate('Login.Password')}</div> <input id="ipt" type="password" name="password" bind:value={password}>
       {#if (errorB)}
-        <p>{$_('Login.Error')}</p>
+        <p>{translate('Login.Error')}</p>
       {/if}
       <div id="final">
         <input id="btn" type="submit" value="Submit">
       </div>
+        <a id="register" href="/register">{translate('Login.Register')}</a>
     </form>
+    <img id="picture" src="/wolf.png" alt="Image" />
   </div>
-</BaseLayout>
+</main>
+</body>
 
 <style>
+  @import '@fortawesome/fontawesome-free/css/all.css';
+  @import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1;200&display=swap');
+  
+  :global(:root) {
+        --green-color: #3fb945;
+        --blue-color : #0084f6;
+        --red-color: #f44336;
+        --yellow-color: #ffeb3b;
+        --orange-color: #ff9800;
+        --purple-color: #9c27b0;
+        --dark-color : #1d3040;
+        --grey-color: #bfc2c7;
+        --beige-color :  #f2eee2;
+        --white-color : #ffffff;
+    }
+
+  body {
+    font-family: 'Ysabeau SC', sans-serif;
+    background: linear-gradient(to bottom, var(--green-color), var(--beige-color));
+  }
+
   #container {
-    background: linear-gradient(to bottom, var(--green-color), rgba(255, 255, 255, 1));
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100vh;
   }
 
   #maintitle {
@@ -120,15 +133,13 @@
     font-weight: bold;
     color: var(--white-color);
     text-align: center;
-    margin-top: 50px;
   }
 
   #subtitle {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     color: var(--white-color);
     text-align: center;
-    margin-top: 50px;
   }
 
   #ipt {
@@ -140,14 +151,14 @@
     font-size: 20px;
     font-weight: bold;
     color: var(--white-color);
-    margin-top: 50px;
+    margin-top: 20px;
   }
 
   #password {
     font-size: 20px;
     font-weight: bold;
     color: var(--white-color);
-    margin-top: 50px;
+    margin-top: 20px;
   }
 
   #btn {
@@ -162,5 +173,17 @@
     font-weight: bold;
   }
 
+  #register {
+    text-decoration: none;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--white-color);
+  }
+
+  #picture {
+    width: 300px;
+    height: 300px;
+  }
 
 </style>

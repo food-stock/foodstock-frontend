@@ -1,21 +1,10 @@
-<script>
-  import BaseLayout from '../BaseLayout.svelte';
+<script lang='ts'>
+  import { translate } from '../../TranslationStore';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';
 
-  import { register, init, getLocaleFromNavigator } from 'svelte-i18n';
-
-  register('fr', () => import('../../locales/fr.json'));
-  register('en', () => import('../../locales/en.json'));
-
-    init({
-        fallbackLocale: getLocaleFromNavigator(),
-        initialLocale: 'en',
-    });
-
-    import { _ } from 'svelte-i18n'
-
   let access_token = Cookies.get('access_token');
+
   const headers = {
     'Authorization': `JWT ${access_token}`,
     'Content-Type': 'application/json',
@@ -27,7 +16,10 @@
   let username = '';
   let email = '';
   let password = '';
+  let password2 = '';
   let showPassword = false;
+  let showPassword2 = false;
+  let isRegistered = false;
 
   async function handleSubmit() {
     const dict = {
@@ -50,71 +42,105 @@
       const data = await response.json();
       Cookies.set('username', username);
       Cookies.set('id', data.user_id);
-      goto('/login');
+      Cookies.set('locale', 'en');
+      isRegistered = true;
     }
   }
 </script>
 
-<BaseLayout>
+<body>
+<main>
 <div id="container">
   <div id="maintitle">FoodStock</div>
-  <div id="subtitle">{$_('Register.Title')}</div>
+  
+  
+  {#if isRegistered}
+  <div id="subtitle">{translate('Register.Success')}</div>
+  <a href="/login">{translate('Register.GoLogin')}</a>
+  <img id="picture" src="/wolf.png" alt="Image" />
+  {:else}
+  <div id="subtitle">{translate('Register.Title')}</div>
+  <a id="register" href="/login">{translate('Register.Login')}</a>
   <form on:submit={handleSubmit}>
-    <label>
-      {$_('Register.FName')} :
-      <input type="text" bind:value={fname} />
-    </label> <br>
+    <div id="field">
+      {translate('Register.FName')} :
+    </div>
+      <input id="ip" type="text" bind:value={fname} />
 
-    <label>
-      {$_('Register.LName')} :
-      <input type="text" bind:value={lname} />
-    </label> <br>
+    <div id="field">
+      {translate('Register.LName')} :
+    </div>
+      <input  id="ip" type="text" bind:value={lname} />
 
-    <label>
-      {$_('Register.Username')} :
-      <input type="text" bind:value={username} />
-    </label> <br>
+    <div id="field">
+      {translate('Register.Username')} : 
+    </div>
+      <input id="ip" type="text" bind:value={username} />
 
-    <label>
-      {$_('Register.Email')} :
-      <input type="email" bind:value={email} />
-    </label> <br>
+    <div id="field">
+      {translate('Register.Email')} : 
+    </div>
+      <input  id="ip" type="email" bind:value={email} />
 
-    <label>
-      {$_('Register.Password')}
+    <div id="field">
+      {translate('Register.Password')}
+    </div>
       <div>
-        <input type="password" bind:value={password} />
+        <input  id="ip" type="password" bind:value={password} />
         <span on:click={() => showPassword = !showPassword} style="cursor: pointer;">
-          {showPassword ? 'Hide' : 'Show'}
+          {@html showPassword ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'}
         </span>
       </div>
-      <small>
-        {$_('Register.PasswordRequirements')}
-      </small>
-    </label> <br>
+      <div id="tips">
+        {translate('Register.PasswordRequirements')}
+      </div>
 
-    <label>
-      {$_('Register.ConfirmPassword')}
+    <div id="field">
+      {translate('Register.ConfirmPassword')} 
+    </div>
       <div>
-        <input type="password" bind:value={password} />
-        <span on:click={() => showPassword = !showPassword} style="cursor: pointer;">
-          {showPassword ? 'Hide' : 'Show'}
+        <input id="ip" type="password" bind:value={password2} />
+        <span on:click={() => showPassword2 = !showPassword2} style="cursor: pointer;">
+          {@html showPassword2 ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'}
         </span>
       </div>
-    </label> <br>
 
-    <button type="submit">{$_('Register.Register')}</button>
+    <button type="submit">{translate('Register.Register')}</button>
   </form>
+  {/if}
 </div>
-</BaseLayout>
+</main>
+</body>
 
 <style>
+
+  @import '@fortawesome/fontawesome-free/css/all.css';
+  @import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1;200&display=swap');
+  
+  :global(:root) {
+        --green-color: #3fb945;
+        --blue-color : #0084f6;
+        --red-color: #f44336;
+        --yellow-color: #ffeb3b;
+        --orange-color: #ff9800;
+        --purple-color: #9c27b0;
+        --dark-color : #1d3040;
+        --grey-color: #bfc2c7;
+        --beige-color :  #f2eee2;
+        --white-color : #ffffff;
+    }
+
+  body {
+    font-family: 'Ysabeau SC', sans-serif;
+    background: linear-gradient(to bottom, var(--green-color), var(--beige-color));
+  }
+
   #container {
+    font-family: 'Ysabeau SC', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, var(--green-color), rgba(255, 255, 255, 1));
     height: 100vh;
   }
 
@@ -122,7 +148,7 @@
     margin-top: 10px;
     padding: 5px;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--grey-color);
     width: 200px;
   }
 
@@ -142,15 +168,48 @@
     font-weight: bold;
     color: var(--white-color);
     text-align: center;
-    margin-top: 50px;
+    margin-top: 0px;
   }
 
   #subtitle {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     color: var(--white-color);
     text-align: center;
-    margin-top: 50px;
   }
   
+  #picture {
+    width: 350px;
+    height: 350px;
+  }
+
+  #tips {
+    font-size: 12px;
+    color: var(--white-color);
+  }
+
+  #field {
+    margin-top: 10px;
+    font-size: 20px;
+    color: var(--white-color);
+  }
+
+  #ip {
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid var(--grey-color);
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #register {
+    text-decoration: none;
+    margin-top: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--white-color);
+  }
+
 </style>

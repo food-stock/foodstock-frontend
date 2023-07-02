@@ -1,46 +1,48 @@
-<script>
+<script lang='ts'>
+  import { translate } from '../../TranslationStore';
   import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
-  import { _} from 'svelte-i18n';
   import Back from '$lib/Back.svelte';
-  import {goto} from '$app/navigation';
+  import { setContext } from 'svelte';
 
-  //back
-  let name = $_('Manage.Back');;
+  // Back
+  let name = translate('Manage.Back');
   let link = '/managestocks';
 
-  let access_token = Cookies.get('access_token');
-  const headers = {
-    'Authorization': `JWT ${access_token}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
+  // Gestion de la locale
+  const supportedLocales = ['en', 'fr', 'de', 'it', 'es'];
+  let currentLocale = Cookies.get('locale') || 'en';
 
-  let id = Cookies.get('id');
+  function changeLocale(locale) {
+    Cookies.set('locale', locale);
+    currentLocale = locale;
+  }
 
-  import { locale } from 'svelte-i18n';
-  locale.set('fr')
-
-
+  // Création d'un contexte Svelte pour rendre currentLocale réactif
+  setContext('currentLocale', currentLocale);
 </script>
 
 <BaseLayout>
-  <Back {name} on:click={goto('/')} />
-<br>
-  Unfortunatly, we dont support other languages then french/english for now.
-<br>
-  Future supported languages : 
+  <Back {name} {link} />
+  {translate('Lang.Effect')}
+  <br>
   <ul>
-    <li>Anglais</li>
-    <li>Français</li>
-    <li>Allemand</li>
-    <li>Italien</li>
-    <li>Espagnol</li>
+    {#each supportedLocales as locale}
+      <li
+        on:click={() => changeLocale(locale)}
+        class:selected={currentLocale === locale}
+      >
+        {locale === 'en' ? translate('Lang.English') : ''}
+        {locale === 'fr' ? translate('Lang.French') : ''}
+        {locale === 'de' ? translate('Lang.German') : ''}
+        {locale === 'it' ? translate('Lang.Italian') : ''}
+        {locale === 'es' ? translate('Lang.Spanish') : ''}
+      </li>
+    {/each}
   </ul>
 </BaseLayout>
 
 <style>
-
   ul {
     flex-direction: row;
     list-style-type: none;
@@ -54,6 +56,10 @@
     border-radius: 15px;
     background-color: beige;
     text-align: center;
-    margin : 10px;
+    margin: 10px;
+  }
+
+  .selected {
+    background-color: yellow;
   }
 </style>
