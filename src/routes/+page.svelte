@@ -1,8 +1,6 @@
 <script lang='ts'>
   import { translate } from '../TranslationStore';
-import { onMount } from 'svelte';
-import { goto } from '$app/navigation'; 
-let isRegistered = false;
+    import { goto } from '$app/navigation'; 
 </script>
 
 <main>
