@@ -15,3 +15,7 @@ declare module 'virtual:pwa-register/svelte' {
 	export const prerender = true;
 
   }
+
+declare module 'js-cookie';
+
+export const prerender = true;

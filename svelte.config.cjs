@@ -13,6 +13,13 @@ export default {
         }),
         paths: {
             base: dev ? '' : process.env.BASE_PATH,
-        }
+        },
+        prerender: {
+            handleHttpError: async ({ error, request }) => {
+              // Custom error handling logic goes here
+              console.error('An HTTP error occurred:', error);
+            },
+            // ...other prerender options...
+        },
     }
 };

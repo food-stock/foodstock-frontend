@@ -24,9 +24,13 @@ export async function loadTranslations(): Promise<void> {
   }
 }
 
-if (!translations) {
-  await loadTranslations();
+async function preload() {
+  if (!translations) {
+    await loadTranslations();
+  }
 }
+
+preload();
 
 export function translate(key: string): Promise<string> {
   if (translations && translations[key]) {

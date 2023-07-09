@@ -44,6 +44,7 @@
     <a id="bder" href="/settings">
         <i class="fa-solid fa-money-bill"></i> Support us
     </a> <br>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <a id="cat-link" on:click={toggleDarkMode}>
         <i class="fa-solid fa-moon"></i> {translate('Settings.DarkMode')} 
     </a>

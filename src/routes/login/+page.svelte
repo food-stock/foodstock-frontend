@@ -42,7 +42,7 @@
             goto('/stock');
           }
           else {
-            console.error('Error during login:', error);
+            console.error('Error during login:', errorB);
           }
       } else {
           console.error('Error during login');
@@ -84,7 +84,7 @@
     <div id="subtitle">{translate('Login.Title')}</div>
     <form on:submit={handleSubmit}>
       <div id="username">{translate('Login.Username')}</div> <input id="ipt" type="text" name="username" bind:value={username}>
-      <div id="password">{translate('Login.Password')}</div> <input id="ipt" type="password" name="password" bind:value={password}>
+      <div id="password">{translate('Login.Password')}</div> <input id="ipt2" type="password" name="password" bind:value={password}>
       {#if (errorB)}
         <p>{translate('Login.Error')}</p>
       {/if}
@@ -118,6 +118,8 @@
   body {
     font-family: 'Ysabeau SC', sans-serif;
     background: linear-gradient(to bottom, var(--green-color), var(--beige-color));
+    width: 100vw;
+    height: 110vh;
   }
 
   #container {
@@ -142,7 +144,7 @@
     text-align: center;
   }
 
-  #ipt {
+  #ipt, #ipt2 {
     margin-top : 20px;
     border: none;
   }
@@ -179,11 +181,12 @@
     font-size: 20px;
     font-weight: bold;
     color: var(--white-color);
+    flex-wrap: wrap;
   }
 
   #picture {
-    width: 300px;
-    height: 300px;
+    width: 80vw;
+
   }
 
 </style>

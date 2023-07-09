@@ -199,6 +199,7 @@
   
 
 {:else if printUsers}
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <button on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
   {#if users.length === 0}
   {translate('Manage.NoUserWithAccess')}<br>
@@ -222,7 +223,9 @@
 
 {:else}
   <div id="container">
-<button on:click={()=>{searchUsers = false; printstocks = true;}}>{translate('Manage.Back')}</button>
+
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <button on:click={()=>{searchUsers = false; printstocks = true;}}>{translate('Manage.Back')}</button>
     <h1>{translate('Manage.EditStock')}</h1>
     {translate('Manage.RenameStock')}:
     <input type="text" bind:value={stockEdit.name} /> 
@@ -234,8 +237,8 @@
     {translate('Manage.SetPersonalStock')}
     <input type="checkbox" on:change={tooglePersonal} value={isPersonal}/> <br>
     {#if !isPersonal}
-    {translate('Manage.ManageAccess')}
-    <button on:click={manageAccess}>{translate('Manage.Manage')}</button> <br>
+      {translate('Manage.ManageAccess')}
+      <button on:click={manageAccess}>{translate('Manage.Manage')}</button> <br>
     {/if}
     
   </div>

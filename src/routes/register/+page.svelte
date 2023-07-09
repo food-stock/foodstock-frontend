@@ -70,23 +70,23 @@
     <div id="field">
       {translate('Register.LName')} :
     </div>
-      <input  id="ip" type="text" bind:value={lname} />
+      <input  id="ip2" type="text" bind:value={lname} />
 
     <div id="field">
       {translate('Register.Username')} : 
     </div>
-      <input id="ip" type="text" bind:value={username} />
+      <input id="ip3" type="text" bind:value={username} />
 
     <div id="field">
       {translate('Register.Email')} : 
     </div>
-      <input  id="ip" type="email" bind:value={email} />
+      <input  id="ip4" type="email" bind:value={email} />
 
     <div id="field">
       {translate('Register.Password')}
     </div>
       <div>
-        <input  id="ip" type="password" bind:value={password} />
+        <input  id="ip5" type="password" bind:value={password} />
         <span on:click={() => showPassword = !showPassword} style="cursor: pointer;">
           {@html showPassword ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'}
         </span>
@@ -99,7 +99,7 @@
       {translate('Register.ConfirmPassword')} 
     </div>
       <div>
-        <input id="ip" type="password" bind:value={password2} />
+        <input id="ip6" type="password" bind:value={password2} />
         <span on:click={() => showPassword2 = !showPassword2} style="cursor: pointer;">
           {@html showPassword2 ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'}
         </span>
@@ -133,6 +133,8 @@
   body {
     font-family: 'Ysabeau SC', sans-serif;
     background: linear-gradient(to bottom, var(--green-color), var(--beige-color));
+    width: 100vw;
+    height: 110vh;
   }
 
   #container {
@@ -194,7 +196,7 @@
     color: var(--white-color);
   }
 
-  #ip {
+  #ip, #ip2, #ip3, #ip4, #ip5, #ip6 {
     margin-top: 10px;
     padding: 5px;
     border-radius: 4px;
