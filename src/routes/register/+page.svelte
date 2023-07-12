@@ -2,6 +2,7 @@
   import { translate } from '../../TranslationStore';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';
+    import { identity } from 'svelte/internal';
 
   let access_token = Cookies.get('access_token');
 
@@ -20,9 +21,28 @@
   let showPassword = false;
   let showPassword2 = false;
   let isRegistered = false;
+  let error1 = false;
+  let error2 = false;
+
+  function validatePassword(password) {
+    var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return pattern.test(password);
+  }
 
   async function handleSubmit() {
-    const dict = {
+    let condition = validatePassword(password);
+    error1 = false;
+    error2 = false;
+    if (!condition) {
+      error1 = true;
+      return;
+    } 
+    else if (password != password2) {
+      error2 = true;
+      return;
+    } else {
+
+      const dict = {
       'username': username,
       'email': email,
       'first_name': fname,
@@ -46,6 +66,7 @@
       isRegistered = true;
     }
   }
+  }
 </script>
 
 <body>
@@ -65,28 +86,28 @@
     <div id="field">
       {translate('Register.FName')} :
     </div>
-      <input id="ip" type="text" bind:value={fname} />
+      <input id="ip" type="text" bind:value={fname} required/>
 
     <div id="field">
       {translate('Register.LName')} :
     </div>
-      <input  id="ip2" type="text" bind:value={lname} />
+      <input  id="ip2" type="text" bind:value={lname} required/>
 
     <div id="field">
       {translate('Register.Username')} : 
     </div>
-      <input id="ip3" type="text" bind:value={username} />
+      <input id="ip3" type="text" bind:value={username} required/>
 
     <div id="field">
       {translate('Register.Email')} : 
     </div>
-      <input  id="ip4" type="email" bind:value={email} />
+      <input  id="ip4" type="email" bind:value={email} required/>
 
     <div id="field">
       {translate('Register.Password')}
     </div>
       <div>
-        <input  id="ip5" type="password" bind:value={password} />
+        <input  id="ip5" type="password" bind:value={password} required/>
         <span on:click={() => showPassword = !showPassword} style="cursor: pointer;">
           {@html showPassword ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'}
         </span>
@@ -94,16 +115,55 @@
       <div id="tips">
         {translate('Register.PasswordRequirements')}
       </div>
+      
+      {#if error1}
+      <div class="notifications-container">
+  <div class="error-alert">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="error-svg">
+          <path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" fill-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="error-prompt-container">
+        <p class="error-prompt-heading">{translate('Register.PasswordStrength')}</p>
+        <div class="error-prompt-wrap">
+          <ul class="error-prompt-list" role="list">
+            <li>{translate('Register.PasswordRequirements')}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    {/if}
 
     <div id="field">
       {translate('Register.ConfirmPassword')} 
     </div>
       <div>
-        <input id="ip6" type="password" bind:value={password2} />
+        <input id="ip6" type="password" bind:value={password2} required/>
         <span on:click={() => showPassword2 = !showPassword2} style="cursor: pointer;">
           {@html showPassword2 ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'}
         </span>
       </div>
+
+    
+
+      {#if error2}
+      <div class="error-alert">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="error-svg">
+              <path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" fill-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="error-prompt-container">
+            <p class="error-prompt-heading">{translate('Register.PasswordMatch')}</p>
+          </div>
+        </div>
+      </div>
+      {/if}
 
     <button type="submit">{translate('Register.Register')}</button>
   </form>
@@ -213,5 +273,62 @@
     font-weight: bold;
     color: var(--white-color);
   }
+
+
+  .notifications-container {
+  width: 320px;
+  height: auto;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.error-alert {
+  border-radius: 0.375rem;
+  padding: 1rem;
+  background-color: rgb(254 242 242);
+}
+
+.error-svg {
+  color: #F87171;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.error-prompt-heading {
+  color: #991B1B;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: bold;
+}
+
+.error-prompt-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1.25rem;
+}
+
+.error-prompt-wrap {
+  margin-top: 0.5rem;
+  color: #B91C1C;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.error-prompt-list {
+  padding-left: 1.25rem;
+  margin-top: 0.25rem;
+  list-style-type: disc;
+}
 
 </style>
