@@ -43,6 +43,10 @@
     const response = await fetch(`http://127.0.0.1:8000/set_stock_default/${stockid}/${isDefault}/`, {
       headers: headers, method: 'POST'
     });
+    if (!response.ok) {
+      isDefault = !isDefault;
+      alert("Error");
+    }
   }
 
   async function tooglePersonal() {

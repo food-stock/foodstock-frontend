@@ -154,6 +154,7 @@
         top: 0;
         left: 0;
         width: 95vw;
+        height: 30px;
         padding: 10px;
         text-align: center;
         font-size: 20px;
