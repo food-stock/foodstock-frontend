@@ -1,5 +1,4 @@
-<!-- App.svelte -->
-<script>
+<script lang="ts">
     import Snackbar from "../../lib/Snackbar.svelte";
   
     let showMessage = false;
@@ -7,7 +6,7 @@
     function showSnackbar() {
       showMessage = true;
     }
-  </script>
+</script>
   
   <style>
     button {

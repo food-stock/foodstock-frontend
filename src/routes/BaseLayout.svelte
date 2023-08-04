@@ -83,7 +83,7 @@
 
 <style>
     @import '@fortawesome/fontawesome-free/css/all.css';
-    @import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1;200&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
     
     .menu {
         position: fixed;
@@ -120,7 +120,7 @@
     main {
         margin: 0;
         overflow: hidden;
-        font-family: 'Ysabeau SC', sans-serif;
+        font-family: 'Oswald', sans-serif;
     }
     
     :global(:root) {

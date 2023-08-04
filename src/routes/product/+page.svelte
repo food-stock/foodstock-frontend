@@ -26,6 +26,7 @@
   let decimal = 0;
   let itemdedited;
   let showEntity = true;
+  let qtte_totale = 0;
 
   function getDaysDifference(dateString) {
     const today = new Date();
@@ -150,6 +151,7 @@
         colorClass: getColorClass(getDaysDifference(entity.date_of_consumption)),
       }));
       food_info = data.food_info[0]
+      qtte_totale = Entity.reduce((acc, entity) => acc + entity.quantity, 0);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -157,40 +159,46 @@
 </script>
 
 <BaseLayout>
-  <div id="container-entity">
-  <div id="foodname">{food_info.food__name}</div>
-  </div>
+  <div id="container-infos">
+    <div id="left">
+    <div id="foodname">{food_info.food__name} </div>    
+    <img id="picture" alt="Product" src="{food_info.food__picture}">
+    </div>
+    <div id="right">
+      {translate('Product.PresentInStock')} 
+      <div id="info"><span style="font-size:40px;font-weight: bold;"> {Entity.length} </span> {translate('Product.Stocks')} </div>
+      <div id="info"><span style="font-size:30px;font-weight: bold;"> {qtte_totale} </span> {translate('Product.Exemplaires')} </div>
+    </div>
+  </div> 
 
   <div id="container-entity">
-<img id="picture" alt="Product" src="{food_info.food__picture}">
 
 
 {#if showEntity}
-{translate('Product.Category')} : {food_info.food__category__name} <br>
   {#if Entity.length === 0}
     {translate('Product.NotPresentInStock')}
   {:else}
-{#if Entity.length > 0}
-{translate('Product.PresentInStock')} 
-  {#each Entity as item}
-    <ul class="no-bullet">
-      <div id="container-buttons">
-        <div class="name" id="btton">{item.stock__name} </div>
-        <div class="qtty" id="btton">{item.quantity} {translate('Product.Remaining')} </div>
-        <div class="{item.colorClass}" id="btton"> <i class="fa-solid fa-calendar-days"></i> {item.daysDifference} </div>
-      </div>
-      <li>{translate('Product.BoughtOn')} : {item.date_of_purchase} </li>
+    {#if Entity.length > 0}
+    
+      {#each Entity as item}
+        <ul class="no-bullet">
+          <div id="container-buttons">
+            <div class="name" id="btton">{item.stock__name} </div>
+            <div class="qtty" id="btton">{item.quantity} {translate('Product.Remaining')} </div>
+            <div class="{item.colorClass}" id="btton"> <i class="fa-solid fa-calendar-days"></i> {item.daysDifference} </div>
+          </div>
+          <li>{translate('Product.BoughtOn')} : {item.date_of_purchase} </li>
 
-      <div id="container-buttons">
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <div class="adjust" on:click={() => openQuantityMenu(item)} id="btton">{translate('Product.AdjustQuantity')}</div>
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <div class="nomore" on:click={()=>yAPlus(item)} id="btton">{translate('Product.NoMore')} </div>
-      </div>
-    </ul>
-  {/each}
-{/if}
-{/if}
+          <div id="container-buttons">
+              <!-- svelte-ignore a11y-click-events-have-key-events -->
+              <div class="adjust" on:click={() => openQuantityMenu(item)} id="btton">{translate('Product.AdjustQuantity')}</div>
+              <!-- svelte-ignore a11y-click-events-have-key-events -->
+              <div class="nomore" on:click={()=>yAPlus(item)} id="btton">{translate('Product.NoMore')} </div>
+          </div>
+        </ul>
+      {/each}
+    {/if}
+  {/if}
 {/if}
 
 {#if yaPlusOpened}
@@ -258,6 +266,7 @@
     flex-direction: column;
     align-items: center;
   }
+
   #container-buttons {
     display: flex;
     flex-direction: row;
@@ -354,6 +363,35 @@
 
 .selected {
   color: var(--white-color);
+}
+
+#container-infos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80vw;
+}
+
+#left{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#right{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
   
 </style>

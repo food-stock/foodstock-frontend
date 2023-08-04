@@ -213,10 +213,12 @@
       /* Keep the background color unchanged */
     }
     10%, 30%, 50%, 70%, 90% {
-      transform: translateX(-2px); /* Adjust the amount of shaking here */
+      transform: translateX(-2px);
+      transform: translateY(2px);
     }
     20%, 40%, 60%, 80% {
-      transform: translateX(2px); /* Adjust the amount of shaking here */
+      transform: translateX(2px);
+      transform: translateY(-2px);
     }
   }
 
