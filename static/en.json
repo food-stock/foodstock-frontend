@@ -1,5 +1,6 @@
 {
   "BaseLayout.Hi": "Hello",
+  "TypeHere" : "Type here...",
   "Settings.Title": "Settings",
   "Settings.Language": "Language",
   "Settings.ManageStock": "Manage Stock",
@@ -19,7 +20,7 @@
   "Product.Category": "Category",
   "Product.PresentInStock": "Present in ",
   "Product.Stocks": " stocks",
-  "Product.Exemplaires": " exemplaires",
+  "Product.Exemplaires": "units",
   "Product.Remaining": "remaining",
   "Product.BoughtOn": "Bought on",
   "Product.AdjustQuantity": "Adjust Quantity",

@@ -85,6 +85,7 @@
         }
     });
     Entity = Entity.filter(entity => entity.quantity > 0);
+    qtte_totale = Entity.reduce((acc: any, entity: { quantity: any; }) => acc + entity.quantity, 0);
     openQuantityM = false;
     yaPlusOpened = false;
     productIsDisplayed = false;
@@ -149,8 +150,8 @@
     </div>
     <div id="right">
       {translate('Product.PresentInStock')} 
-      <div id="info"><span style="font-size:40px;font-weight: bold;"> {Entity.length} </span> {translate('Product.Stocks')} </div>
-      <div id="info"><span style="font-size:30px;font-weight: bold;"> {qtte_totale} </span> {translate('Product.Exemplaires')} </div>
+      <div id="info"><span style="font-size:40px;font-weight: bold; margin-right:6px;"> {Entity.length} </span> {translate('Product.Stocks')} </div>
+      <div id="info"><span style="font-size:30px;font-weight: bold; margin-right:6px;"> {qtte_totale} </span> {translate('Product.Exemplaires')} </div>
     </div>
   </div> 
 
@@ -366,7 +367,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 80vw;
+  width: 92vw;
 }
 
 #left{

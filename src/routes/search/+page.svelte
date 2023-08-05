@@ -69,7 +69,7 @@
             {/each}
         </ul>
       {/if}
-      <input id="input" type="text" bind:value={searchInput} on:input={handleInput} />
+      <input class="input" placeholder={translate("TypeHere")} id="input" type="text" bind:value={searchInput} on:input={handleInput} />
   </div>
 </BaseLayout>
 
@@ -109,6 +109,23 @@
     border-radius: 15px;
     border: 1px solid var(--grey-color);
   }
+
+  .input {
+  font-family: monospace;
+  max-width: 190px;
+  outline: none;
+  border: 1px solid #dadada;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f3f7fe;
+  transition: .3s;
+  color: #3b82f6;
+}
+
+.input:focus {
+  border: 1px solid #3b82f6;
+  box-shadow: 0 0 0 4px #3b83f65f
+}
 
  #cat-link {
     text-decoration: none;

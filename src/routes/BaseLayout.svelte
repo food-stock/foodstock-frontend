@@ -30,7 +30,7 @@
         if (authLocal) {
             loadTranslations;
         } else {
-            goto('/login');
+            //goto('/login');
         }
     });
   </script>

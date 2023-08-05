@@ -184,7 +184,7 @@
   <div id="container">
     <button on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
     <h1>{translate('Manage.SearchUser')}</h1>
-    <input type="text" bind:value={searchInput} on:input={handleInput} />
+    <input class="input" placeholder={translate("TypeHere")} type="text" bind:value={searchInput} on:input={handleInput} />
     {#if !hasChosen}
     <ul>
       {#each options as option}
@@ -252,7 +252,7 @@
 
     <h1>{translate('Manage.EditStock')} : {stockEdit.name}</h1>
     {translate('Manage.RenameStock')}:
-    <input type="text" bind:value={stockEdit.name} /> 
+    <input class="input" placeholder={translate("TypeHere")} type="text" bind:value={stockEdit.name} /> 
     
     <button on:click={renameStockEdited}><i class="fa-solid fa-check"></i></button> <br>
 
@@ -652,6 +652,23 @@
     background: #866efb;
     box-shadow: 0 -36px 0 -10px transparent, 32px -16px 0 -10px transparent, 32px 16px 0 -10px transparent, 0 36px 0 -10px transparent, -32px 16px 0 -10px transparent, -32px -16px 0 -10px transparent;
   }
+}
+
+.input {
+  font-family: monospace;
+  max-width: 190px;
+  outline: none;
+  border: 1px solid #dadada;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f3f7fe;
+  transition: .3s;
+  color: #3b82f6;
+}
+
+.input:focus {
+  border: 1px solid #3b82f6;
+  box-shadow: 0 0 0 4px #3b83f65f
 }
 
 </style>

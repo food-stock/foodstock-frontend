@@ -78,6 +78,7 @@
   {#if isRegistered}
   <div id="subtitle">{translate('Register.Success')}</div>
   <a href="/login">{translate('Register.GoLogin')}</a>
+  <!-- svelte-ignore a11y-img-redundant-alt -->
   <img id="picture" src="/wolf.png" alt="Image" />
   {:else}
   <div id="subtitle">{translate('Register.Title')}</div>
@@ -86,28 +87,28 @@
     <div id="field">
       {translate('Register.FName')} :
     </div>
-      <input id="ip" type="text" bind:value={fname} required/>
+      <input class="input" placeholder={translate("TypeHere")} id="ip" type="text" bind:value={fname} required/>
 
     <div id="field">
       {translate('Register.LName')} :
     </div>
-      <input  id="ip2" type="text" bind:value={lname} required/>
+      <input class="input" placeholder={translate("TypeHere")} id="ip2" type="text" bind:value={lname} required/>
 
     <div id="field">
       {translate('Register.Username')} : 
     </div>
-      <input id="ip3" type="text" bind:value={username} required/>
+      <input class="input" placeholder={translate("TypeHere")} id="ip3" type="text" bind:value={username} required/>
 
     <div id="field">
       {translate('Register.Email')} : 
     </div>
-      <input  id="ip4" type="email" bind:value={email} required/>
+      <input class="input" placeholder={translate("TypeHere")} id="ip4" type="email" bind:value={email} required/>
 
     <div id="field">
       {translate('Register.Password')}
     </div>
       <div>
-        <input  id="ip5" type="password" bind:value={password} required/>
+        <input class="input" placeholder={translate("TypeHere")} id="ip5" type="password" bind:value={password} required/>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <span on:click={() => showPassword = !showPassword} style="cursor: pointer;">
@@ -140,12 +141,12 @@
 </div>
     {/if}
 
-    <div id="field">
-      {translate('Register.ConfirmPassword')} 
-    </div>
+      <div id="field">
+        {translate('Register.ConfirmPassword')} 
+      </div>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div>
-        <input id="ip6" type="password" bind:value={password2} required/>
+        <input id="ip6" class="input" placeholder={translate("TypeHere")} type="password" bind:value={password2} required/>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <span on:click={() => showPassword2 = !showPassword2} style="cursor: pointer;">
@@ -220,6 +221,23 @@
     border: 1px solid var(--grey-color);
     width: 200px;
   }
+
+  .input {
+  font-family: monospace;
+  max-width: 190px;
+  outline: none;
+  border: 1px solid #dadada;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f3f7fe;
+  transition: .3s;
+  color: #3b82f6;
+}
+
+.input:focus {
+  border: 1px solid #3b82f6;
+  box-shadow: 0 0 0 4px #3b83f65f
+}
 
   button {
     margin-top: 10px;

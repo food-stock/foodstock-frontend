@@ -85,8 +85,8 @@
     <div id="maintitle">FoodStock</div>
     <div id="subtitle">{translate('Login.Title')}</div>
     <form on:submit={handleSubmit}>
-      <div id="username">{translate('Login.Username')}</div> <input id="ipt" type="text" name="username" autocomplete="on" bind:value={username}>
-      <div id="password">{translate('Login.Password')}</div> <input id="ipt2" type="password" name="password" bind:value={password}>
+      <div id="username">{translate('Login.Username')}</div> <input class="input" placeholder={translate("TypeHere")} placeholder={translate("TypeHere")} type="text" name="username" autocomplete="on" bind:value={username}>
+      <div id="password">{translate('Login.Password')}</div> <input class="input" placeholder={translate("TypeHere")} placeholder={translate("TypeHere")} type="password" name="password" bind:value={password}>
       {#if (errorB)}
         <div class="notifications-container">
     <div class="error-alert">
@@ -165,10 +165,22 @@
     text-align: center;
   }
 
-  #ipt, #ipt2 {
-    margin-top : 20px;
-    border: none;
-  }
+  .input {
+  font-family: monospace;
+  max-width: 190px;
+  outline: none;
+  border: 1px solid #dadada;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f3f7fe;
+  transition: .3s;
+  color: #3b82f6;
+}
+
+.input:focus {
+  border: 1px solid #3b82f6;
+  box-shadow: 0 0 0 4px #3b83f65f
+}
 
   #username {
     font-size: 20px;
