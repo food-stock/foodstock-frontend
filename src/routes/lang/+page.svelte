@@ -13,7 +13,7 @@
   const supportedLocales = ['en', 'fr', 'de', 'it', 'es'];
   let currentLocale = Cookies.get('locale') || 'en';
 
-  function changeLocale(locale) {
+  function changeLocale(locale: string) {
     Cookies.set('locale', locale);
     currentLocale = locale;
   }
@@ -27,7 +27,9 @@
   {translate('Lang.Effect')}
   <br>
   <ul>
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     {#each supportedLocales as locale}
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <li
         on:click={() => changeLocale(locale)}
         class:selected={currentLocale === locale}

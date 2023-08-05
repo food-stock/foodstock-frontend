@@ -107,7 +107,7 @@
     margin-top: 20px;
     padding: 10px;
     border-radius: 15px;
-    border: 1px solid global(--grey-color);
+    border: 1px solid var(--grey-color);
   }
 
  #cat-link {
@@ -115,7 +115,7 @@
     margin-left: 10px;
     margin-right: 10px;
     overflow: hidden;
-    color : global(--dark-color);
+    color : var(--dark-color);
     text-decoration: none;
   }
   

@@ -20,7 +20,7 @@
   @import '@fortawesome/fontawesome-free/css/all.css';
   @import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1;200&display=swap');
   
-:global(:root) {
+  :global(:root) {
         --green-color: #3fb945;
         --blue-color : #0084f6;
         --red-color: #f44336;
@@ -31,9 +31,9 @@
         --grey-color: #bfc2c7;
         --beige-color :  #f2eee2;
         --white-color : #ffffff;
-    }
+  }
 
-    #maintitle {
+  #maintitle {
     font-size: 50px;
     font-weight: bold;
     color: var(--white-color);

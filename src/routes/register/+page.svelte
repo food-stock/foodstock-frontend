@@ -108,6 +108,8 @@
     </div>
       <div>
         <input  id="ip5" type="password" bind:value={password} required/>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
         <span on:click={() => showPassword = !showPassword} style="cursor: pointer;">
           {@html showPassword ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'}
         </span>
@@ -141,8 +143,11 @@
     <div id="field">
       {translate('Register.ConfirmPassword')} 
     </div>
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div>
         <input id="ip6" type="password" bind:value={password2} required/>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
         <span on:click={() => showPassword2 = !showPassword2} style="cursor: pointer;">
           {@html showPassword2 ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'}
         </span>
@@ -164,6 +169,8 @@
         </div>
       </div>
       {/if}
+
+      
 
     <button type="submit">{translate('Register.Register')}</button>
   </form>

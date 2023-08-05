@@ -106,7 +106,7 @@
         left: 0;
         background-color: var(--green-color);
         color: var(--white-color);
-        z-index: 1;
+        z-index: 6;
         align-items: center;
         justify-content: center;
         display: flex;

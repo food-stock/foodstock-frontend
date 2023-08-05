@@ -23,8 +23,10 @@
     <div id="cat-container">
         <a id="cat-link" href="/managestocks">{translate('Settings.ManageStock')}</a>
         <a id="cat-link" href="/lang">{translate('Settings.Language')}</a>
+        <a id="cat-link" href="/subscription">{translate('Settings.Sub')}</a>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-missing-attribute -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
         <a id="cat-link" on:click={logOut}>{translate('Settings.LogOut')}</a>
     </div>
   </div>
