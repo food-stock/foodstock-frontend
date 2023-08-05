@@ -3,6 +3,7 @@
   import BaseLayout from '../BaseLayout.svelte';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';
+  import {auth} from '../../stores/auth';
 
   let username = '';
   let password = '';
@@ -24,6 +25,7 @@
           Cookies.set('access_token', data2.access);
           Cookies.set('refresh_token', data2.refresh);
           Cookies.set('username', username);
+          auth.set(true);
 
           const headers = {
             'Authorization': `JWT ${data2.access}`,

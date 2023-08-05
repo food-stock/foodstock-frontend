@@ -2,6 +2,14 @@
     // Import translations
     import { loadTranslations, translate } from '../TranslationStore';
     import {onMount} from 'svelte';
+    import {goto} from '$app/navigation';
+    import {auth} from '../stores/auth';
+
+    let authLocal: boolean = false ;
+
+    auth.subscribe(a => {
+        authLocal = a;
+    });
   
     import Cookies from 'js-cookie';
 
@@ -19,7 +27,11 @@
     }
 
     onMount(() => {
-      loadTranslations;
+        if (authLocal) {
+            loadTranslations;
+        } else {
+            goto('/login');
+        }
     });
   </script>
   

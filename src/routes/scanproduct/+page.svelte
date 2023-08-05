@@ -12,7 +12,7 @@
     let access_token = Cookies.get('access_token');
     let id = Cookies.get('id');
 
-    let html5Qrcode
+    let html5Qrcode: Html5Qrcode;
 
     onMount(init)
 
@@ -38,12 +38,12 @@
         scanning = false
     }
 
-    function onScanSuccess(decodedText, decodedResult) {
+    function onScanSuccess(decodedText: string, decodedResult: any) {
         stop();
         goto(`/add?barcode=${decodedText}`);
     }
 
-    function onScanFailure(error) {
+    function onScanFailure(error : any) {
       // handle scan failure, usually better to ignore and keep scanning.
     }
 </script>
