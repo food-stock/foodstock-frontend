@@ -166,10 +166,9 @@
   {#if loading}
     <Loading />
   {:else}
-  
-<Back {name} {link} />
 
 {#if printstocks}
+<div class="title">{translate("Manage.FindStock")}</div>
   <div id="list-stock">
     {#each stocks as stock}
       <div class="stock-item">
@@ -182,7 +181,7 @@
 
 {:else if searchUsers}
   <div id="container">
-    <button on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
+    <button class="bton" on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
     <h1>{translate('Manage.SearchUser')}</h1>
     <input class="input" placeholder={translate("TypeHere")} type="text" bind:value={searchInput} on:input={handleInput} />
     {#if !hasChosen}
@@ -191,7 +190,7 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <li >
           {option.username}
-          <button on:click={()=>addUsertoStock(option)}>{option.text}</button>
+          <button class="bton" on:click={()=>addUsertoStock(option)}>{option.text}</button>
         </li>
       {/each}
     </ul>
@@ -201,7 +200,7 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <li >
           {option.username}
-          <button on:click={()=>addUsertoStock(option)}>{option.text}</button>
+          <button class="bton" on:click={()=>addUsertoStock(option)}>{option.text}</button>
         </li>
       {/each}
     </ul>
@@ -211,7 +210,7 @@
 
 {:else if printUsers}
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<button on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
+<button class="bton" on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
   {#if users.length === 0}
   <div>{translate('Manage.NoUserWithAccess')}</div>
   {:else}
@@ -221,7 +220,7 @@
           <!-- svelte-ignore a11y-click-events-have-key-events -->
           <div id="cat-link" >
             {user.username}
-            <button on:click={()=>removeUserfromStock(user)}><i class="fa-solid fa-minus"></i></button>
+            <button class="bton" on:click={()=>removeUserfromStock(user)}><i class="fa-solid fa-minus"></i></button>
           </div>
         </div>
       {/each}
@@ -234,55 +233,64 @@
   </div>
 
 {:else}
+<div class='row'>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <button class="bton" on:click={()=>{searchUsers = false; printstocks = true;}}>{translate('Manage.Back')}</button>
+</div>
   <div id="container">
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <button on:click={()=>{searchUsers = false; printstocks = true;}}>{translate('Manage.Back')}</button>
 
-    <label class="ui-bookmark">
-      <input type="checkbox" on:change={toogleDefault} bind:checked={isDefault}/>
-      <div class="bookmark">
-        <svg viewBox="0 0 32 32">
-          <g>
-            <path d="M27 4v27a1 1 0 0 1-1.625.781L16 24.281l-9.375 7.5A1 1 0 0 1 5 31V4a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4z"></path>
-          </g>
+    <div class="topc row">
+      <div class="title">{translate('Manage.EditStock')} : {stockEdit.name}</div>
+      <label class="ui-bookmark">
+        <input type="checkbox" on:change={toogleDefault} bind:checked={isDefault}/>
+        <div class="bookmark">
+          <svg viewBox="0 0 32 32">
+            <g>
+              <path d="M27 4v27a1 1 0 0 1-1.625.781L16 24.281l-9.375 7.5A1 1 0 0 1 5 31V4a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4z"></path>
+            </g>
+          </svg>
+        </div>
+      </label>
+    </div>
+
+    <div class='row'>
+      <div class="text">{translate('Manage.RenameStock')}</div>
+      <input class="input" placeholder={translate("TypeHere")} type="text" bind:value={stockEdit.name} /> 
+    <button class="bton" on:click={renameStockEdited}><i class="fa-solid fa-check"></i></button> 
+    </div>
+
+    <div class='row'>
+      <div class="text">{translate('Manage.DeleteStock')} </div>
+      <button class="bton" on:click={deleteStockEdited}>{translate('Manage.Delete')}</button> <br>
+    </div>
+    <div class='row'>
+      <div class="text">{translate('Manage.SetPersonalStock')}</div>
+      <div class="checkbox-wrapper-12">
+        <div class="cbx">
+          <input id="cbx-12" type="checkbox" on:change={tooglePersonal} bind:checked={isPersonal}/>
+          <label for="cbx-12"></label>
+          <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
+            <path d="M2 8.36364L6.23077 12L13 2"></path>
+          </svg>
+        </div>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+          <defs>
+            <filter id="goo-12">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"></feGaussianBlur>
+              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7" result="goo-12"></feColorMatrix>
+              <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
+            </filter>
+          </defs>
         </svg>
       </div>
-    </label>
-
-
-    <h1>{translate('Manage.EditStock')} : {stockEdit.name}</h1>
-    {translate('Manage.RenameStock')}:
-    <input class="input" placeholder={translate("TypeHere")} type="text" bind:value={stockEdit.name} /> 
-    
-    <button on:click={renameStockEdited}><i class="fa-solid fa-check"></i></button> <br>
-
-    {translate('Manage.DeleteStock')} :
-    <button on:click={deleteStockEdited}>{translate('Manage.Delete')}</button> <br>
-    
-    {translate('Manage.SetPersonalStock')} :
-    <div class="checkbox-wrapper-12">
-      <div class="cbx">
-        <input id="cbx-12" type="checkbox" on:change={tooglePersonal} bind:checked={isPersonal}/>
-        <label for="cbx-12"></label>
-        <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
-          <path d="M2 8.36364L6.23077 12L13 2"></path>
-        </svg>
-      </div>
-      
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-        <defs>
-          <filter id="goo-12">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"></feGaussianBlur>
-            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7" result="goo-12"></feColorMatrix>
-            <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
-          </filter>
-        </defs>
-      </svg>
     </div>
 
     {#if !isPersonal}
-      {translate('Manage.ManageAccess')}
-      <button on:click={manageAccess}>{translate('Manage.Manage')}</button> <br>
+    <div class='row'>
+      <div class="text">{translate('Manage.ManageAccess')}</div>
+      <button class="bton" on:click={manageAccess}>{translate('Manage.Manage')}</button> <br>
+    </div>
     {/if}
     
   </div>
@@ -291,32 +299,71 @@
 </BaseLayout>
 
 <style>
+  #container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+    border : 1px var(--grey-color) solid;
+    padding: 10px;
+    border-radius: 65px;
+  }
+
+  .text {
+    margin-right: 5vw;
+  }
+
+  .title {
+    font-size: 26px;
+    margin: 10px;
+    padding: 10px;
+    display: block;
+  }
+
+  .row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row ;
+  }
+
+  .topc {
+    display: inline-flex;
+    justify-content: space-between;
+  }
+
+  .bton {
+    color: var(--dark-color);
+    border : 1px  var(--grey-color) solid;
+    border-radius: 20px;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
 
   #cat-link {
     text-decoration: none;
     color: var(--white-color);
     justify-content: space-between;
     align-items: center;
+    color : var(--blue-color);
   }
 
   #list-stock {
+    margin-top: 10px;
     font-size: 26px;
-    margin: 10px;
-    padding: 10px;
     display: block;
     flex-wrap: wrap ;
   }
 
   .stock-item{
-    width: 70vw;
-    background-color: var(--blue-color);
-    width: 30vw;
+    width: 90vw;
     height: 10vw;
-    margin: 10px;
     padding: 10px;
-    border-radius: 20px;
     cursor: pointer;
     text-align: center;
+    border : 1px var(--blue-color) solid;
   }
 
   .ui-bookmark {
@@ -353,10 +400,16 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  position: relative;
   -webkit-transform-origin: top;
   -ms-transform-origin: top;
   transform-origin: top;
+  position: relative;
+  margin-left: 20vw;
+  margin-top: 2vh;
+  /*
+  border : 1px solid var(--grey-color);
+  */
+  padding: 10px;
 }
 
 .bookmark::after {
@@ -523,6 +576,7 @@
 
 .checkbox-wrapper-12 {
   position: relative;
+  margin-left: 5vw;
 }
 
 .checkbox-wrapper-12 > svg {
@@ -563,7 +617,7 @@
   left: 0;
   width: 24px;
   height: 24px;
-  border: 2px solid #bfbfc0;
+  border: 2px solid var(--grey-color);
   border-radius: 50%;
 }
 
@@ -608,48 +662,48 @@
 
 @-moz-keyframes splash-12 {
   40% {
-    background: #866efb;
-    box-shadow: 0 -18px 0 -8px #866efb, 16px -8px 0 -8px #866efb, 16px 8px 0 -8px #866efb, 0 18px 0 -8px #866efb, -16px 8px 0 -8px #866efb, -16px -8px 0 -8px #866efb;
+    background: var(--green-color);
+    box-shadow: 0 -18px 0 -8px var(--green-color), 16px -8px 0 -8px var(--green-color), 16px 8px 0 -8px var(--green-color), 0 18px 0 -8px var(--green-color), -16px 8px 0 -8px var(--green-color), -16px -8px 0 -8px var(--green-color);
   }
 
   100% {
-    background: #866efb;
+    background: var(--green-color);
     box-shadow: 0 -36px 0 -10px transparent, 32px -16px 0 -10px transparent, 32px 16px 0 -10px transparent, 0 36px 0 -10px transparent, -32px 16px 0 -10px transparent, -32px -16px 0 -10px transparent;
   }
 }
 
 @-webkit-keyframes splash-12 {
   40% {
-    background: #866efb;
-    box-shadow: 0 -18px 0 -8px #866efb, 16px -8px 0 -8px #866efb, 16px 8px 0 -8px #866efb, 0 18px 0 -8px #866efb, -16px 8px 0 -8px #866efb, -16px -8px 0 -8px #866efb;
+    background: var(--green-color);
+    box-shadow: 0 -18px 0 -8px var(--green-color), 16px -8px 0 -8px var(--green-color), 16px 8px 0 -8px var(--green-color), 0 18px 0 -8px var(--green-color), -16px 8px 0 -8px var(--green-color), -16px -8px 0 -8px var(--green-color);
   }
 
   100% {
-    background: #866efb;
+    background: var(--green-color);
     box-shadow: 0 -36px 0 -10px transparent, 32px -16px 0 -10px transparent, 32px 16px 0 -10px transparent, 0 36px 0 -10px transparent, -32px 16px 0 -10px transparent, -32px -16px 0 -10px transparent;
   }
 }
 
 @-o-keyframes splash-12 {
   40% {
-    background: #866efb;
-    box-shadow: 0 -18px 0 -8px #866efb, 16px -8px 0 -8px #866efb, 16px 8px 0 -8px #866efb, 0 18px 0 -8px #866efb, -16px 8px 0 -8px #866efb, -16px -8px 0 -8px #866efb;
+    background: var(--green-color);
+    box-shadow: 0 -18px 0 -8px var(--green-color), 16px -8px 0 -8px var(--green-color), 16px 8px 0 -8px var(--green-color), 0 18px 0 -8px var(--green-color), -16px 8px 0 -8px var(--green-color), -16px -8px 0 -8px var(--green-color);
   }
 
   100% {
-    background: #866efb;
+    background: var(--green-color);
     box-shadow: 0 -36px 0 -10px transparent, 32px -16px 0 -10px transparent, 32px 16px 0 -10px transparent, 0 36px 0 -10px transparent, -32px 16px 0 -10px transparent, -32px -16px 0 -10px transparent;
   }
 }
 
 @keyframes splash-12 {
   40% {
-    background: #866efb;
-    box-shadow: 0 -18px 0 -8px #866efb, 16px -8px 0 -8px #866efb, 16px 8px 0 -8px #866efb, 0 18px 0 -8px #866efb, -16px 8px 0 -8px #866efb, -16px -8px 0 -8px #866efb;
+    background: var(--green-color);
+    box-shadow: 0 -18px 0 -8px var(--green-color), 16px -8px 0 -8px var(--green-color), 16px 8px 0 -8px var(--green-color), 0 18px 0 -8px var(--green-color), -16px 8px 0 -8px var(--green-color), -16px -8px 0 -8px var(--green-color);
   }
 
   100% {
-    background: #866efb;
+    background: var(--green-color);
     box-shadow: 0 -36px 0 -10px transparent, 32px -16px 0 -10px transparent, 32px 16px 0 -10px transparent, 0 36px 0 -10px transparent, -32px 16px 0 -10px transparent, -32px -16px 0 -10px transparent;
   }
 }
@@ -663,11 +717,11 @@
   border-radius: 5px;
   background-color: #f3f7fe;
   transition: .3s;
-  color: #3b82f6;
+  color:  var(--grey-color);
 }
 
 .input:focus {
-  border: 1px solid #3b82f6;
+  border: 1px solid var(--green-color);
   box-shadow: 0 0 0 4px #3b83f65f
 }
 
