@@ -57,6 +57,7 @@
         <i class="fa-solid fa-money-bill"></i> Support us
     </a> <br>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <a id="cat-link" on:click={toggleDarkMode}>
         <i class="fa-solid fa-moon"></i> {translate('Settings.DarkMode')} 
     </a>

@@ -91,7 +91,11 @@
     <div class="stock-container">
       {#each stocks as stock}
         <!-- Add shake animation class when the stock is selected -->
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
         <section class="stock-item {stockchosen === stock.id ? 'selected animate-selected' : ''}" on:click={() => fetchCategoriesForStock(stock.id)}>
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
+          <!-- svelte-ignore a11y-no-static-element-interactions -->
           <a id="cat-link" on:click={()=>fetchCategoriesForStock(stock.id)}>{stock.name}</a>
         </section>
       {/each}

@@ -33,6 +33,11 @@
     searchInput = event.target.value;
     fetchData();
   }
+
+
+    function selectStockOption(stock: any): any {
+        throw new Error('Function not implemented.');
+    }
 </script>
 
 <BaseLayout>
@@ -59,6 +64,7 @@
         <ul>
             {#each stockOptions as stock}
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
+                  <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
                   <li on:click={() => selectStockOption(stock)}>{stock.name}</li>
             {/each}
         </ul>
@@ -101,6 +107,7 @@
     margin-top: 20px;
     padding: 10px;
     border-radius: 15px;
+    border: 1px solid global(--grey-color);
   }
 
  #cat-link {
@@ -108,6 +115,8 @@
     margin-left: 10px;
     margin-right: 10px;
     overflow: hidden;
+    color : global(--dark-color);
+    text-decoration: none;
   }
   
   #picture {

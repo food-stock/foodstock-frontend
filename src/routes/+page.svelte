@@ -63,8 +63,8 @@ body {
     text-align: center;
     justify-content: center;
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;;
+    width: 110vw;
+    height: 110vh;;
 }
 
 #cont-buttons {
@@ -79,19 +79,5 @@ body {
     margin : 10px;
     padding: 10px;
     border-radius: 15px;
-}
-
-#title {
-    font-size: larger;
-    margin: 20px;
-}
-
-#sub {
-    font-size: large;
-    margin: 20px;
-}
-
-#whitespace {
-    height: 150px;
 }
 </style>

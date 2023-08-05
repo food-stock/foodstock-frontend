@@ -3,7 +3,7 @@
   import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
-  import { VAPID_PUBLIC_KEY } from '$lib/constants';
+  import constants from '$lib/constants';
 
   let registration;
   let isSubscribed = false;
@@ -63,7 +63,7 @@
   async function subscribe() {
   const options = {
     userVisibleOnly: true,
-    applicationServerKey: VAPID_PUBLIC_KEY,
+    applicationServerKey: constants.VAPID_PUBLIC_KEY,
   };
 
   try {

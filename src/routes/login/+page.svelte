@@ -85,7 +85,7 @@
     <div id="maintitle">FoodStock</div>
     <div id="subtitle">{translate('Login.Title')}</div>
     <form on:submit={handleSubmit}>
-      <div id="username">{translate('Login.Username')}</div> <input id="ipt" type="text" name="username" bind:value={username}>
+      <div id="username">{translate('Login.Username')}</div> <input id="ipt" type="text" name="username" autocomplete="on" bind:value={username}>
       <div id="password">{translate('Login.Password')}</div> <input id="ipt2" type="password" name="password" bind:value={password}>
       {#if (errorB)}
         <div class="notifications-container">
@@ -113,6 +113,7 @@
       </div>
         <a id="register" href="/register">{translate('Login.Register')}</a>
     </form>
+    <!-- svelte-ignore a11y-img-redundant-alt -->
     <img id="picture" src="/wolf.png" alt="Image" />
   </div>
 </main>

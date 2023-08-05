@@ -16,27 +16,27 @@
   const food_id = params.get('food_id');
 
   let id = Cookies.get('id');
-  let Entity = [];
+  let Entity : any = [];
   let food_info = {};
   let data = {};
   let productIsDisplayed = false;
   let yaPlusOpened = false;
   let openQuantityM = false;
-  let integer;
+  let integer: string = '0';
   let decimal = 0;
-  let itemdedited;
+  let itemdedited: any = {};
   let showEntity = true;
   let qtte_totale = 0;
 
-  function getDaysDifference(dateString) {
-    const today = new Date();
-    const consumptionDate = new Date(dateString);
-    const timeDiff = consumptionDate - today;
+  function getDaysDifference(dateString:string) {
+    const today : any = new Date();
+    const consumptionDate : any = new Date(dateString);
+    const timeDiff : any = consumptionDate - today;
     const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
     return daysDiff;
   }
 
-  function getColorClass(daysDifference) {
+  function getColorClass(daysDifference : number) {
     if (daysDifference > 5) {
       return 'green';
     } else if (daysDifference > 2 && daysDifference <=5) {
@@ -79,11 +79,12 @@
       headers: headers,
       method: 'POST'
     });
-    Entity.forEach(entity => {
+    Entity.forEach((entity: { id: any; quantity: number; }) => {
         if (entity.id === entity_id) {
           entity.quantity = quantity;
         }
     });
+    Entity = Entity.filter(entity => entity.quantity > 0);
     openQuantityM = false;
     yaPlusOpened = false;
     productIsDisplayed = false;
@@ -103,7 +104,7 @@
     registerQuantity();
   }
 
-  async function yAPlus(item) {
+  async function yAPlus(item: any) {
     showEntity = false;
     itemdedited = item;
     productIsDisplayed = true;
@@ -111,7 +112,7 @@
     openQuantityM = false;
   }
 
-  async function openQuantityMenu(item) {
+  async function openQuantityMenu(item: { quantity: string; }) {
     showEntity = false;
     itemdedited = item;
     integer = parseInt(item.quantity);
@@ -119,25 +120,7 @@
     yaPlusOpened = false;
     openQuantityM = true;
   }
-
-  async function openStockMenu() {
-    yaPlusOpened = false;
-    productIsDisplayed = false;
-    openQuantityM = false;
-    Entity = [];
-    const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}/`, {
-      headers: headers
-    });
-    data = await response.json();
-    Entity = data.entity;
-    Entity = Entity.map(entity => ({
-        ...entity,
-        daysDifference: getDaysDifference(entity.date_of_consumption),
-        colorClass: getColorClass(getDaysDifference(entity.date_of_consumption)),
-      }));
-    showEntity = true;
-  }
-
+  
   onMount(async () => {
     try {
       const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}/`, {
@@ -145,13 +128,13 @@
     });
       data = await response.json();
       Entity = data.entity;
-      Entity = Entity.map(entity => ({
+      Entity = Entity.map((entity: { date_of_consumption: string; }) => ({
         ...entity,
         daysDifference: getDaysDifference(entity.date_of_consumption),
         colorClass: getColorClass(getDaysDifference(entity.date_of_consumption)),
       }));
       food_info = data.food_info[0]
-      qtte_totale = Entity.reduce((acc, entity) => acc + entity.quantity, 0);
+      qtte_totale = Entity.reduce((acc: any, entity: { quantity: any; }) => acc + entity.quantity, 0);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -181,6 +164,7 @@
     {#if Entity.length > 0}
     
       {#each Entity as item}
+      {#if item.quantity > 0}
         <ul class="no-bullet">
           <div id="container-buttons">
             <div class="name" id="btton">{item.stock__name} </div>
@@ -191,11 +175,14 @@
 
           <div id="container-buttons">
               <!-- svelte-ignore a11y-click-events-have-key-events -->
+              <!-- svelte-ignore a11y-no-static-element-interactions -->
               <div class="adjust" on:click={() => openQuantityMenu(item)} id="btton">{translate('Product.AdjustQuantity')}</div>
               <!-- svelte-ignore a11y-click-events-have-key-events -->
+              <!-- svelte-ignore a11y-no-static-element-interactions -->
               <div class="nomore" on:click={()=>yAPlus(item)} id="btton">{translate('Product.NoMore')} </div>
           </div>
         </ul>
+      {/if}
       {/each}
     {/if}
   {/if}
@@ -204,8 +191,10 @@
 {#if yaPlusOpened}
   <br>
   {translate('Product.NoMore?')} <br>
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div id="container-buttons">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div class="nomore" on:click={nomore} id="btton">{translate('Product.NoMore')}</div>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div class="remaining" on:click={missclick} id="btton">{translate('Product.ThereAreSome')}</div>
@@ -226,9 +215,11 @@
   <button class="button" class:selected={decimal === 0.5} id="button-2"on:click={setDecimal05} >&frac12;</button>
   <button class="button" class:selected={decimal === 0.75} id="button-3"on:click={setDecimal075} >&frac34;</button>
 </div>
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div id="container-buttons">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="nomore" on:click={registerQuantity} id="btton">{translate('Product.AllGood')}</div>
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <div class="validate" on:click={registerQuantity} id="btton">{translate('Product.AllGood')}</div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="remaining" on:click={missclick} id="btton">{translate('Product.MissClick')}</div>
 </div>
@@ -290,6 +281,10 @@
     background-color: var(--red-color);
     border: solid 1px var(--red-color);
   }
+  .validate {
+    background-color: var(--green-color);
+    border: solid 1px var(--green-color);
+  }
 
   .iconic {
     background-color: var(--blue-color);
@@ -314,7 +309,9 @@
     border: solid 1px var(--grey-color);
   }
 
-   
+  .name {
+    background-color: var(--blue-color);
+  }
 
   #foodname {
     font-size: 30px;

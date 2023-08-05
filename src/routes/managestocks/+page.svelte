@@ -5,7 +5,6 @@
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
-  import { goto } from '$app/navigation';
 
   let access_token = Cookies.get('access_token');
   const headers = {
@@ -22,14 +21,14 @@
   let users = [];
   let id = Cookies.get('id');
   let printstocks = true;
-  let stockEdit;
-  let isDefault;
-  let isPersonal;
-  let printUsers = false;
-  let searchUsers = false;
+  let stockEdit: boolean;
+  let isDefault: boolean;
+  let isPersonal: boolean;
+  let printUsers : boolean = false;
+  let searchUsers : boolean = false;
   let searchInput = '';
-  let options = [];
-  let hasChosen = false;
+  let options:any = [];
+  let hasChosen : boolean = false;
 
   function manageStock(stock) {
     stockEdit = stock;
@@ -52,7 +51,7 @@
   async function tooglePersonal() {
     const stockid = stockEdit.id;
     isPersonal = !isPersonal;
-    const response = await fetch(`http://127.0.0.1:8000/set_stock_personal/${stockid}/${isDefault}/`, {
+    const response = await fetch(`http://127.0.0.1:8000/set_stock_personal/${stockid}/${isPersonal}/`, {
       headers: headers, method: 'POST'
     });
     if (!response.ok) {
@@ -168,6 +167,7 @@
     {#each stocks as stock}
       <div class="stock-item">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
         <a id="cat-link" on:click={()=>manageStock(stock)}>{stock.name}</a>
       </div>
     {/each}
@@ -206,7 +206,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <button on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
   {#if users.length === 0}
-  {translate('Manage.NoUserWithAccess')}<br>
+  <div>{translate('Manage.NoUserWithAccess')}</div>
   {:else}
     <div id="list-stock">
       {#each users as user}
@@ -222,6 +222,7 @@
   {/if}
   <div class="stock-item">
     <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <a id="cat-link" on:click={addUser}><i class="fa-solid fa-plus"></i></a>
   </div>
 
@@ -230,16 +231,16 @@
 
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <button on:click={()=>{searchUsers = false; printstocks = true;}}>{translate('Manage.Back')}</button>
-    <h1>{translate('Manage.EditStock')}</h1>
+    <h1>{translate('Manage.EditStock')} : {stockEdit.name}</h1>
     {translate('Manage.RenameStock')}:
     <input type="text" bind:value={stockEdit.name} /> 
     <button on:click={renameStockEdited}><i class="fa-solid fa-check"></i></button> <br>
     {translate('Manage.SetDefaultStock')}
-    <input type="checkbox" on:change={toogleDefault} value={isDefault}/> <br>
+    <input type="checkbox" on:change={toogleDefault} bind:checked={isDefault}/> <br>
     {translate('Manage.DeleteStock')} :
     <button on:click={deleteStockEdited}>{translate('Manage.Delete')}</button> <br>
     {translate('Manage.SetPersonalStock')}
-    <input type="checkbox" on:change={tooglePersonal} value={isPersonal}/> <br>
+    <input type="checkbox" on:change={tooglePersonal} bind:checked={isPersonal}/> <br>
     {#if !isPersonal}
       {translate('Manage.ManageAccess')}
       <button on:click={manageAccess}>{translate('Manage.Manage')}</button> <br>
