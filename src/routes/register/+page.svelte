@@ -2,7 +2,6 @@
   import { translate } from '../../TranslationStore';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';
-    import { identity } from 'svelte/internal';
 
   let access_token = Cookies.get('access_token');
 
@@ -12,19 +11,17 @@
     'Accept': 'application/json'
   };
 
-  let fname = '';
-  let lname = '';
+  let name = '';
   let username = '';
   let email = '';
   let password = '';
   let password2 = '';
-  let showPassword = false;
-  let showPassword2 = false;
+  let acceptedConditions : boolean = false;
   let isRegistered = false;
   let error1 = false;
   let error2 = false;
 
-  function validatePassword(password) {
+  function validatePassword(password:string) {
     var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return pattern.test(password);
   }
@@ -45,8 +42,8 @@
       const dict = {
       'username': username,
       'email': email,
-      'first_name': fname,
-      'last_name': lname,
+      'first_name': name.split(' ')[0],
+      'last_name': name.split(' ')[1],
       'password': password,
     }
     const response = await fetch(`http://localhost:8000/register/`, {
@@ -71,92 +68,23 @@
 
 <body>
 <main>
-<div id="container">
-  <div id="maintitle">FoodStock</div>
-  
-  
-  {#if isRegistered}
-  <div id="subtitle">{translate('Register.Success')}</div>
-  <a href="/login">{translate('Register.GoLogin')}</a>
-  <!-- svelte-ignore a11y-img-redundant-alt -->
-  <img id="picture" src="/wolf.png" alt="Image" />
-  {:else}
-  <div id="subtitle">{translate('Register.Title')}</div>
-  <a id="register" href="/login">{translate('Register.Login')}</a>
+<div class="wrapper">
+  <h2>{translate('Register.Register')}</h2>
   <form on:submit={handleSubmit}>
-    <div id="field">
-      {translate('Register.FName')} :
+    <div class="input-box">
+      <input type="text" placeholder="{translate('Register.FName')}" bind:value={name} required>
     </div>
-      <input class="input" placeholder={translate("TypeHere")} id="ip" type="text" bind:value={fname} required/>
-
-    <div id="field">
-      {translate('Register.LName')} :
+    <div class="input-box">
+      <input type="text" placeholder="ENTER YOUR {translate('Register.Username')}" bind:value={username} required>
     </div>
-      <input class="input" placeholder={translate("TypeHere")} id="ip2" type="text" bind:value={lname} required/>
-
-    <div id="field">
-      {translate('Register.Username')} : 
+    <div class="input-box">
+      <input type="text" placeholder="{translate('Register.Email')}" bind:value={email} required>
     </div>
-      <input class="input" placeholder={translate("TypeHere")} id="ip3" type="text" bind:value={username} required/>
-
-    <div id="field">
-      {translate('Register.Email')} : 
+    <div class="input-box">
+      <input type="password" placeholder="{translate('Register.Password')}" bind:value={password} required>
     </div>
-      <input class="input" placeholder={translate("TypeHere")} id="ip4" type="email" bind:value={email} required/>
-
-    <div id="field">
-      {translate('Register.Password')}
-    </div>
-      <div>
-        <input class="input" placeholder={translate("TypeHere")} id="ip5" type="password" bind:value={password} required/>
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <span on:click={() => showPassword = !showPassword} style="cursor: pointer;">
-          {@html showPassword ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'}
-        </span>
-      </div>
-      <div id="tips">
-        {translate('Register.PasswordRequirements')}
-      </div>
-      
-      {#if error1}
-      <div class="notifications-container">
-  <div class="error-alert">
-    <div class="flex">
-      <div class="flex-shrink-0">
-        <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="error-svg">
-          <path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" fill-rule="evenodd"></path>
-        </svg>
-      </div>
-      <div class="error-prompt-container">
-        <p class="error-prompt-heading">{translate('Register.PasswordStrength')}</p>
-        <div class="error-prompt-wrap">
-          <ul class="error-prompt-list" role="list">
-            <li>{translate('Register.PasswordRequirements')}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    {/if}
-
-      <div id="field">
-        {translate('Register.ConfirmPassword')} 
-      </div>
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <div>
-        <input id="ip6" class="input" placeholder={translate("TypeHere")} type="password" bind:value={password2} required/>
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <span on:click={() => showPassword2 = !showPassword2} style="cursor: pointer;">
-          {@html showPassword2 ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'}
-        </span>
-      </div>
-
-    
-
-      {#if error2}
+    {#if error1}
+    <div class="notifications-container">
       <div class="error-alert">
         <div class="flex">
           <div class="flex-shrink-0">
@@ -165,18 +93,51 @@
             </svg>
           </div>
           <div class="error-prompt-container">
-            <p class="error-prompt-heading">{translate('Register.PasswordMatch')}</p>
+            <p class="error-prompt-heading">{translate('Register.PasswordStrength')}</p>
+            <div class="error-prompt-wrap">
+              <ul class="error-prompt-list" role="list">
+                <li>{translate('Register.PasswordRequirements')}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-      {/if}
-
-      
-
-    <button type="submit">{translate('Register.Register')}</button>
+    </div>
+    {/if}
+    {#if error2}
+    <div class="error-alert">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="error-svg">
+            <path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" fill-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="error-prompt-container">
+          <p class="error-prompt-heading">{translate('Register.PasswordMatch')}</p>
+        </div>
+      </div>
+    </div>
+    {/if}
+    <div class="input-box">
+      <input type="password" placeholder="{translate('Register.ConfirmPassword')}" bind:value={password2} required>
+    </div>
+    <div class="policy">
+      <input type="checkbox" bind:value={acceptedConditions}>
+      <h3>I accept all terms & condition</h3>
+    </div>
+    <div class="input-box button">
+      <input type="Submit" value="{translate('Register.Register')}">
+    </div>
+    <div class="text">
+      <!-- svelte-ignore a11y-invalid-attribute -->
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
+      <!-- svelte-ignore a11y-missing-attribute -->
+      <h3>{translate('Register.Login')} <a on:click={()=>goto("/login")}>{translate("Register.BLogin")}</a></h3>
+    </div>
   </form>
-  {/if}
 </div>
+
 </main>
 </body>
 
@@ -184,121 +145,102 @@
 
   @import '@fortawesome/fontawesome-free/css/all.css';
   @import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1;200&display=swap');
-  
-  :global(:root) {
-        --green-color: #3fb945;
-        --blue-color : #0084f6;
-        --red-color: #f44336;
-        --yellow-color: #ffeb3b;
-        --orange-color: #ff9800;
-        --purple-color: #9c27b0;
-        --dark-color : #1d3040;
-        --grey-color: #bfc2c7;
-        --beige-color :  #f2eee2;
-        --white-color : #ffffff;
-    }
+  @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
-  body {
-    font-family: 'Ysabeau SC', sans-serif;
-    background: linear-gradient(to bottom, var(--green-color), var(--beige-color));
-    width: 100vw;
-    height: 110vh;
-  }
-
-  #container {
-    font-family: 'Ysabeau SC', sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-
-  input {
-    margin-top: 10px;
-    padding: 5px;
-    border-radius: 4px;
-    border: 1px solid var(--grey-color);
-    width: 200px;
-  }
-
-  .input {
-  font-family: monospace;
-  max-width: 190px;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green-color);
+}
+.wrapper{
+  position: relative;
+  max-width: 430px;
+  width: 100%;
+  background: #fff;
+  padding: 34px;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+.wrapper h2{
+  position: relative;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+.wrapper h2::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 28px;
+  border-radius: 12px;
+  background: var(--green-color);
+}
+.wrapper form{
+  margin-top: 30px;
+}
+.wrapper form .input-box{
+  height: 52px;
+  margin: 18px 0;
+}
+form .input-box input{
+  height: 100%;
+  width: 100%;
   outline: none;
-  border: 1px solid #dadada;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #f3f7fe;
-  transition: .3s;
-  color: #3b82f6;
+  padding: 0 15px;
+  font-size: 17px;
+  font-weight: 400;
+  color: #333;
+  border: 1.5px solid #C7BEBE;
+  border-bottom-width: 2.5px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
-
-.input:focus {
-  border: 1px solid #3b82f6;
-  box-shadow: 0 0 0 4px #3b83f65f
+.input-box input:focus,
+.input-box input:valid{
+  border-color: var(--green-color);
 }
-
-  button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: var(--green-color);
-    border: none;
-    color: var(--white-color);
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  #maintitle {
-    font-size: 50px;
-    font-weight: bold;
-    color: var(--white-color);
-    text-align: center;
-    margin-top: 0px;
-  }
-
-  #subtitle {
-    font-size: 25px;
-    font-weight: bold;
-    color: var(--white-color);
-    text-align: center;
-  }
-  
-  #picture {
-    width: 350px;
-    height: 350px;
-  }
-
-  #tips {
-    font-size: 12px;
-    color: var(--white-color);
-  }
-
-  #field {
-    margin-top: 10px;
-    font-size: 20px;
-    color: var(--white-color);
-  }
-
-  #ip, #ip2, #ip3, #ip4, #ip5, #ip6 {
-    margin-top: 10px;
-    padding: 5px;
-    border-radius: 4px;
-    border: 1px solid var(--grey-color);
-    width: 200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  #register {
-    text-decoration: none;
-    margin-top: 15px;
-    font-size: 15px;
-    font-weight: bold;
-    color: var(--white-color);
-  }
-
+form .policy{
+  display: flex;
+  align-items: center;
+}
+form h3{
+  color: #707070;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+.input-box.button input{
+  color: #fff;
+  letter-spacing: 1px;
+  border: none;
+  background: var(--green-color);
+  cursor: pointer;
+}
+.input-box.button input:hover{
+  background: var(--green-color);
+}
+form .text h3{
+ color: #333;
+ width: 100%;
+ text-align: center;
+}
+form .text h3 a{
+  color: var(--green-color);
+  text-decoration: none;
+}
+form .text h3 a:hover{
+  text-decoration: underline;
+}
 
   .notifications-container {
   width: 320px;
