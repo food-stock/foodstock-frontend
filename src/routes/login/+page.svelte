@@ -82,7 +82,7 @@
 <body>
   <main>
   <div class="wrapper">
-    <h2>{translate('Login.Title')}</h2>
+    <h2>FoodStock</h2>
     <form on:submit={handleSubmit}>
       <div class="input-box">
         <input type="text" placeholder="ENTER YOUR {translate('Register.Username')}" bind:value={username} required>

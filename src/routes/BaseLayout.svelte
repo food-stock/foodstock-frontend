@@ -123,7 +123,6 @@
         padding: 20px;
         text-align: center;
         font-size: 20px;
-        font-family: 'Roboto', sans-serif;
         justify-content: center;
         color: var(--white-color);
         text-decoration: none;
@@ -133,7 +132,7 @@
     main {
         margin: 0;
         overflow: hidden;
-        font-family: 'Oswald', sans-serif;
+        /* font-family: 'Oswald', sans-serif;*/
     }
     
     :global(:root) {
@@ -153,6 +152,7 @@
         background-color: var(--beige-color);
         color : var(--dark-color);
         transition: background-color 0.3s;
+        font-family: 'Ysabeau SC', sans-serif;
     }
     
     :global(body.dark-mode) {

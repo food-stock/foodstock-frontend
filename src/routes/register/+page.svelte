@@ -69,7 +69,7 @@
 <body>
 <main>
 <div class="wrapper">
-  <h2>{translate('Register.Register')}</h2>
+  <h2>FoodStock</h2>
   <form on:submit={handleSubmit}>
     <div class="input-box">
       <input type="text" placeholder="{translate('Register.FName')}" bind:value={name} required>
