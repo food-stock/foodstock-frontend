@@ -4,6 +4,7 @@
     import {onMount} from 'svelte';
     import {goto} from '$app/navigation';
     import {auth} from '../stores/auth';
+    import { page } from '$app/stores'
 
     let authLocal: boolean = false ;
 
@@ -25,6 +26,11 @@
       window.document.body.classList.toggle('dark-mode');
     }
 
+    function go(link:string) {
+        isMenuVisible = !isMenuVisible;
+        goto(link);
+    }
+
     onMount(() => {
         if (authLocal) {
             loadTranslations;
@@ -35,24 +41,36 @@
   </script>
   
 
-
+{#if $page.url.pathname === '/login' || $page.url.pathname === '/register'}
+<slot></slot>
+{:else}
 <div class="menu" class:visible={isMenuVisible}>
     <button id="bttonX" on:click={toggleMenu}>
         <i class="fa-solid fa-xmark"></i>
     </button>
-    <a id="bder" href="/stock">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <a id="bder" on:click={()=>go("/stock")}>
         <i class="fa-solid fa-house"></i> Home
     </a> <br>
-    <a id="bder" href="/settings">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <a id="bder" on:click={()=>go("/settings")}>
         <i class="fa-solid fa-heart"></i> Social
     </a> <br>
-    <a id="bder" href="/settings">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <a id="bder" on:click={()=>go("/settings")}>
         <i class="fa-solid fa-gear"></i> Settings
     </a> <br>
-    <a id="bder" href="/notifications">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <a id="bder" on:click={()=>go("/notifications")}>
         <i class="fa-solid fa-bell"></i> Notifications
     </a> <br>
-    <a id="bder" href="/settings">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <a id="bder" on:click={()=>go("/settings")}>
         <i class="fa-solid fa-money-bill"></i> Support us
     </a> <br>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -92,6 +110,7 @@
         <div id="whitespace"></div>
     </footer>
 </div>
+{/if}
 
 <style>
     @import '@fortawesome/fontawesome-free/css/all.css';
@@ -112,6 +131,7 @@
         flex-direction: column;
         transform: translateX(-100%);
         transition: transform 0.3s;
+        border-radius: 20px 20px 20px 0;
     }
     
     .menu.visible {
@@ -126,6 +146,7 @@
         color: var(--white-color);
         text-decoration: none;
         margin: 10px;
+        cursor: pointer;
     }
     
     main {
@@ -172,6 +193,7 @@
         font-size: 20px;
         font-family: 'Roboto', sans-serif;
         justify-content: center;
+        border-radius: 0 0 10px 0;
     }
     
     #icon_search {
