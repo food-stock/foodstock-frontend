@@ -1,6 +1,5 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
   import Back from '$lib/Back.svelte';
   import { setContext } from 'svelte';
@@ -22,7 +21,7 @@
   setContext('currentLocale', currentLocale);
 </script>
 
-<BaseLayout>
+
   <Back {name} {link} />
   {translate('Lang.Effect')}
   <br>
@@ -42,7 +41,7 @@
       </li>
     {/each}
   </ul>
-</BaseLayout>
+
 
 <style>
   ul {

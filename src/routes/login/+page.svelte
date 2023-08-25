@@ -1,6 +1,5 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';
   import {auth} from '../../stores/auth';

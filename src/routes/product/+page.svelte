@@ -1,6 +1,5 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import { page } from '$app/stores'
@@ -142,7 +141,7 @@
   });
 </script>
 
-<BaseLayout>
+
   <div id="container-infos">
     <div id="left">
     <div id="foodname">{food_info.food__name} </div>    
@@ -228,7 +227,7 @@
 
 
 </div>
-</BaseLayout>
+
 
 <style>
 

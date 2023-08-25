@@ -1,12 +1,11 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
   import Back from '$lib/Back.svelte';
   import { setContext } from 'svelte';
 </script>
 
-<BaseLayout>
+
 <div class="container">
   <div id="title">{translate("Sub.Title")}</div>
   <div class="flip-card">
@@ -114,7 +113,7 @@
   </div>
 
 </div>
-</BaseLayout>
+
 
 <style>
 

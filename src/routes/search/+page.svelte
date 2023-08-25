@@ -1,6 +1,5 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
 
@@ -40,7 +39,7 @@
     }
 </script>
 
-<BaseLayout>
+
   <div id="container">
       {#if options.length === 0}
       {translate('Search.Title')}
@@ -71,7 +70,7 @@
       {/if}
       <input class="input" placeholder={translate("TypeHere")} id="input" type="text" bind:value={searchInput} on:input={handleInput} />
   </div>
-</BaseLayout>
+
 
 <style>
   #container {

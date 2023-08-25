@@ -1,6 +1,5 @@
 <script lang="ts">
   import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
   import Back from '$lib/Back.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
@@ -162,7 +161,7 @@
   });
 </script>
 
-<BaseLayout>
+
   {#if loading}
     <Loading />
   {:else}
@@ -296,7 +295,7 @@
   </div>
 {/if}
 {/if}
-</BaseLayout>
+
 
 <style>
   #container {

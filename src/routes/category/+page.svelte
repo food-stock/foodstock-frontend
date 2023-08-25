@@ -1,6 +1,5 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import Cookies from 'js-cookie';
@@ -55,7 +54,7 @@
   });
 </script>
 
-<BaseLayout>
+
   <div id="cat-container">
     {#each Entities as item}
       <a id="cat-link" href="/product/?food_id={item.food_id}">
@@ -71,7 +70,7 @@
       </a>
     {/each}
   </div>
-</BaseLayout>
+
 
 <style>
 

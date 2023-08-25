@@ -1,5 +1,4 @@
 <script lang='ts'>
-  import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import { goto } from '$app/navigation';
@@ -89,7 +88,7 @@
   });
 </script>
 
-<BaseLayout>
+
   {#if loading}
   <Loading></Loading>
   {:else}
@@ -123,7 +122,7 @@
     {/if}
   {/if}
   {/if}
-</BaseLayout>
+
 
 <style>
   #add {

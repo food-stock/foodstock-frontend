@@ -71,7 +71,7 @@
     }
 </style>
 
-<BaseLayout>
+
   <main>
     <reader id="reader"/>
     {#if scanning}
@@ -80,4 +80,3 @@
         <button id="bton" on:click={start}> {translate('Scan.Start')}</button>
     {/if}
   </main>
-</BaseLayout>

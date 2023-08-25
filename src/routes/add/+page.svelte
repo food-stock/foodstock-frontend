@@ -1,6 +1,5 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import { debounce } from 'lodash-es';
@@ -156,7 +155,7 @@
   });
 </script>
 
-<BaseLayout>
+
   <div id="container">
     {#if inputneeded}
       {#if options.length === 0}
@@ -217,7 +216,7 @@
     {/if}
 
   </div>
-</BaseLayout>
+
 
 <style>
   #container {

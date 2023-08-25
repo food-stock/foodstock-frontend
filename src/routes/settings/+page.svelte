@@ -1,6 +1,5 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
   import Cookies from 'js-cookie';
   import {goto} from '$app/navigation';
 
@@ -15,7 +14,7 @@
 
 </script>
 
-<BaseLayout>
+
   <img id="picture" src="/logo.png" alt="Logo">
   <div id="container">
     <h1>
@@ -30,7 +29,7 @@
         <a id="cat-link" on:click={logOut}>{translate('Settings.LogOut')}</a>
     </div>
   </div>
-</BaseLayout>
+
 
 <style>
   h1 {

@@ -1,6 +1,5 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import constants from '$lib/constants';
@@ -125,7 +124,7 @@ async function testSubscription() {
   }
 </script>
 
-<BaseLayout>
+
   <h1>Push Notifications</h1>
 
   {#if isSubscribed}
@@ -145,7 +144,7 @@ async function testSubscription() {
     <p>You are not subscribed to push notifications.</p>
     <button on:click={subscribe}>Subscribe</button>
   {/if}
-</BaseLayout>
+
 
 <style>
   h1 {

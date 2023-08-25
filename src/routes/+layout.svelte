@@ -7,7 +7,7 @@
 
     let authLocal: boolean = false ;
 
-    auth.subscribe(a => {
+    auth.subscribe((a: boolean) => {
         authLocal = a;
     });
   
@@ -15,7 +15,6 @@
 
     let user = Cookies.get('username');
   
-    
     let isMenuVisible = false;
   
     function toggleMenu() {
