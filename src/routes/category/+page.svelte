@@ -38,7 +38,7 @@
 
   onMount(async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/get_entities_for_stock_and_category/${stock_id}/${cat_id}/`, {
+      const response = await fetch(`http://localhost:8000/get_entities_for_stock_and_category/${stock_id}/${cat_id}/`, {
       headers: headers
     });
       let data = await response.json();

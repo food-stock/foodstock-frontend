@@ -74,7 +74,7 @@
   async function registerQuantity() {
     let quantity = parseInt(integer) + decimal;
     const entity_id = itemdedited.id;
-    const response = fetch(`http://127.0.0.1:8000/update_entity_quantity/${entity_id}/${quantity}/`, {
+    const response = fetch(`http://localhost:8000/update_entity_quantity/${entity_id}/${quantity}/`, {
       headers: headers,
       method: 'POST'
     });
@@ -123,7 +123,7 @@
   
   onMount(async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}/`, {
+      const response = await fetch(`http://localhost:8000/get_entity_by_id/${food_id}/${id}/`, {
       headers: headers
     });
       data = await response.json();

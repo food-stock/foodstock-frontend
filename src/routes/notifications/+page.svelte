@@ -37,7 +37,7 @@
   });
 
   async function getLatestPush() {
-    const response = await fetch(`http://127.0.0.1:8000/get_latest_webpush/${id}/`, {
+    const response = await fetch(`http://localhost:8000/get_latest_webpush/${id}/`, {
       method: 'POST',
       headers: headers,
     });
@@ -73,7 +73,7 @@
     const encodedAuth = encodeURIComponent(subscription.keys.auth);
     isSubscribed = true;
 
-    const data = await fetch(`http://127.0.0.1:8000/register_subscription/?endpoint=${encodedEndpoint}&p256dh=${encodedP256dh}&auth=${encodedAuth}`, {
+    const data = await fetch(`http://localhost:8000/register_subscription/?endpoint=${encodedEndpoint}&p256dh=${encodedP256dh}&auth=${encodedAuth}`, {
       method: 'POST',
       headers: headers,
     });
@@ -84,7 +84,7 @@
 }
 
 async function testSubscription() {
-    const response = await fetch(`http://127.0.0.1:8000/test_notif/`, {
+    const response = await fetch(`http://localhost:8000/test_notif/`, {
       method: 'GET',
       headers: headers,
     });
@@ -104,7 +104,7 @@ async function testSubscription() {
             .then(async () => {
               isSubscribed = false;
               try {
-                  const data = await fetch(`http://127.0.0.1:8000/remove_subscription/?endpoint=${encodedEndpoint}`, {
+                  const data = await fetch(`http://localhost:8000/remove_subscription/?endpoint=${encodedEndpoint}`, {
                     method: 'POST',
                     headers: headers,
                   });

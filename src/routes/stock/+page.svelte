@@ -48,7 +48,7 @@
       loading = true;
       selectedStock = stockId;
 
-      const response = await fetch(`http://127.0.0.1:8000/get_categories_for_stock/${stockId}/`, {
+      const response = await fetch(`http://localhost:8000/get_categories_for_stock/${stockId}/`, {
         headers: headers
       });
       const data = await response.json();
@@ -64,7 +64,7 @@
 
   onMount(async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`, {
+      const response = await fetch(`http://localhost:8000/stocks/user/${id}/`, {
         headers: headers
       });
       const data = await response.json();
@@ -72,7 +72,7 @@
       stockchosen = stocks[0].id;
       loading = false;
       try {
-        const response = await fetch(`http://127.0.0.1:8000/get_categories_for_stock/${stocks[0].id}/`, {
+        const response = await fetch(`http://localhost:8000/get_categories_for_stock/${stocks[0].id}/`, {
           headers: headers
         });
         const data = await response.json();

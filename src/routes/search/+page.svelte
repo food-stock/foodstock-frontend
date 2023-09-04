@@ -18,7 +18,7 @@
 
   const fetchData = debounce(async () => {
     if (searchInput.length > 1) {
-      const response = await fetch(`http://127.0.0.1:8000/search_product_among_stocks/${searchInput}/${id}/`, {
+      const response = await fetch(`http://localhost:8000/search_product_among_stocks/${searchInput}/${id}/`, {
       headers: headers
     });
       const data = await response.json();

@@ -41,7 +41,7 @@
   async function toogleDefault() {
     const stockid = stockEdit.id;
     isDefault = !isDefault;
-    const response = await fetch(`http://127.0.0.1:8000/set_stock_default/${stockid}/${isDefault}/`, {
+    const response = await fetch(`http://localhost:8000/set_stock_default/${stockid}/${isDefault}/`, {
       headers: headers, method: 'POST'
     });
     if (!response.ok) {
@@ -53,7 +53,7 @@
   async function tooglePersonal() {
     const stockid = stockEdit.id;
     isPersonal = !isPersonal;
-    const response = await fetch(`http://127.0.0.1:8000/set_stock_personal/${stockid}/${isPersonal}/`, {
+    const response = await fetch(`http://localhost:8000/set_stock_personal/${stockid}/${isPersonal}/`, {
       headers: headers, method: 'POST'
     });
     if (!response.ok) {
@@ -66,7 +66,7 @@
     const stockid = stockEdit.id;
     //Pop up to confirm
     if (confirm("Are you sure you want to delete this stock ?")) {
-      const response = await fetch(`http://127.0.0.1:8000/delete_stock/${stockid}/`, {
+      const response = await fetch(`http://localhost:8000/delete_stock/${stockid}/`, {
       headers: headers, method: 'POST'
     });
     }
@@ -75,7 +75,7 @@
   async function renameStockEdited() {
     const newName = stockEdit.name;
     const stockid = stockEdit.id;
-    const response = await fetch(`http://127.0.0.1:8000/rename_stock/${stockid}/${newName}/`, {
+    const response = await fetch(`http://localhost:8000/rename_stock/${stockid}/${newName}/`, {
       headers: headers, method: 'POST'
     });
   }
@@ -83,7 +83,7 @@
   async function manageAccess() {
     printUsers = true;
     const stockid = stockEdit.id;
-    const data = await fetch(`http://127.0.0.1:8000/get_users_accessing_stock/${stockid}/`, {
+    const data = await fetch(`http://localhost:8000/get_users_accessing_stock/${stockid}/`, {
       headers: headers
     });
     const temp = await data.json();
@@ -94,7 +94,7 @@
     hasChosen = false;
     const stockid = stockEdit.id;
     const userid = user.id; 
-    const data = await fetch(`http://127.0.0.1:8000/add_user_access_to_stock/${stockid}/${userid}/`, {
+    const data = await fetch(`http://localhost:8000/add_user_access_to_stock/${stockid}/${userid}/`, {
       headers: headers, method: 'POST'
     });
     user.text = "✓";
@@ -106,7 +106,7 @@
   async function removeUserfromStock(user) {
     const stockid = stockEdit.id;
     const userid = user.id; 
-    const data = await fetch(`http://127.0.0.1:8000/remove_user_access_to_stock/${stockid}/${userid}/`, {
+    const data = await fetch(`http://localhost:8000/remove_user_access_to_stock/${stockid}/${userid}/`, {
       headers: headers, method: 'POST'
     });
     //Remove the user from the list
@@ -124,15 +124,25 @@
     fetchData();
   }
 
+  async function createStock() {
+    const userid = Cookies.get('id');
+    const response = await fetch(`http://localhost:8000/create_stock/${userid}`, {
+      headers: headers, method: 'POST'
+    });
+    const data = await response.json();
+    const stock = data.stock;
+    stocks.push(stock);
+    manageStock(stock);
+  }
+
   const fetchData = debounce(async () => {
     if (searchInput.length > 1) {
       const stock_id = stockEdit.id;
-      const response = await fetch(`http://127.0.0.1:8000/search_for_users/${searchInput}/${stock_id}/`, {
+      const response = await fetch(`http://localhost:8000/search_for_users/${searchInput}/${stock_id}/`, {
       headers: headers
     });
       const data = await response.json();
       options = data.users;
-      //limit to the 10 first results
       if (options.length > 10) {
         options = options.slice(0, 10);
       }
@@ -149,7 +159,7 @@
   onMount(async () => {
     //Fetch the stocks of the user
     try {
-      const response = await fetch(`http://127.0.0.1:8000/stocks/user/${id}/`, {
+      const response = await fetch(`http://localhost:8000/stocks/user/${id}/`, {
       headers: headers
     });
       stocks = await response.json();
@@ -168,6 +178,7 @@
 
 {#if printstocks}
 <div class="title">{translate("Manage.FindStock")}</div>
+<button class="plus" on:click={()=>createStock}>+</button>
   <div id="list-stock">
     {#each stocks as stock}
       <div class="stock-item">

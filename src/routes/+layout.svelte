@@ -4,7 +4,7 @@
     import {onMount} from 'svelte';
     import {goto} from '$app/navigation';
     import {auth} from '../stores/auth';
-    import { page } from '$app/stores'
+    import {page} from '$app/stores'
 
     let authLocal: boolean = false ;
 
@@ -35,13 +35,28 @@
         if (authLocal) {
             loadTranslations;
         } else {
-            //goto('/login');
+            let access_token = Cookies.get('access_token');
+            const headers = {
+                'Authorization': `JWT ${access_token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            };
+            const req = fetch(`http://localhost:3000/test_token?user_id${user}`, {
+                headers: headers,
+                method: 'GET'
+            });
+            req.then((res) => {
+                if (res.status !== 200) {
+                    console.log('Token expired');
+                    //goto('/login');
+                }
+            });
         }
     });
   </script>
   
 
-{#if $page.url.pathname === '/login' || $page.url.pathname === '/register'}
+{#if $page.url.pathname === '/login' || $page.url.pathname === '/register' || $page.url.pathname === '/'}
 <slot></slot>
 {:else}
 <div class="menu" class:visible={isMenuVisible}>
