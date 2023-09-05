@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { translate } from '../../TranslationStore';
+  import { translate } from '$lib/locales/TranslationStore';
   import Back from '$lib/nav/Back.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import headers from '$lib/requests/headers';
   import { debounce } from 'lodash-es';
-  import Loading from '../../lib/Loading.svelte';
+  import Loading from '../../lib/nav/Loading.svelte';
   
   //back
   let name = translate('Manage.Back');
@@ -13,7 +13,7 @@
   
   let loading: boolean = true;
   let stocks: any[] = [];
-  let users = [];
+  let users:any[] = [];
   let id = Cookies.get('id');
   let printstocks = true;
   let stockEdit: boolean;
@@ -25,7 +25,7 @@
   let options:any = [];
   let hasChosen : boolean = false;
 
-  function manageStock(stock) {
+  function manageStock(stock:any) {
     stockEdit = stock;
     printstocks = false;
     isDefault = stock.is_default;

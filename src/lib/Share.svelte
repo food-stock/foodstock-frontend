@@ -1,5 +1,5 @@
 <script>
-    import { translate } from "../TranslationStore";
+    import { translate } from "$lib/locales/TranslationStore";
     function share() {
       if (navigator.share) {
         navigator

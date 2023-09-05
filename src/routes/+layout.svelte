@@ -1,6 +1,6 @@
 <script lang="ts">
     // Import translations
-    import { loadTranslations, translate } from '../TranslationStore';
+    import { loadTranslations, translate } from '$lib/locales/TranslationStore';
     import {onMount} from 'svelte';
     import {goto} from '$app/navigation';
     import {auth} from '../lib/stores/auth';

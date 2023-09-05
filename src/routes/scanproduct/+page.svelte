@@ -1,5 +1,5 @@
 <script lang='ts'>
-    import { translate } from '../../TranslationStore';
+    import { translate } from '$lib/locales/TranslationStore';
     import { Html5Qrcode } from 'html5-qrcode';
     import { onMount } from 'svelte';
     import {goto} from '$app/navigation';

@@ -1,6 +1,6 @@
 // Import required Svelte dependencies
 import { writable } from 'svelte/store';
-import { translations } from '$lib/locales'; 
+import { translations } from '$lib/locales/locales'; 
 
 // Default locale is 'en' if not set
 let locale = 'en';

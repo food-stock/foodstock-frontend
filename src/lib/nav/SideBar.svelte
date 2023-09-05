@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-    import { translate } from "../../TranslationStore";
+    import { translate } from "$lib/locales/TranslationStore";
     import Cookies from 'js-cookie';
 
     let isMenuVisible = false;

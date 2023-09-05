@@ -1,11 +1,7 @@
 <script lang='ts'>
-  import { translate } from '../../TranslationStore';
+  import { translate } from '$lib/locales/TranslationStore';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
-
-  
-
-
 
   let name = '';
   let username = '';

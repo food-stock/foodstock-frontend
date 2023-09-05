@@ -1,5 +1,5 @@
 <script lang='ts'>
-  import { translate } from '../TranslationStore';
+  import { translate } from '../lib/locales/TranslationStore';
     import { goto } from '$app/navigation'; 
 </script>
 

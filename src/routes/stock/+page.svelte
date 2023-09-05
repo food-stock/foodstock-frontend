@@ -3,7 +3,7 @@
   import Cookies from 'js-cookie';
   import headers from '$lib/requests/headers';
   import { goto } from '$app/navigation';
-  import Loading from '../../lib/Loading.svelte';
+  import Loading from '../../lib/nav/Loading.svelte';
   import ListCategories from '$lib/stock/ListCategories.svelte';
 
   let stocks:any[] = [];
