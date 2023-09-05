@@ -2,7 +2,7 @@
 export let stockchosen : any;
 import { onMount, afterUpdate } from 'svelte';
 import headers from '$lib/requests/headers';
-import { translate } from '.$lib/locales/TranslationStore';
+import { translate } from '$lib/locales/TranslationStore';
 import { goto } from '$app/navigation';
 
 let categories:any[] = [];

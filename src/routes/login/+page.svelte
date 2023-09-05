@@ -8,7 +8,8 @@
   let password = '';
   let errorB = false;
 
-  async function handleSubmit() {
+  async function handleSubmit(event : Event) {
+    event.preventDefault();
     try {
       const formData = new URLSearchParams();
       formData.append('username', username);
@@ -114,11 +115,7 @@
         <input type="Submit" value="{translate('Register.Register')}">
       </div>
       <div class="text">
-        <!-- svelte-ignore a11y-invalid-attribute -->
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <!-- svelte-ignore a11y-missing-attribute -->
-        <h3>{translate('Login.Register')} <a on:click={()=>goto("/register")}>{translate("Login.BRegister")}</a></h3>
+        <h3>{translate('Login.Register')} <button on:click={()=>goto("/register")}>{translate("Login.BRegister")}</button></h3>
       </div>
     </form>
   </div>
@@ -215,11 +212,13 @@
    width: 100%;
    text-align: center;
   }
-  form .text h3 a{
+  form .text h3 button{
     color: var(--green-color);
     text-decoration: none;
+    background-color: transparent;
+    border: none;
   }
-  form .text h3 a:hover{
+  form .text h3 button:hover{
     text-decoration: underline;
   }
   

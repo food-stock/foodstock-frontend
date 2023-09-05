@@ -3,7 +3,7 @@
     import { loadTranslations, translate } from '$lib/locales/TranslationStore';
     import {onMount} from 'svelte';
     import {goto} from '$app/navigation';
-    import {auth} from '../lib/stores/auth';
+    import {auth} from '$lib/stores/auth';
     import {page} from '$app/stores';
     import headers from '$lib/requests/headers';
     import SideBar from '$lib/nav/SideBar.svelte';

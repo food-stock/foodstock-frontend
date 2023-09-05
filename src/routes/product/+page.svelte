@@ -4,9 +4,6 @@
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
   import { page } from '$app/stores'
 
-  
-
-
   const params = new URLSearchParams($page.url.search);
   const food_id = params.get('food_id');
 
