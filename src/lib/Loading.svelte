@@ -14,12 +14,6 @@
     animation: fade-in 1s forwards; 
 }
 
-@keyframes fade-in {
-    to {
-      opacity: 1;
-    }
-  }
-
 .ball {
     position: relative;
     bottom: 50px;
@@ -30,14 +24,41 @@
     animation: ball-move8234 3s ease-in-out 1s infinite alternate;
   }
 
-  .bar {
+.bar {
     width: 200px;
     height: 12.5px;
     background: grey;
     border-radius: 30px;
     transform: rotate(-15deg);
     animation: up-down6123 3s ease-in-out 1s infinite alternate;
-  }
+}
+
+.svg {
+  fill : orange;
+  position: relative;
+  top: -0px;
+  left: -0px;
+  width: 50px;
+  height: 50px;
+  animation: rotate 3s ease-in-out 1s infinite alternate;
+}
+
+:global(body.dark-mode) .loading {
+  color: var(--white-color);
+}
+
+:global(body.dark-mode) .ball {
+  color: var(--white-color);
+}
+
+:global(body.dark-mode) .bar {
+  background-color: var(--grey-color);
+  color : var(--white-color);
+}
+
+:global(body.dark-mode) .svg {
+  color: var(--white-color);
+}
 
 @keyframes up-down6123 {
   from {
@@ -61,13 +82,10 @@
   }
 }
 
-.svg {
-  fill : orange;
-  position: relative;
-  top: -0px;
-  left: -0px;
-  width: 50px;
-  height: 50px;
-  animation: rotate 3s ease-in-out 1s infinite alternate;
+@keyframes fade-in {
+    to {
+      opacity: 1;
+    }
 }
+
 </style>
