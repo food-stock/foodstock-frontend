@@ -19,7 +19,7 @@
   let link = '/settings';
   
   let loading: boolean = true;
-  let stocks = [];
+  let stocks: any[] = [];
   let users = [];
   let id = Cookies.get('id');
   let printstocks = true;
