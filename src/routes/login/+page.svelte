@@ -2,7 +2,7 @@
   import { translate } from '../../TranslationStore';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';
-  import {auth} from '../../stores/auth';
+  import {auth} from '../../lib/stores/auth';
 
   let username = '';
   let password = '';

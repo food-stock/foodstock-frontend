@@ -69,7 +69,7 @@ main {
     font-size: 25px;
     color: var(--white-color);
     text-align: center;
-    width: 400px;
+    width: 80vw;
     font-weight: 400;
   }
 

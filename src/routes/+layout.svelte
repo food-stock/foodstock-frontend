@@ -3,7 +3,7 @@
     import { loadTranslations, translate } from '../TranslationStore';
     import {onMount} from 'svelte';
     import {goto} from '$app/navigation';
-    import {auth} from '../stores/auth';
+    import {auth} from '../lib/stores/auth';
     import {page} from '$app/stores'
 
     let authLocal: boolean = false ;
@@ -41,7 +41,7 @@
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             };
-            const req = fetch(`http://localhost:3000/test_token?user_id${user}`, {
+            const req = fetch(`http://localhost:3000/test_token?user_id=${user}`, {
                 headers: headers,
                 method: 'GET'
             });
