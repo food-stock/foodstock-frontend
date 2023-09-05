@@ -1,15 +1,21 @@
 <script lang="ts">
-    export let name:string;
-    export let link:string;
-
-    import { goto } from '$app/navigation';
-</script>
-
-<button class="blue-item" on:click={()=>goto(link)}>
-    {name}
-</button>
+    export let name: string;
+    export let onClickFunction: () => void;
   
-<style>
+    import { goto } from '$app/navigation';
+  
+    function handleClick() {
+      if (typeof onClickFunction === 'function') {
+        onClickFunction(); // Call the provided function
+      }
+    }
+  </script>
+  
+  <button class="blue-item" on:click={handleClick}>
+    {name}
+  </button>
+    
+  <style>
     .blue-item {
       background-color: var(--blue-color);
       width: 30vw;
@@ -21,17 +27,17 @@
       text-align: center;
       word-wrap: break-word;
     }
-
+  
     @media (max-width: 600px) {
-        .blue-item {
-            width: 90vw;
-            height: 20vw;
-        }
+      .blue-item {
+        width: 90vw;
+        height: 20vw;
+      }
     }
-
+  
     :global(body.dark-mode) .blue-item {
-        background-color: var(--blue-color);
-        color: var(--black-color);
+      background-color: var(--blue-color);
+      color: var(--black-color);
     }
-</style>
+  </style>
   
