@@ -55,19 +55,11 @@
 
 
 <style>
-  #add {
-    align-items: center;
-    color: var(--blue-color);
-    text-decoration: none;
-    font-size: 26px;
-  }
-
-  /* Add styles for the stock container to enable horizontal scrolling */
   .stock-container {
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
-    -webkit-overflow-scrolling: touch; /* Enable touch scrolling for webkit browsers (iOS) */
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Hide the scroll bar for webkit browsers (Chrome, Safari, etc.) */
@@ -83,23 +75,6 @@
   #cat-link {
     color: black;
     text-decoration: none;
-  }
-
-  #cat-container {
-    width: 100vw;
-    margin: 10px;
-    display: inline-flex;
-    flex-wrap: wrap;
-  }
-
-  #cat {
-    background-color: var(--grey-color);
-    border-radius: 10px;
-    width: 40vw;
-    height: 20vw;
-    text-align: center;
-    font-size: 26px;
-    margin: 10px;
   }
 
   #list-stock {
@@ -120,11 +95,6 @@
     cursor: pointer;
     text-align: center;
     word-wrap: break-word;
-  }
-
-  /* Add CSS transition for categories */
-  .transition-slide {
-    transition: transform 0.2s ease;
   }
 
   .rotate-hor-center {
@@ -164,7 +134,4 @@
             transform: rotateX(-360deg);
   }
 }
-
-
-
 </style>
