@@ -1,6 +1,6 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import Cookies from 'js-cookie';
+  import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
   import {goto} from '$app/navigation';
 
   async function logOut() {

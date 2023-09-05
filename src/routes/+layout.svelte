@@ -4,7 +4,9 @@
     import {onMount} from 'svelte';
     import {goto} from '$app/navigation';
     import {auth} from '../lib/stores/auth';
-    import {page} from '$app/stores'
+    import {page} from '$app/stores';
+    import headers from '$lib/requests/headers';
+    import Cookies from 'js-cookie';
 
     let authLocal: boolean = false ;
 
@@ -12,8 +14,6 @@
         authLocal = a;
     });
   
-    import Cookies from 'js-cookie';
-
     let user = Cookies.get('username');
   
     let isMenuVisible = false;
@@ -29,18 +29,32 @@
     function go(link:string) {
         isMenuVisible = !isMenuVisible;
         goto(link);
+    }    
+
+    async function refreshToken() {
+        const refresh_token = Cookies.get('refresh_token');
+        const formData = new URLSearchParams();
+        formData.append('refresh', refresh_token);
+        const response = await fetch('http://localhost:8000/token/refresh/', {
+        method: 'POST',
+        headers: headers,
+        body: formData
+        });
+
+        if (response.status === 401) {
+        // If the token refresh fails (401 Unauthorized), redirect to login
+        goto('/login');
+        return;
+        }
+
+        const data = await response.json();
+        Cookies.set('access_token', data.access);
     }
 
     onMount(() => {
         if (authLocal) {
             loadTranslations;
         } else {
-            let access_token = Cookies.get('access_token');
-            const headers = {
-                'Authorization': `JWT ${access_token}`,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            };
             const req = fetch(`http://localhost:3000/test_token?user_id=${user}`, {
                 headers: headers,
                 method: 'GET'

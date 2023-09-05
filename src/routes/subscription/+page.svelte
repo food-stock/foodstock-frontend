@@ -1,6 +1,6 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
-  import Cookies from 'js-cookie';
+  import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
   import Back from '$lib/Back.svelte';
   import { setContext } from 'svelte';
 </script>

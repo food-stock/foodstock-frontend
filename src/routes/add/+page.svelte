@@ -1,17 +1,13 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
   import { onMount } from 'svelte';
-  import Cookies from 'js-cookie';
+  import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
   import { debounce } from 'lodash-es';
   import { goto } from '$app/navigation'; 
   import {page} from '$app/stores';
 
-  let access_token = Cookies.get('access_token');
-  const headers = {
-    'Authorization': `JWT ${access_token}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
+  
+
 
   let defaultStock = {
     id: 1,

@@ -2,14 +2,10 @@
   import { translate } from '../../TranslationStore';
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
-  import Cookies from 'js-cookie';
+  import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
 
-  let access_token = Cookies.get('access_token');
-  const headers = {
-    'Authorization': `JWT ${access_token}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
+  
+
 
   const params = new URLSearchParams($page.url.search);
   const cat_id = params.get('q');

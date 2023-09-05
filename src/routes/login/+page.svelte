@@ -1,7 +1,7 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
   import { goto } from '$app/navigation';
-  import Cookies from 'js-cookie';
+  import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
   import {auth} from '../../lib/stores/auth';
 
   let username = '';

@@ -1,66 +1,18 @@
 <script lang='ts'>
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
+  import headers from '$lib/requests/headers';
   import { goto } from '$app/navigation';
-  import { translate } from '../../TranslationStore';
   import Loading from '../../lib/Loading.svelte';
+  import ListCategories from '$lib/stock/ListCategories.svelte';
 
-  let categories = [];
-  let stocks = [];
-  let stockchosen;
+  let stocks:any[] = [];
+  let stockchosen:any;
   let loading = true;
   let loadingCategories = true;
   let selectedStock = null;
 
-  const access_token = Cookies.get('access_token');
   const id = Cookies.get('id');
-  const headers = {
-    'Authorization': `JWT ${access_token}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
-
-  async function refreshToken() {
-    const refresh_token = Cookies.get('refresh_token');
-    const header = {
-      'Content-Type': 'application/json'
-    }
-    const formData = new URLSearchParams();
-    formData.append('refresh', refresh_token);
-    const response = await fetch('http://localhost:8000/token/refresh/', {
-      method: 'POST',
-      headers: header,
-      body: formData
-    });
-
-    if (response.status === 401) {
-      // If the token refresh fails (401 Unauthorized), redirect to login
-      goto('/login');
-      return;
-    }
-
-    const data = await response.json();
-    Cookies.set('access_token', data.access);
-  }
-
-  async function fetchCategoriesForStock(stockId) {
-    try {
-      loading = true;
-      selectedStock = stockId;
-
-      const response = await fetch(`http://localhost:8000/get_categories_for_stock/${stockId}/`, {
-        headers: headers
-      });
-      const data = await response.json();
-      categories = data.categories;
-      stockchosen = stockId;
-
-      loading = false;
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      loading = false;
-    }
-  }
 
   onMount(async () => {
     try {
@@ -71,19 +23,8 @@
       stocks = data.stocks;
       stockchosen = stocks[0].id;
       loading = false;
-      try {
-        const response = await fetch(`http://localhost:8000/get_categories_for_stock/${stocks[0].id}/`, {
-          headers: headers
-        });
-        const data = await response.json();
-        categories = data.categories;
-        loadingCategories = false;
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
     } catch (error) {
       console.error('Error fetching stock:', error);
-      await refreshToken();
     }
   });
 </script>
@@ -97,30 +38,19 @@
       {#each stocks as stock}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <section class="stock-item {stockchosen === stock.id ? 'selected rotate-hor-center' : ''}" on:click={() => fetchCategoriesForStock(stock.id)}>
+        <section class="stock-item {stockchosen === stock.id ? 'selected rotate-hor-center' : ''}" on:click={()=>stockchosen=stock.id}>
           <!-- svelte-ignore a11y-click-events-have-key-events -->
           <!-- svelte-ignore a11y-no-static-element-interactions -->
-          <a id="cat-link" on:click={()=>fetchCategoriesForStock(stock.id)}>{stock.name}</a>
+          <a id="cat-link" on:click={()=>stockchosen=stock.id}>{stock.name}</a>
         </section>
       {/each}
     </div>
   </div>
-  {#if loadingCategories}
+  <!--{#if loadingCategories}
   <Loading/>
-  {:else}
-  <br>Categories <br>
-    {#if categories.length > 0}
-      <!-- Add transition for categories -->
-      <div id="cat-container" class="transition-slide">
-        {#each categories as item}
-          <a id="cat-link" href="/category/?q={item.id}&stock_id={stockchosen}"><div id="cat">{item.name}</div></a>
-        {/each}
-      </div>
-    {:else}
-      <div>{translate('Stock.NoItem')}</div>
-      <a id="add" href="/add">{translate('Stock.AddProduct')}</a>
-    {/if}
-  {/if}
+  {:else}-->
+<ListCategories {stockchosen} />
+  <!--{/if}-->
   {/if}
 
 

@@ -1,5 +1,3 @@
-<!-- PopUpCookies.svelte -->
-
 <script>
     let showPopup = true;
   

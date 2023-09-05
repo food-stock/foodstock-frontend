@@ -1,5 +1,5 @@
 <script>
-    import PopUpCookies from "$lib/PopUpCookies.svelte";
+    import PopUpCookies from "$lib/notifications/PopUpCookies.svelte";
 </script>
 
 <PopUpCookies />

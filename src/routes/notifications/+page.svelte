@@ -1,7 +1,7 @@
 <script lang='ts'>
   import { translate } from '../../TranslationStore';
   import { onMount } from 'svelte';
-  import Cookies from 'js-cookie';
+  import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
   import constants from '$lib/constants';
 
   let registration;
@@ -9,14 +9,10 @@
   let subscription;
   let push = [];
 
-  let access_token = Cookies.get('access_token');
+  
   let id = Cookies.get('id');
 
-  const headers = {
-    'Authorization': `JWT ${access_token}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
+
 
   onMount(() => {
     if ('serviceWorker' in navigator) {
