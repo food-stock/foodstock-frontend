@@ -1,6 +1,6 @@
 <script lang="ts">
   import { translate } from '../../TranslationStore';
-  import Back from '$lib/Back.svelte';
+  import Back from '$lib/nav/Back.svelte';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import headers from '$lib/requests/headers';
