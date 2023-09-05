@@ -6,6 +6,7 @@
     import {auth} from '../lib/stores/auth';
     import {page} from '$app/stores';
     import headers from '$lib/requests/headers';
+    import SideBar from '$lib/nav/SideBar.svelte';
     import Cookies from 'js-cookie';
 
     let authLocal: boolean = false ;
@@ -14,22 +15,6 @@
         authLocal = a;
     });
   
-    let user = Cookies.get('username');
-  
-    let isMenuVisible = false;
-  
-    function toggleMenu() {
-      isMenuVisible = !isMenuVisible;
-    }
-  
-    function toggleDarkMode() {
-      window.document.body.classList.toggle('dark-mode');
-    }
-
-    function go(link:string) {
-        isMenuVisible = !isMenuVisible;
-        goto(link);
-    }    
 
     async function refreshToken() {
         const refresh_token = Cookies.get('refresh_token');
@@ -73,63 +58,10 @@
 {#if $page.url.pathname === '/login' || $page.url.pathname === '/register' || $page.url.pathname === '/'}
 <slot></slot>
 {:else}
-<div class="menu" class:visible={isMenuVisible}>
-    <button id="bttonX" on:click={toggleMenu}>
-        <i class="fa-solid fa-xmark"></i>
-    </button>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <a id="bder" on:click={()=>go("/stock")}>
-        <i class="fa-solid fa-house"></i> Home
-    </a> <br>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <a id="bder" on:click={()=>go("/settings")}>
-        <i class="fa-solid fa-heart"></i> Social
-    </a> <br>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <a id="bder" on:click={()=>go("/settings")}>
-        <i class="fa-solid fa-gear"></i> Settings
-    </a> <br>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <a id="bder" on:click={()=>go("/notifications")}>
-        <i class="fa-solid fa-bell"></i> Notifications
-    </a> <br>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <a id="bder" on:click={()=>go("/settings")}>
-        <i class="fa-solid fa-money-bill"></i> Support us
-    </a> <br>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <a id="cat-link" on:click={toggleDarkMode}>
-        <i class="fa-solid fa-moon"></i> {translate('Settings.DarkMode')} 
-    </a>
-</div>
-  
-<a href="/scanproduct">
-    <button id="bttonB"><i class="fa-solid fa-barcode"></i></button>
-</a>
-<a href="/add">
-    <button id="bttonA"><i class="fa-solid fa-plus"></i></button>
-</a>
-<a href="/stock">
-    <button id="bttonH"><i class="fa-solid fa-home"></i></button>
-</a>
-
-<header>
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div id="header">
-        <button id="bttonL" on:click={toggleMenu}><i class="fa-solid fa-bars"></i></button>
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <span on:click={()=>goto("/stock")}>{translate('BaseLayout.Hi')}, {user}</span>
-        <a href="/search">
-            <button id="btton"><i id="icon_search" class="fa-solid fa-magnifying-glass"></i></button>
-        </a>
-    </div>
-</header>
+<SideBar />
+<button on:click={()=>goto("/scanproduct")} id="bttonB"><i class="fa-solid fa-barcode"></i></button>
+<button on:click={()=>goto("/add")} id="bttonA"><i class="fa-solid fa-plus"></i></button>
+<button on:click={()=>goto("/stock")} id="bttonH"><i class="fa-solid fa-home"></i></button>
 
 <div class="container">
     <div id="whitespace2"></div>
@@ -146,44 +78,7 @@
 <style>
     @import '@fortawesome/fontawesome-free/css/all.css';
     @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
-    
-    .menu {
-        position: fixed;
-        height: 100vh;
-        width: 70vw;
-        top: 0;
-        left: 0;
-        background-color: var(--green-color);
-        color: var(--white-color);
-        z-index: 6;
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        flex-direction: column;
-        transform: translateX(-100%);
-        transition: transform 0.3s;
-        border-radius: 20px 20px 20px 0;
-    }
-    
-    .menu.visible {
-        transform: translateX(0%);
-    }
 
-    span {
-        cursor: pointer;
-    }
-    
-    #bder {
-        padding: 20px;
-        text-align: center;
-        font-size: 20px;
-        justify-content: center;
-        color: var(--white-color);
-        text-decoration: none;
-        margin: 10px;
-        cursor: pointer;
-    }
-    
     main {
         margin: 0;
         overflow: hidden;
@@ -215,108 +110,43 @@
         background-color: var(--dark-color);
         color: var(--grey-color);
     }
-    
-    #header {
-        color: black;
+
+    button {
+        background-color: transparent;
+        border : none;
+    }
+
+    #bttonA, #bttonH, #bttonB {
+        width: 60px;
+        height: 60px;
+        border-radius: 40px;
+        color: var(--white-color);
         background-color: var(--green-color);
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 95vw;
-        height: 30px;
-        padding: 10px;
-        text-align: center;
-        font-size: 20px;
-        font-family: 'Roboto', sans-serif;
-        justify-content: center;
-        border-radius: 0 0 10px 0;
-    }
-    
-    #icon_search {
-        float: right; 
-        text-align: center;
-        text-decoration: none;
-        color: black;
-    }
-    
-    #btton,
-    #bttonL,
-    #bttonX {
-        background: none;
         border: none;
         padding: 0;
-        margin: 0;
         font: inherit;
         cursor: pointer;
         outline: inherit;
-        border-radius: 20px;
-    }
-    
-    #btton {
-        float: right;
-    }
-    
-    #bttonL {
-        float: left;
-    }
-    
-    #bttonX {
-        position: fixed;
-        top: 0;
-        left: 0;
-        margin-left: 4px;
-        font-size: 35px;
+        position: fixed; 
+        box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
     }
     
     #bttonA {
-        width: 60px;
-        height: 60px;
-        border-radius: 40px;
-        color: var(--green-color);
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-        position: fixed; 
         bottom: 70px; 
         right: 10px;
-        font-size: 40px;
-        box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+        font-size: 30px;
     }
     
     #bttonH {
-        width: 60px;
-        height: 60px;
-        border-radius: 40px;
-        color: var(--green-color);
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-        position: fixed; 
         bottom: 5px; 
         right: 10px;
-        font-size: 35px;
-        box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+        font-size: 25px;
     }
     
     #bttonB {
-        width: 60px;
-        height: 60px;
-        border-radius: 40px;
-        color: var(--green-color);
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-        position: fixed; 
         bottom: 135px; 
         right: 10px;
-        font-size: 35px;
-        box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+        font-size: 25px;
     }
     
     #whitespace {
@@ -325,21 +155,6 @@
     
     #whitespace2 {
         height: 40px;
-    }
-
-    :global(body.dark-mode) .menu {
-        background-color:  var(--blue-color);
-        color: var(--black-color);
-    }
-    
-    :global(body.dark-mode) #header {
-        background-color:  var(--blue-color);
-        color: var(--black-color);
-    }
-
-    :global(body.dark-mode) #bder {
-        background-color:  var(--blue-color);
-        color: var(--black-color);
     }
 
     :global(body.dark-mode) #bttonB {
@@ -354,16 +169,6 @@
     
     :global(body.dark-mode) #bttonA {
         background-color: var(--blue-color);
-        background-color: var(--blue-color);
-        color: var(--black-color);
-    }
-
-    :global(body.dark-mode) #bttonL {
-        background-color: var(--blue-color);
-        color: var(--black-color);
-    }
-    
-    :global(body.dark-mode) #btton {
         background-color: var(--blue-color);
         color: var(--black-color);
     }

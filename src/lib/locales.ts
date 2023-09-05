@@ -99,7 +99,8 @@ export const translations: Record<string, Record<string, string>> = {
         "Lang.French" : "French",
         "Lang.Spanish" : "Spanish",
         "Lang.German" : "German",
-        "Lang.Italian" : "Italian"
+        "Lang.Italian" : "Italian",
+        "Share.Title" : "Share",
     },
   };
   
