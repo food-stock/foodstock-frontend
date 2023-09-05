@@ -1,5 +1,13 @@
 <script>
-    import PopUpCookies from "$lib/notifications/PopUpCookies.svelte";
+    import Dialog from "$lib/Dialog.svelte";
 </script>
 
-<PopUpCookies />
+    <Dialog
+        title="Custom Dialog"
+        content="This is a customized dialog. ETES  VOUS VRAOIENT SUR"
+        acceptLabel="Agree"
+        refuseLabel="Disagree"
+        onAccept={() => alert('Accepted!')}
+        onRefuse={() => alert('Refused!')}
+    />
+  

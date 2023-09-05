@@ -120,9 +120,11 @@
 </a>
 
 <header>
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div id="header">
         <button id="bttonL" on:click={toggleMenu}><i class="fa-solid fa-bars"></i></button>
-        {translate('BaseLayout.Hi')}, {user}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <span on:click={()=>goto("/stock")}>{translate('BaseLayout.Hi')}, {user}</span>
         <a href="/search">
             <button id="btton"><i id="icon_search" class="fa-solid fa-magnifying-glass"></i></button>
         </a>
@@ -166,6 +168,10 @@
     .menu.visible {
         transform: translateX(0%);
     }
+
+    span {
+        cursor: pointer;
+    }
     
     #bder {
         padding: 20px;
@@ -195,6 +201,7 @@
         --grey-color: #bfc2c7;
         --beige-color :  #f2eee2;
         --white-color : #ffffff;
+        --black-color : #000000;
     }
     
     :global(body) {
@@ -319,28 +326,46 @@
     #whitespace2 {
         height: 40px;
     }
-    
-    :global(body.dark-mode) #bttonB {
+
+    :global(body.dark-mode) .menu {
         background-color:  var(--blue-color);
-        color: var(--white-color);
+        color: var(--black-color);
+    }
+    
+    :global(body.dark-mode) #header {
+        background-color:  var(--blue-color);
+        color: var(--black-color);
+    }
+
+    :global(body.dark-mode) #bder {
+        background-color:  var(--blue-color);
+        color: var(--black-color);
+    }
+
+    :global(body.dark-mode) #bttonB {
+        background-color: var(--blue-color);
+        color: var(--black-color);
     }
     
     :global(body.dark-mode) #bttonH {
         background-color: var(--blue-color);
-        color: var(--white-color);
+        color: var(--black-color);
     }
     
     :global(body.dark-mode) #bttonA {
         background-color: var(--blue-color);
-        color: var(--white-color);
+        background-color: var(--blue-color);
+        color: var(--black-color);
+    }
+
+    :global(body.dark-mode) #bttonL {
+        background-color: var(--blue-color);
+        color: var(--black-color);
     }
     
     :global(body.dark-mode) #btton {
-        color: var(--white-color);
-    }
-    
-    :global(body.dark-mode) #bttonL {
-        color: var(--white-color);
+        background-color: var(--blue-color);
+        color: var(--black-color);
     }
     
     </style>
