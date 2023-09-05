@@ -18,6 +18,9 @@
 
     async function refreshToken() {
         const refresh_token = Cookies.get('refresh_token');
+        if (refresh_token === undefined) {
+            return;
+        }
         const formData = new URLSearchParams();
         formData.append('refresh', refresh_token);
         const response = await fetch('http://localhost:8000/token/refresh/', {
@@ -44,10 +47,10 @@
                 headers: headers,
                 method: 'GET'
             });
-            req.then((res) => {
+            req.then(async (res) => {
                 if (res.status !== 200) {
                     console.log('Token expired');
-                    //goto('/login');
+                    await refreshToken();
                 }
             });
         }

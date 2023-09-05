@@ -9,7 +9,7 @@ export const translations: Record<string, Record<string, string>> = {
         "Settings.ManageStock": "Manage Stock",
         "Settings.LogOut": "Log Out",
         "Settings.Back": "Go Back",
-        "Settings.DarkMode": "Toogle display mode",
+        "Settings.DarkMode": "Night mode",
         "Settings.Sub": "Your subscription",
         "Sub.Title" : "Your subscription",
         "Sub.Unlimited" : "Unlimited number of stocks",
