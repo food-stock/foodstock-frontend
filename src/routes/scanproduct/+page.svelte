@@ -1,6 +1,6 @@
 
 <script lang='ts'>
-  import { translate } from '../../TranslationStore';
+    import { translate } from '../../TranslationStore';
     import { Html5Qrcode } from 'html5-qrcode';
     import { onMount } from 'svelte';
     import BaseLayout from '../BaseLayout.svelte';

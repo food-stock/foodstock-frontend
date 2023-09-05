@@ -1,5 +1,4 @@
 <script lang='ts'>
-  import { translate } from '../../TranslationStore';
     function toggle() {
         window.document.body.classList.toggle('dark-mode')
     }
