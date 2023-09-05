@@ -1,24 +1,20 @@
-FROM node:16.7-alpine AS build
+FROM node:18-alpine
+
+LABEL Developers="Robin Augereau"
 
 WORKDIR /app
-COPY . .
-RUN yarn
-RUN yarn build
 
-FROM nginx:1.21.1-alpine AS deploy-static
+COPY --chown=node:node . .
 
-WORKDIR /usr/share/nginx/html
-RUN rm -rf ./*
-COPY --from=build /app/build .
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# RUN npm ci
+#RUN npm install --production
+RUN npm install
+RUN npm run build
 
-FROM node:18-alpine AS deploy-node
+RUN rm -rf src/ static/ Dockerfile
 
-WORKDIR /app
-RUN rm -rf ./*
-COPY --from=build /app/package*.json .
-COPY --from=build /app/build .
-RUN yarn --production
-CMD ["node", "index.js"]
+USER node:node
 
-#docker build -t svelte-docker-static -f Dockerfile --target deploy-static .
+EXPOSE 3000
+
+CMD ["node","build/index.js"]
