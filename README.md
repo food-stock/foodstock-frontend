@@ -14,9 +14,8 @@ Updates are coming soon
 - [x] A stock page that allows you to see all your food
 - [x] A profile page that allows you to see your profile and your settings
 - [ ] A social page that allows you to give or get food for free with links to NGOs
-- [ ] A list page that allows you to see all your lists
 
-The frontend and backend are separated in two different repositories. The backend is available [here](https://github.com/food-stock/foodstock-frontend).
+The frontend and backend are separated in two different repositories. The backend is available [here](https://github.com/food-stock/foodstock-backend-django).
 
  I wanted them to be separated because I wanted to be able to change the frontend without changing the backend and vice versa.
 

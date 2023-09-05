@@ -1,8 +1,7 @@
 <script lang='ts'>
-  import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
+  import { translate } from '$lib/locales/TranslationStore';
   import Cookies from 'js-cookie';
-  import Back from '$lib/Back.svelte';
+  import Back from '$lib/nav/Back.svelte';
   import { setContext } from 'svelte';
 
   // Back
@@ -13,7 +12,7 @@
   const supportedLocales = ['en', 'fr', 'de', 'it', 'es'];
   let currentLocale = Cookies.get('locale') || 'en';
 
-  function changeLocale(locale) {
+  function changeLocale(locale: string) {
     Cookies.set('locale', locale);
     currentLocale = locale;
   }
@@ -22,12 +21,14 @@
   setContext('currentLocale', currentLocale);
 </script>
 
-<BaseLayout>
+
   <Back {name} {link} />
   {translate('Lang.Effect')}
   <br>
   <ul>
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     {#each supportedLocales as locale}
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <li
         on:click={() => changeLocale(locale)}
         class:selected={currentLocale === locale}
@@ -40,7 +41,7 @@
       </li>
     {/each}
   </ul>
-</BaseLayout>
+
 
 <style>
   ul {

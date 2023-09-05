@@ -1,23 +1,18 @@
 <script lang='ts'>
-  import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
+  import { translate } from '$lib/locales/TranslationStore';
   import { onMount } from 'svelte';
-  import Cookies from 'js-cookie';
-  import { VAPID_PUBLIC_KEY } from '$lib/constants';
+  import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
+  import constants from '$lib/constants';
 
   let registration;
   let isSubscribed = false;
   let subscription;
   let push = [];
 
-  let access_token = Cookies.get('access_token');
+  
   let id = Cookies.get('id');
 
-  const headers = {
-    'Authorization': `JWT ${access_token}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
+
 
   onMount(() => {
     if ('serviceWorker' in navigator) {
@@ -38,7 +33,7 @@
   });
 
   async function getLatestPush() {
-    const response = await fetch(`http://127.0.0.1:8000/get_latest_webpush/${id}/`, {
+    const response = await fetch(`http://localhost:8000/get_latest_webpush/${id}/`, {
       method: 'POST',
       headers: headers,
     });
@@ -63,7 +58,7 @@
   async function subscribe() {
   const options = {
     userVisibleOnly: true,
-    applicationServerKey: VAPID_PUBLIC_KEY,
+    applicationServerKey: constants.VAPID_PUBLIC_KEY,
   };
 
   try {
@@ -74,7 +69,7 @@
     const encodedAuth = encodeURIComponent(subscription.keys.auth);
     isSubscribed = true;
 
-    const data = await fetch(`http://127.0.0.1:8000/register_subscription/?endpoint=${encodedEndpoint}&p256dh=${encodedP256dh}&auth=${encodedAuth}`, {
+    const data = await fetch(`http://localhost:8000/register_subscription/?endpoint=${encodedEndpoint}&p256dh=${encodedP256dh}&auth=${encodedAuth}`, {
       method: 'POST',
       headers: headers,
     });
@@ -85,7 +80,7 @@
 }
 
 async function testSubscription() {
-    const response = await fetch(`http://127.0.0.1:8000/test_notif/`, {
+    const response = await fetch(`http://localhost:8000/test_notif/`, {
       method: 'GET',
       headers: headers,
     });
@@ -105,7 +100,7 @@ async function testSubscription() {
             .then(async () => {
               isSubscribed = false;
               try {
-                  const data = await fetch(`http://127.0.0.1:8000/remove_subscription/?endpoint=${encodedEndpoint}`, {
+                  const data = await fetch(`http://localhost:8000/remove_subscription/?endpoint=${encodedEndpoint}`, {
                     method: 'POST',
                     headers: headers,
                   });
@@ -125,7 +120,7 @@ async function testSubscription() {
   }
 </script>
 
-<BaseLayout>
+
   <h1>Push Notifications</h1>
 
   {#if isSubscribed}
@@ -145,7 +140,7 @@ async function testSubscription() {
     <p>You are not subscribed to push notifications.</p>
     <button on:click={subscribe}>Subscribe</button>
   {/if}
-</BaseLayout>
+
 
 <style>
   h1 {

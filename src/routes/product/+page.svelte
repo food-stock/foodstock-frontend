@@ -1,41 +1,37 @@
 <script lang='ts'>
-  import { translate } from '../../TranslationStore';
-  import BaseLayout from '../BaseLayout.svelte';
+  import { translate } from '$lib/locales/TranslationStore';
   import { onMount } from 'svelte';
-  import Cookies from 'js-cookie';
+  import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
   import { page } from '$app/stores'
 
-  let access_token = Cookies.get('access_token');
-  const headers = {
-    'Authorization': `JWT ${access_token}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
+  
+
 
   const params = new URLSearchParams($page.url.search);
   const food_id = params.get('food_id');
 
   let id = Cookies.get('id');
-  let Entity = [];
+  let Entity : any = [];
   let food_info = {};
   let data = {};
   let productIsDisplayed = false;
   let yaPlusOpened = false;
   let openQuantityM = false;
-  let integer;
+  let integer: string = '0';
   let decimal = 0;
-  let itemdedited;
+  let itemdedited: any = {};
   let showEntity = true;
+  let qtte_totale = 0;
 
-  function getDaysDifference(dateString) {
-    const today = new Date();
-    const consumptionDate = new Date(dateString);
-    const timeDiff = consumptionDate - today;
+  function getDaysDifference(dateString:string) {
+    const today : any = new Date();
+    const consumptionDate : any = new Date(dateString);
+    const timeDiff : any = consumptionDate - today;
     const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
     return daysDiff;
   }
 
-  function getColorClass(daysDifference) {
+  function getColorClass(daysDifference : number) {
     if (daysDifference > 5) {
       return 'green';
     } else if (daysDifference > 2 && daysDifference <=5) {
@@ -74,15 +70,17 @@
   async function registerQuantity() {
     let quantity = parseInt(integer) + decimal;
     const entity_id = itemdedited.id;
-    const response = fetch(`http://127.0.0.1:8000/update_entity_quantity/${entity_id}/${quantity}/`, {
+    const response = fetch(`http://localhost:8000/update_entity_quantity/${entity_id}/${quantity}/`, {
       headers: headers,
       method: 'POST'
     });
-    Entity.forEach(entity => {
+    Entity.forEach((entity: { id: any; quantity: number; }) => {
         if (entity.id === entity_id) {
           entity.quantity = quantity;
         }
     });
+    Entity = Entity.filter(entity => entity.quantity > 0);
+    qtte_totale = Entity.reduce((acc: any, entity: { quantity: any; }) => acc + entity.quantity, 0);
     openQuantityM = false;
     yaPlusOpened = false;
     productIsDisplayed = false;
@@ -102,7 +100,7 @@
     registerQuantity();
   }
 
-  async function yAPlus(item) {
+  async function yAPlus(item: any) {
     showEntity = false;
     itemdedited = item;
     productIsDisplayed = true;
@@ -110,7 +108,7 @@
     openQuantityM = false;
   }
 
-  async function openQuantityMenu(item) {
+  async function openQuantityMenu(item: { quantity: string; }) {
     showEntity = false;
     itemdedited = item;
     integer = parseInt(item.quantity);
@@ -118,86 +116,81 @@
     yaPlusOpened = false;
     openQuantityM = true;
   }
-
-  async function openStockMenu() {
-    yaPlusOpened = false;
-    productIsDisplayed = false;
-    openQuantityM = false;
-    Entity = [];
-    const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}/`, {
-      headers: headers
-    });
-    data = await response.json();
-    Entity = data.entity;
-    Entity = Entity.map(entity => ({
-        ...entity,
-        daysDifference: getDaysDifference(entity.date_of_consumption),
-        colorClass: getColorClass(getDaysDifference(entity.date_of_consumption)),
-      }));
-    showEntity = true;
-  }
-
+  
   onMount(async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/get_entity_by_id/${food_id}/${id}/`, {
+      const response = await fetch(`http://localhost:8000/get_entity_by_id/${food_id}/${id}/`, {
       headers: headers
     });
       data = await response.json();
       Entity = data.entity;
-      Entity = Entity.map(entity => ({
+      Entity = Entity.map((entity: { date_of_consumption: string; }) => ({
         ...entity,
         daysDifference: getDaysDifference(entity.date_of_consumption),
         colorClass: getColorClass(getDaysDifference(entity.date_of_consumption)),
       }));
       food_info = data.food_info[0]
+      qtte_totale = Entity.reduce((acc: any, entity: { quantity: any; }) => acc + entity.quantity, 0);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
   });
 </script>
 
-<BaseLayout>
-  <div id="container-entity">
-  <div id="foodname">{food_info.food__name}</div>
-  </div>
+
+  <div id="container-infos">
+    <div id="left">
+    <div id="foodname">{food_info.food__name} </div>    
+    <img id="picture" alt="Product" src="{food_info.food__picture}">
+    </div>
+    <div id="right">
+      {translate('Product.PresentInStock')} 
+      <div id="info"><span style="font-size:40px;font-weight: bold; margin-right:6px;"> {Entity.length} </span> {translate('Product.Stocks')} </div>
+      <div id="info"><span style="font-size:30px;font-weight: bold; margin-right:6px;"> {qtte_totale} </span> {translate('Product.Exemplaires')} </div>
+    </div>
+  </div> 
 
   <div id="container-entity">
-<img id="picture" alt="Product" src="{food_info.food__picture}">
 
 
 {#if showEntity}
-{translate('Product.Category')} : {food_info.food__category__name} <br>
   {#if Entity.length === 0}
     {translate('Product.NotPresentInStock')}
   {:else}
-{#if Entity.length > 0}
-{translate('Product.PresentInStock')} 
-  {#each Entity as item}
-    <ul class="no-bullet">
-      <div id="container-buttons">
-        <div class="name" id="btton">{item.stock__name} </div>
-        <div class="qtty" id="btton">{item.quantity} {translate('Product.Remaining')} </div>
-        <div class="{item.colorClass}" id="btton"> <i class="fa-solid fa-calendar-days"></i> {item.daysDifference} </div>
-      </div>
-      <li>{translate('Product.BoughtOn')} : {item.date_of_purchase} </li>
+    {#if Entity.length > 0}
+    
+      {#each Entity as item}
+      {#if item.quantity > 0}
+        <ul class="no-bullet">
+          <div id="container-buttons">
+            <div class="name" id="btton">{item.stock__name} </div>
+            <div class="qtty" id="btton">{item.quantity} {translate('Product.Remaining')} </div>
+            <div class="{item.colorClass}" id="btton"> <i class="fa-solid fa-calendar-days"></i> {item.daysDifference} </div>
+          </div>
+          <li>{translate('Product.BoughtOn')} : {item.date_of_purchase} </li>
 
-      <div id="container-buttons">
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <div class="adjust" on:click={() => openQuantityMenu(item)} id="btton">{translate('Product.AdjustQuantity')}</div>
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <div class="nomore" on:click={()=>yAPlus(item)} id="btton">{translate('Product.NoMore')} </div>
-      </div>
-    </ul>
-  {/each}
-{/if}
-{/if}
+          <div id="container-buttons">
+              <!-- svelte-ignore a11y-click-events-have-key-events -->
+              <!-- svelte-ignore a11y-no-static-element-interactions -->
+              <div class="adjust" on:click={() => openQuantityMenu(item)} id="btton">{translate('Product.AdjustQuantity')}</div>
+              <!-- svelte-ignore a11y-click-events-have-key-events -->
+              <!-- svelte-ignore a11y-no-static-element-interactions -->
+              <div class="nomore" on:click={()=>yAPlus(item)} id="btton">{translate('Product.NoMore')} </div>
+          </div>
+        </ul>
+      {/if}
+      {/each}
+    {/if}
+  {/if}
 {/if}
 
 {#if yaPlusOpened}
   <br>
   {translate('Product.NoMore?')} <br>
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div id="container-buttons">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div class="nomore" on:click={nomore} id="btton">{translate('Product.NoMore')}</div>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div class="remaining" on:click={missclick} id="btton">{translate('Product.ThereAreSome')}</div>
@@ -218,9 +211,11 @@
   <button class="button" class:selected={decimal === 0.5} id="button-2"on:click={setDecimal05} >&frac12;</button>
   <button class="button" class:selected={decimal === 0.75} id="button-3"on:click={setDecimal075} >&frac34;</button>
 </div>
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div id="container-buttons">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="nomore" on:click={registerQuantity} id="btton">{translate('Product.AllGood')}</div>
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <div class="validate" on:click={registerQuantity} id="btton">{translate('Product.AllGood')}</div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="remaining" on:click={missclick} id="btton">{translate('Product.MissClick')}</div>
 </div>
@@ -228,7 +223,7 @@
 
 
 </div>
-</BaseLayout>
+
 
 <style>
 
@@ -258,6 +253,7 @@
     flex-direction: column;
     align-items: center;
   }
+
   #container-buttons {
     display: flex;
     flex-direction: row;
@@ -280,6 +276,10 @@
   .nomore {
     background-color: var(--red-color);
     border: solid 1px var(--red-color);
+  }
+  .validate {
+    background-color: var(--green-color);
+    border: solid 1px var(--green-color);
   }
 
   .iconic {
@@ -305,7 +305,9 @@
     border: solid 1px var(--grey-color);
   }
 
-   
+  .name {
+    background-color: var(--blue-color);
+  }
 
   #foodname {
     font-size: 30px;
@@ -354,6 +356,35 @@
 
 .selected {
   color: var(--white-color);
+}
+
+#container-infos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 92vw;
+}
+
+#left{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#right{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
   
 </style>

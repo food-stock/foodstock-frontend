@@ -1,18 +1,12 @@
-
 <script lang='ts'>
-    import { translate } from '../../TranslationStore';
+    import { translate } from '$lib/locales/TranslationStore';
     import { Html5Qrcode } from 'html5-qrcode';
     import { onMount } from 'svelte';
-    import BaseLayout from '../BaseLayout.svelte';
-    import Cookies from 'js-cookie';
     import {goto} from '$app/navigation';
 
-    let scanning = false
+    let scanning = false;
 
-    let access_token = Cookies.get('access_token');
-    let id = Cookies.get('id');
-
-    let html5Qrcode
+    let html5Qrcode: Html5Qrcode;
 
     onMount(init)
 
@@ -38,27 +32,44 @@
         scanning = false
     }
 
-    function onScanSuccess(decodedText, decodedResult) {
+    function onScanSuccess(decodedText: string, decodedResult: any) {
         stop();
         goto(`/add?barcode=${decodedText}`);
     }
 
-    function onScanFailure(error) {
+    function onScanFailure(error : any) {
       // handle scan failure, usually better to ignore and keep scanning.
     }
 </script>
 
+<div class="container">
+    <reader id="reader"/>
+    {#if scanning}
+        <button id="bton" on:click={stop}> {translate('Scan.Stop')}</button>
+    {:else}
+        <div class="lds-ring"></div>
+        <button id="bton" on:click={start}> {translate('Scan.Start')}</button>
+    {/if}
+</div>
+
 <style>
-    main {
+    .container {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 20px;
     }
+
+    .lds-ring {
+        display: inline-block;
+        width: 80px;
+        height:350px;
+    }
+
     reader {
+        top : 40vh;
         width: 100%;
-        min-height: 500px;
         background-color: black;
     }
 
@@ -70,14 +81,3 @@
         font-size: 20px;
     }
 </style>
-
-<BaseLayout>
-  <main>
-    <reader id="reader"/>
-    {#if scanning}
-        <button id="bton" on:click={stop}> {translate('Scan.Stop')}</button>
-    {:else}
-        <button id="bton" on:click={start}> {translate('Scan.Start')}</button>
-    {/if}
-  </main>
-</BaseLayout>

@@ -1,14 +1,14 @@
 <script lang='ts'>
-  import { translate } from '../TranslationStore';
+  import { translate } from '../lib/locales/TranslationStore';
     import { goto } from '$app/navigation'; 
 </script>
 
 <body>
     <main>
         <div id="container">
-            <div id="maintitle">{translate('Root.Title')}</div>
-            <div id="subtitle">{translate("Root.Sub")}</div>
-            <div id="cont-buttons">
+            <div class="el" id="maintitle">{translate('Root.Title')}</div>
+            <div class="el" id="subtitle">{translate("Root.Sub")}</div>
+            <div class="el" id="cont-buttons">
                 <button id ="bton" on:click={() => goto('/register')}>Register</button> 
                 <button id="bton" on:click={() => goto('/login')}>Login</button>
             </div>
@@ -20,7 +20,7 @@
   @import '@fortawesome/fontawesome-free/css/all.css';
   @import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1;200&display=swap');
   
-:global(:root) {
+  :global(:root) {
         --green-color: #3fb945;
         --blue-color : #0084f6;
         --red-color: #f44336;
@@ -31,9 +31,34 @@
         --grey-color: #bfc2c7;
         --beige-color :  #f2eee2;
         --white-color : #ffffff;
-    }
+  }
 
-    #maintitle {
+  *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green-color);
+  font-family: 'Ysabeau SC', sans-serif;
+}
+
+.el {
+  margin : 10px;
+}
+
+main {
+    margin: 0;
+    padding: 0;
+}
+
+  #maintitle {
     font-size: 50px;
     font-weight: bold;
     color: var(--white-color);
@@ -42,29 +67,18 @@
 
   #subtitle {
     font-size: 25px;
-    font-weight: bold;
     color: var(--white-color);
     text-align: center;
-  }
-
-main {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Ysabeau SC', sans-serif;
-    background: linear-gradient(to bottom, var(--green-color), var(--beige-color));
-    width: 100vw;
-    height: 110vh;
+    width: 80vw;
+    font-weight: 400;
   }
 
 #container {
+    margin-top: -150px ;
+    position: relative;
     text-align: center;
     justify-content: center;
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;;
 }
 
 #cont-buttons {
@@ -75,23 +89,11 @@ body {
 #bton {
     text-decoration: none;
     border: none;
-    background-color: var(--blue-color);
-    margin : 10px;
-    padding: 10px;
-    border-radius: 15px;
-}
-
-#title {
-    font-size: larger;
-    margin: 20px;
-}
-
-#sub {
-    font-size: large;
-    margin: 20px;
-}
-
-#whitespace {
-    height: 150px;
+    background-color: var(--white-color);
+    margin : 20px;
+    padding: 40px;
+    border-radius: 5px;
+    font-size: 30px;
+    color : var(--green-color)
 }
 </style>
