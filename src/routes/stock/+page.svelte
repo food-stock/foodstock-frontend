@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import headers from '$lib/requests/headers';
+import constants from '$lib/constants';
   import { goto } from '$app/navigation';
   import Loading from '../../lib/nav/Loading.svelte';
   import ListCategories from '$lib/stock/ListCategories.svelte';
@@ -16,7 +17,7 @@
 
   onMount(async () => {
     try {
-      const response = await fetch(`http://localhost:8000/stocks/user/${id}/`, {
+      const response = await fetch(`${constants.ADD_API}stocks/user/${id}/`, {
         headers: headers
       });
       const data = await response.json();

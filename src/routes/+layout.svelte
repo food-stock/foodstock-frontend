@@ -1,11 +1,11 @@
 <script lang="ts">
-    // Import translations
     import { loadTranslations, translate } from '$lib/locales/TranslationStore';
     import {onMount} from 'svelte';
     import {goto} from '$app/navigation';
     import {auth} from '$lib/stores/auth';
     import {page} from '$app/stores';
     import headers from '$lib/requests/headers';
+    import constants from '$lib/constants';
     import SideBar from '$lib/nav/SideBar.svelte';
     import Cookies from 'js-cookie';
 
@@ -23,16 +23,14 @@
         }
         const formData = new URLSearchParams();
         formData.append('refresh', refresh_token);
-        const response = await fetch('http://localhost:8000/token/refresh/', {
-        method: 'POST',
-        headers: headers,
-        body: formData
+        const response = await fetch(`${constants.ADD_API}tokenrefresh/`, {
+            method: 'POST',
+            headers: headers,
+            body: formData
         });
 
         if (response.status === 401) {
-        // If the token refresh fails (401 Unauthorized), redirect to login
-        goto('/login');
-        return;
+            return;
         }
 
         const data = await response.json();
@@ -43,7 +41,8 @@
         if (authLocal) {
             loadTranslations;
         } else {
-            const req = fetch(`http://localhost:3000/test_token?user_id=${user}`, {
+            const user = Cookies.get('id');
+            const req = fetch(`${constants.ADD_API}test_token?user_id=${user}`, {
                 headers: headers,
                 method: 'GET'
             });

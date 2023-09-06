@@ -2,6 +2,7 @@
   import { translate } from '$lib/locales/TranslationStore';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
+import constants from '$lib/constants';
   import { debounce } from 'lodash-es';
   import { goto } from '$app/navigation'; 
   import {page} from '$app/stores';
@@ -34,7 +35,7 @@
 
   const fetchData = debounce(async () => {
     if (searchInput.length > 2) {
-      const response = await fetch(`http://localhost:8000/search/${searchInput}/`, {
+      const response = await fetch(`${constants.ADD_API}search/${searchInput}/`, {
       headers: headers
     });
       const data = await response.json();
@@ -50,7 +51,7 @@
       const stock_id = stockchosen.id;
       const quantitys = quantity;
       const date_of_consumptionl = date_of_consumption;
-      const response = await fetch(`http://localhost:8000/create_entity/${stock_id}/${food_id}/${quantitys}/${date_of_consumptionl}/`, {
+      const response = await fetch(`${constants.ADD_API}create_entity/${stock_id}/${food_id}/${quantitys}/${date_of_consumptionl}/`, {
       headers: headers, method: 'POST'});
       goto('/stock');
     }
@@ -76,7 +77,7 @@
 
   async function toogleDefaultStock() {
     try {
-      const response = await fetch(`http://localhost:8000/stocks/user/${id}/`, {
+      const response = await fetch(`${constants.ADD_API}stocks/user/${id}/`, {
       headers: headers
     });
       stocks = await response.json();
@@ -102,7 +103,7 @@
   }
 
   const fetchStockData = debounce(async () => {
-    const response = await fetch(`http://localhost:8000/search_stocks_with_access/${stockSearchInput}/${id}/`, {
+    const response = await fetch(`${constants.ADD_API}search_stocks_with_access/${stockSearchInput}/${id}/`, {
       headers: headers
     });
     const data = await response.json();
@@ -124,7 +125,7 @@
     const params = new URLSearchParams($page.url.search);
     try {
       const barcode = params.get('barcode');
-      const response = await fetch(`http://localhost:8000/get_product_from_barcode/${barcode}/`, {
+      const response = await fetch(`${constants.ADD_API}get_product_from_barcode/${barcode}/`, {
         headers: headers});
       let data = await response.json();
       food = data.food;
@@ -140,7 +141,7 @@
       console.error('Error fetching the food:', error);
     }
     try {
-      const response = await fetch(`http://localhost:8000/stocks/user/${id}/`, {
+      const response = await fetch(`${constants.ADD_API}stocks/user/${id}/`, {
         headers: headers
       });
       stocks = await response.json();

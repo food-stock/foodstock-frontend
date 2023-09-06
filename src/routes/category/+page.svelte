@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
+import constants from '$lib/constants';
 
   
 
@@ -34,7 +35,7 @@
 
   onMount(async () => {
     try {
-      const response = await fetch(`http://localhost:8000/get_entities_for_stock_and_category/${stock_id}/${cat_id}/`, {
+      const response = await fetch(`${constants.ADD_API}get_entities_for_stock_and_category/${stock_id}/${cat_id}/`, {
       headers: headers
     });
       let data = await response.json();

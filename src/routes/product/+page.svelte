@@ -2,6 +2,7 @@
   import { translate } from '$lib/locales/TranslationStore';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
+import constants from '$lib/constants';
   import { page } from '$app/stores'
 
   const params = new URLSearchParams($page.url.search);
@@ -67,7 +68,7 @@
   async function registerQuantity() {
     let quantity = parseInt(integer) + decimal;
     const entity_id = itemdedited.id;
-    const response = fetch(`http://localhost:8000/update_entity_quantity/${entity_id}/${quantity}/`, {
+    const response = fetch(`${constants.ADD_API}update_entity_quantity/${entity_id}/${quantity}/`, {
       headers: headers,
       method: 'POST'
     });
@@ -116,7 +117,7 @@
   
   onMount(async () => {
     try {
-      const response = await fetch(`http://localhost:8000/get_entity_by_id/${food_id}/${id}/`, {
+      const response = await fetch(`${constants.ADD_API}get_entity_by_id/${food_id}/${id}/`, {
       headers: headers
     });
       data = await response.json();

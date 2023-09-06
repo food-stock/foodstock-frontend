@@ -2,6 +2,7 @@
 export let stockchosen : any;
 import { onMount, afterUpdate } from 'svelte';
 import headers from '$lib/requests/headers';
+import constants from '$lib/constants';
 import { translate } from '$lib/locales/TranslationStore';
 import { goto } from '$app/navigation';
 
@@ -10,7 +11,7 @@ let currentStock = stockchosen;
 
 async function fetchCategoriesForStock(stockId:string) {
   try {
-    const response = await fetch(`http://localhost:8000/get_categories_for_stock/${stockId}/`, {
+    const response = await fetch(`${constants.ADD_API}get_categories_for_stock/${stockId}/`, {
       headers: headers
     });
     const data = await response.json();

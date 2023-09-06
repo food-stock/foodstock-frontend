@@ -1,12 +1,63 @@
 <script lang='ts'>
   import { translate } from '$lib/locales/TranslationStore';
   import { goto } from '$app/navigation';
-  import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
-  import {auth} from '../../lib/stores/auth';
+  import Cookies from 'js-cookie';
+  import headers from '$lib/requests/headers';
+  import constants from '$lib/constants';
+  import {auth} from '$lib/stores/auth';``
+  import { onMount } from 'svelte';
 
   let username = '';
   let password = '';
   let errorB = false;
+  let isRedirect = false;
+  let link = '';
+
+  async function refreshToken() {
+        const refresh_token = Cookies.get('refresh_token');
+        if (refresh_token === undefined) {
+            return;
+        }
+        const formData = new URLSearchParams();
+        formData.append('refresh', refresh_token);
+        const response = await fetch(`${constants.ADD_API}tokenrefresh/`, {
+        method: 'POST',
+        headers: headers,
+        body: formData
+        });
+
+        if (response.status === 401) {
+          return;
+        }
+
+        const data = await response.json();
+        Cookies.set('access_token', data.access);
+  }
+
+  async function tryExistingLogin(){
+    const access_token = Cookies.get('access_token');
+    const user_id = Cookies.get('id');
+    if (access_token !== undefined && user_id !== undefined) {
+      const req = fetch(`${constants.ADD_API}test_token?user_id=${user_id}`, {
+        headers: headers,
+        method: 'GET'
+      });
+      req.then(async (res) => {
+        if (res.status !== 200) {
+          console.log('Token expired');
+          await refreshToken();
+        }
+        else {
+          if (isRedirect) {
+            goto(link);
+          }
+          else {
+            goto('/stock');
+          }
+        }
+      });
+    }
+  }
 
   async function handleSubmit(event : Event) {
     event.preventDefault();
@@ -15,7 +66,7 @@
       formData.append('username', username);
       formData.append('password', password);
 
-      const response = await fetch('http://localhost:8000/token/', {
+      const response = await fetch(`${constants.ADD_API}token/`, {
         method: 'POST',
         body: formData
       });
@@ -33,7 +84,7 @@
             'Accept': 'application/json'
           }
 
-          const response2 = await fetch(`http://localhost:8000/get_user_id`, {
+          const response2 = await fetch(`${constants.ADD_API}get_user_id`, {
             method: 'GET',
             headers: headers
           });
@@ -41,7 +92,12 @@
           if (response2.ok) {
             const data = await response2.json();
             Cookies.set('id', data.id);
-            goto('/stock');
+            if (isRedirect) {
+              goto(link);
+            }
+            else {
+              goto('/stock');
+            }
           }
           else {
             console.error('Error during login:', errorB);
@@ -60,22 +116,16 @@
     }
   }
 
-  async function refreshToken() {
-      const refresh_token = Cookies.get('refresh_token');
-      const header = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-      const formData = new URLSearchParams();
-      formData.append('refresh', refresh_token);
-      const response = await fetch('http://localhost:8000/token/refresh/', {
-        method: 'POST',
-        headers: header,
-        body: formData
-      });
-      const data = await response.json();
-      Cookies.set('access_token', data.access);
-  }
+  onMount(async () => {
+    await tryExistingLogin();
+    const params = new URLSearchParams(window.location.search);
+    const redirectParam = params.get('redirect');
+    
+    if (redirectParam !== null) { 
+      isRedirect = true;
+      link = decodeURIComponent(redirectParam) as string; 
+    }
+  });
   
 </script>
 
