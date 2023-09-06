@@ -2,6 +2,7 @@
   import { translate } from '$lib/locales/TranslationStore';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
+import constants from '$lib/constants';
 
   let name = '';
   let username = '';
@@ -18,7 +19,8 @@
     return pattern.test(password);
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(event : Event) {
+    event.preventDefault();
     let condition = validatePassword(password);
     error1 = false;
     error2 = false;
@@ -38,7 +40,7 @@
       'last_name': name.split(' ')[1],
       'password': password,
     }
-    const response = await fetch(`http://localhost:8000/register/`, {
+    const response = await fetch(`${constants.ADD_API}register/`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(dict)
@@ -121,11 +123,7 @@
       <input type="Submit" value="{translate('Register.Register')}">
     </div>
     <div class="text">
-      <!-- svelte-ignore a11y-invalid-attribute -->
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <!-- svelte-ignore a11y-missing-attribute -->
-      <h3>{translate('Register.Login')} <a on:click={()=>goto("/login")}>{translate("Register.BLogin")}</a></h3>
+      <h3>{translate('Register.Login')} <button on:click={()=>goto("/login")}>{translate("Register.BLogin")}</button></h3>
     </div>
   </form>
 </div>
@@ -226,11 +224,11 @@ form .text h3{
  width: 100%;
  text-align: center;
 }
-form .text h3 a{
+form .text h3 button{
   color: var(--green-color);
   text-decoration: none;
 }
-form .text h3 a:hover{
+form .text h3 button:hover{
   text-decoration: underline;
 }
 

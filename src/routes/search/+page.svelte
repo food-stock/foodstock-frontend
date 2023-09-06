@@ -1,6 +1,7 @@
 <script lang='ts'>
   import { translate } from '$lib/locales/TranslationStore';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
+import constants from '$lib/constants';
   import { debounce } from 'lodash-es';
 
   
@@ -14,7 +15,7 @@
 
   const fetchData = debounce(async () => {
     if (searchInput.length > 1) {
-      const response = await fetch(`http://localhost:8000/search_product_among_stocks/${searchInput}/${id}/`, {
+      const response = await fetch(`${constants.ADD_API}search_product_among_stocks/${searchInput}/${id}/`, {
       headers: headers
     });
       const data = await response.json();
