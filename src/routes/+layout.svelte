@@ -8,8 +8,10 @@
     import constants from '$lib/constants';
     import SideBar from '$lib/nav/SideBar.svelte';
     import Cookies from 'js-cookie';
+    import PopUpCookies from '$lib/notifications/PopUpCookies.svelte';
 
     let authLocal: boolean = false ;
+    let askCookies: boolean = false;
 
     auth.subscribe((a: boolean) => {
         authLocal = a;
@@ -40,6 +42,9 @@
     onMount(() => {
         if (authLocal) {
             loadTranslations;
+            if (Cookies.get('cookiesaccepted')!="true") {
+                askCookies = true;
+            }
         } else {
             const user = Cookies.get('id');
             const req = fetch(`${constants.ADD_API}test_token?user_id=${user}`, {
@@ -56,6 +61,9 @@
     });
   </script>
   
+{#if askCookies}
+    <PopUpCookies />
+{/if}
 
 {#if $page.url.pathname === '/login' || $page.url.pathname === '/register' || $page.url.pathname === '/'}
 <slot></slot>

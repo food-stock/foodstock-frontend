@@ -14,10 +14,10 @@
   {#if showPopup}
   <div class="popup-cookies">
     <div class="popup-content">
-      <h2>Accepter les cookies</h2>
-      <p>Nous utilisons (le moins possible) des cookies pour améliorer votre expérience sur notre site.</p>
-      <button class="no" on:click={refuseCookies}>Refuser</button>
-      <button on:click={acceptCookies}>Accepter</button>
+      <h2>On vous a pas encore demmandé d'accepter les cookies ? C'est normal ...</h2>
+      <p>Nous utilisons aucun cookies permettant de vous traquer ou de récolter des données sur vos habitudes.</p>
+      <button class="no" on:click={refuseCookies}>Okay merci</button>
+      <button on:click={acceptCookies}>C'est gentil</button>
     </div>
   </div>
   {/if}
