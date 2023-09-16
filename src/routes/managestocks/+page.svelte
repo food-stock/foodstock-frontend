@@ -4,10 +4,13 @@
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';
   import headers from '$lib/requests/headers';
-import constants from '$lib/constants';
+  import constants from '$lib/constants';
+  import Toasts from '$lib/notifications/Toasts.svelte';
+  import { addToast } from "$lib/stores/notif";
   import { debounce } from 'lodash-es';
   import Loading from '../../lib/nav/Loading.svelte';
   import ButtonFavorite from '$lib/interactions/ButtonFavorite.svelte';
+  import Dialog from '$lib/interactions/Dialog.svelte';
   
   //back
   let name = translate('Manage.Back');
@@ -26,6 +29,7 @@ import constants from '$lib/constants';
   let searchInput = '';
   let options:any = [];
   let hasChosen : boolean = false;
+  let showDialogUserRm = false;
 
   function manageStock(stock:any) {
     stockEdit = stock;
@@ -82,6 +86,7 @@ import constants from '$lib/constants';
       headers: headers, method: 'POST'
     });
     user.text = "✓";
+    addToast({ message: translate('Manage.UserAdded'), type: "success", dismissible: true, timeout: constants.delayNotification });
     users = users.filter((u) => u.id !== userid);
     users.push(user);
     hasChosen = true;
@@ -93,6 +98,7 @@ import constants from '$lib/constants';
     const data = await fetch(`${constants.ADD_API}remove_user_access_to_stock/${stockid}/${userid}/`, {
       headers: headers, method: 'POST'
     });
+    addToast({ message: translate('Manage.UserRemoved'), type: "success", dismissible: true, timeout: constants.delayNotification });
     //Remove the user from the list
     users = users.filter((u) => u.id !== userid);
   }
@@ -108,9 +114,9 @@ import constants from '$lib/constants';
     fetchData();
   }
 
-  async function createStock() {
+  async function createStock(name) {
     const userid = Cookies.get('id');
-    const response = await fetch(`${constants.ADD_API}create_stock/${userid}`, {
+    const response = await fetch(`${constants.ADD_API}create_stock/${userid}?name=${name}`, {
       headers: headers, method: 'POST'
     });
     const data = await response.json();
@@ -154,6 +160,7 @@ import constants from '$lib/constants';
     }
   });
 </script>
+<Toasts />
 
 
   {#if loading}
@@ -171,11 +178,11 @@ import constants from '$lib/constants';
         <a id="cat-link" on:click={()=>manageStock(stock)}>{stock.name}</a>
       </div>
     {/each}
-  </div>
+</div>
 
 {:else if searchUsers}
-  <div id="container">
-    <button class="bton" on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
+<button class="bton" on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
+<div id="container">
     <h1>{translate('Manage.SearchUser')}</h1>
     <input class="input" placeholder={translate("TypeHere")} type="text" bind:value={searchInput} on:input={handleInput} />
     {#if !hasChosen}
@@ -194,12 +201,22 @@ import constants from '$lib/constants';
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <li >
           {option.username}
-          <button class="bton" on:click={()=>addUsertoStock(option)}>{option.text}</button>
+          <button class="bton" on:click={()=>showDialogUserRm = true}>{option.text}</button>
+          {#if showDialogUserRm}
+            <Dialog
+            title ='Remove user from stock'
+            content = 'Are you sure you want to remove {option.username} from the stock ?'
+            acceptLabel = 'Accept'
+            refuseLabel = 'Refuse'
+            onAccept = {()=>addUsertoStock(option)}
+            onRefuse={() => showDialogUserRm = false}
+            />
+          {/if}
         </li>
       {/each}
     </ul>
     {/if}
-  </div>
+</div>
   
 
 {:else if printUsers}
@@ -235,7 +252,7 @@ import constants from '$lib/constants';
 
     <div class="topc row">
       <div class="title">{translate('Manage.EditStock')} : {stockEdit.name}</div>
-      <ButtonFavorite stock={stockEdit} />
+      <ButtonFavorite stockEdit={stockEdit} />
     </div>
 
     <div class='row'>

@@ -5,20 +5,24 @@
     export let refuseLabel = 'Refuse';
     export let onAccept:Function;
     export let onRefuse:Function;
+    let show = true;
   
     function handleAccept() {
       if (typeof onAccept === 'function') {
         onAccept();
+        show = false;
       }
     }
   
     function handleRefuse() {
       if (typeof onRefuse === 'function') {
         onRefuse();
+        show = false;
       }
     }
   </script>
   
+  {#if show}
   <div class="dialog">
     <h2>{title}</h2>
     <p>{content}</p>
@@ -27,6 +31,7 @@
         <button on:click={handleAccept}>{acceptLabel}</button>
     </div>
   </div>
+  {/if}
   
   <style>
     h2 {

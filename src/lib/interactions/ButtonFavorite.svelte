@@ -3,7 +3,7 @@ import { onMount } from "svelte";
 import constants from "$lib/constants";
 import headers from "$lib/requests/headers";
 
-export let stock:any;
+export let stockEdit:any;
 let stockid;
 let isDefault:boolean;
 
@@ -20,8 +20,8 @@ async function toogleDefault() {
   }
 
 onMount(() => {
-    stockid = stock.id;
-    isDefault = stock.is_default;
+    stockid = stockEdit.id;
+    isDefault = stockEdit.is_default;
 });
 </script>
 

@@ -60,6 +60,8 @@ export const translations: Record<string, Record<string, string>> = {
         "Manage.SetPersonalStock": "Set as Personal Stock",
         "Manage.ConfirmDelete": "Confirm Delete",
         "Manage.ErrorPersonal": "OOOps! Something went wrong !",
+        "Manage.UserAdded" : "Access proposal sent",
+        "Manage.UserRemoved" : "User deleted",
         "Scan.Start": "Start Scan",
         "Scan.Stop": "Stop Scan",
         "Notifications.Title": "Notifications",

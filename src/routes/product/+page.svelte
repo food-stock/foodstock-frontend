@@ -2,8 +2,9 @@
   import { translate } from '$lib/locales/TranslationStore';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
-import constants from '$lib/constants';
-  import { page } from '$app/stores'
+  import constants from '$lib/constants';
+  import { page } from '$app/stores';
+  import Dialog from '$lib/interactions/Dialog.svelte';
 
   const params = new URLSearchParams($page.url.search);
   const food_id = params.get('food_id');
@@ -183,16 +184,14 @@ import constants from '$lib/constants';
 {/if}
 
 {#if yaPlusOpened}
-  <br>
-  {translate('Product.NoMore?')} <br>
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div id="container-buttons">
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <div class="nomore" on:click={nomore} id="btton">{translate('Product.NoMore')}</div>
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <div class="remaining" on:click={missclick} id="btton">{translate('Product.ThereAreSome')}</div>
-  </div>
+  <Dialog
+    title="{translate('Product.NoMore?')}"
+    content ="Dialog description"
+    acceptLabel = '{translate('Product.NoMore')}'
+    refuseLabel = '{translate('Product.ThereAreSome')}'
+    onAccept = {nomore}
+    onRefuse={missclick}
+  />
 {/if}
 
 {#if openQuantityM}
