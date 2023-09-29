@@ -202,7 +202,7 @@ import constants from '$lib/constants';
           {translate('Add.HowMany')}
           <input id="input" type="number" bind:value={quantity}/>
           {translate('Add.CDate')}
-          <input id="input" type="date" bind:value={date_of_consumption} />
+          <input id="datetime-local" type="date" bind:value={date_of_consumption} />
           <div id="validation">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
           <div id="bttonY" on:click={validateAdd}><i class="fa-solid fa-check"></i></div>
