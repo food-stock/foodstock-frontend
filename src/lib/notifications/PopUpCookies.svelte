@@ -1,11 +1,10 @@
 <script>
-    let showPopup = true;
+    import Cookies from 'js-cookie';
+    export let showPopup = false;
   
     function acceptCookies() {
       showPopup = false;
-    }
-    function refuseCookies() {
-      showPopup = false;
+      Cookies.set('cookiesaccepted', 'true');
     }
 
 
@@ -16,7 +15,7 @@
     <div class="popup-content">
       <h2>On vous a pas encore demmandé d'accepter les cookies ? C'est normal ...</h2>
       <p>Nous utilisons aucun cookies permettant de vous traquer ou de récolter des données sur vos habitudes.</p>
-      <button class="no" on:click={refuseCookies}>Okay merci</button>
+      <button class="no" on:click={acceptCookies}>Okay merci</button>
       <button on:click={acceptCookies}>C'est gentil</button>
     </div>
   </div>
