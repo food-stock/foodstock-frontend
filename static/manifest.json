@@ -1,8 +1,8 @@
 {
     "name": "FoodStock",
     "short_name": "FoodStock",
-    "theme_color": "#1976d2",
-    "background_color": "#fafafa",
+    "theme_color": "#3fb945",
+    "background_color": "#3fb945",
     "display": "standalone",
     "scope": "./",
     "start_url": "./",
