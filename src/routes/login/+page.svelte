@@ -49,10 +49,10 @@
         }
         else {
           if (isRedirect) {
-            goto(link);
+            window.location.href = link;
           }
           else {
-            goto('/stock');
+            window.location.href = '/stock';
           }
         }
       });
@@ -61,6 +61,7 @@
 
   async function handleSubmit(event : Event) {
     event.preventDefault();
+    console.log('login');
     try {
       const formData = new URLSearchParams();
       formData.append('username', username);
@@ -93,10 +94,10 @@
             const data = await response2.json();
             Cookies.set('id', data.id);
             if (isRedirect) {
-              goto(link);
+              window.location.href = link;
             }
             else {
-              goto('/stock');
+              window.location.href = '/stock';
             }
           }
           else {
@@ -135,7 +136,7 @@
     <h2>FoodStock</h2>
     <form on:submit={handleSubmit}>
       <div class="input-box">
-        <input type="text" placeholder="ENTER YOUR {translate('Register.Username')}" bind:value={username} required>
+        <input type="text" placeholder="{translate('Register.Username')}" bind:value={username} required>
       </div>
       <div class="input-box">
         <input type="password" placeholder="{translate('Register.Password')}" bind:value={password} required>
