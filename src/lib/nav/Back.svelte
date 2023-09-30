@@ -2,8 +2,6 @@
     export let name: string;
     export let onClickFunction: () => void;
   
-    import { goto } from '$app/navigation';
-  
     function handleClick() {
       if (typeof onClickFunction === 'function') {
         onClickFunction(); // Call the provided function
@@ -17,7 +15,7 @@
     
   <style>
     .blue-item {
-      background-color: var(--blue-color);
+      background-color: var(--green-color);
       width: 30vw;
       height: 10vw;
       margin: 10px;
@@ -26,12 +24,13 @@
       cursor: pointer;
       text-align: center;
       word-wrap: break-word;
+      color : var(--white-color);
     }
   
     @media (max-width: 600px) {
       .blue-item {
-        width: 90vw;
-        height: 20vw;
+        width: 30vw;
+        height: 10vw;
       }
     }
   
