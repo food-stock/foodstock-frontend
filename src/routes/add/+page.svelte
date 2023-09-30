@@ -2,14 +2,12 @@
   import { translate } from '$lib/locales/TranslationStore';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
-import constants from '$lib/constants';
+  import constants from '$lib/constants';
   import { debounce } from 'lodash-es';
   import { goto } from '$app/navigation'; 
   import {page} from '$app/stores';
 
   
-
-
   let defaultStock = {
     id: 1,
     name: 'Frigo',
