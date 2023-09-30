@@ -1,7 +1,7 @@
 <script lang='ts'>
   import { translate } from '$lib/locales/TranslationStore';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
-import constants from '$lib/constants';
+  import constants from '$lib/constants';
   import {goto} from '$app/navigation';
 
   async function logOut() {
@@ -11,35 +11,34 @@ import constants from '$lib/constants';
     Cookies.remove('refresh_token');
     goto('/');
   }
-
-
+  
 </script>
 
 
-  <img id="picture" src="/logo.png" alt="Logo">
   <div id="container">
-    <h1>
-      {translate('Settings.Title')}</h1>
-    <div id="cat-container">
-        <a id="cat-link" href="/managestocks">{translate('Settings.ManageStock')}</a>
-        <a id="cat-link" href="/lang">{translate('Settings.Language')}</a>
-        <a id="cat-link" href="/subscription">{translate('Settings.Sub')}</a>
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-missing-attribute -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <a id="cat-link" on:click={logOut}>{translate('Settings.LogOut')}</a>
-    </div>
+    <img src="/logo.png" alt="Logo">
+    <h1>{translate('Settings.Title')}</h1>
   </div>
+  
+    <div id="cat-container">
+        <button id="cat-link" on:click={()=>goto("/managestocks")}>{translate('Settings.ManageStock')}</button>
+        <button id="cat-link" on:click={()=>goto("/lang")}>{translate('Settings.Language')}</button>
+        <button id="cat-link" on:click={()=>goto("/subscription")}>{translate('Settings.Sub')}</button>
+        <button id="cat-link" on:click={()=>goto("/bug")}>{translate('Settings.Bug')}</button>
+        <button id="cat-link" on:click={logOut}>{translate('Settings.LogOut')}</button>
+        <h3>{constants.Version}</h3>
+    </div>
 
 
 <style>
   h1 {
     color : var(--green-color);
+    display: block;
   }
 
   #container {
-    display: block;
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
@@ -75,8 +74,23 @@ import constants from '$lib/constants';
     color : var(--green-color);
   }
 
-  #picture {
+  img {
     width: 150px;
     height: 150px;
+    display: block;
+    margin-left: -30px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+  }
+
+  h3 {
+    color : var(--green-color);
+    margin-top: 20px;
+    
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
   }
 </style>
