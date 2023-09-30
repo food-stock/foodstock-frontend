@@ -11,6 +11,7 @@
   import Loading from '../../lib/nav/Loading.svelte';
   import ButtonFavorite from '$lib/interactions/ButtonFavorite.svelte';
   import Dialog from '$lib/interactions/Dialog.svelte';
+  import DialogInput from '$lib/interactions/DialogInput.svelte';
   
   //back
   let name = translate('Manage.Back');
@@ -22,7 +23,6 @@
   let id = Cookies.get('id');
   let printstocks = true;
   let stockEdit: boolean;
-  let isDefault: boolean;
   let isPersonal: boolean;
   let printUsers : boolean = false;
   let searchUsers : boolean = false;
@@ -30,6 +30,8 @@
   let options:any = [];
   let hasChosen : boolean = false;
   let showDialogUserRm = false;
+  let createstock:boolean = false;
+  let stockname:string;
 
   function manageStock(stock:any) {
     stockEdit = stock;
@@ -114,9 +116,13 @@
     fetchData();
   }
 
-  async function createStock(name) {
+  function preCreateStock() {
+    createstock = true;
+  }
+
+  async function createStock() {
     const userid = Cookies.get('id');
-    const response = await fetch(`${constants.ADD_API}create_stock/${userid}?name=${name}`, {
+    const response = await fetch(`${constants.ADD_API}create_stock/${userid}?name=${stockname}`, {
       headers: headers, method: 'POST'
     });
     const data = await response.json();
@@ -169,19 +175,29 @@
 
 {#if printstocks}
 <div class="title">{translate("Manage.FindStock")}</div>
-<button class="plus" on:click={()=>createStock}>+</button>
+<button class="plus" on:click={()=>preCreateStock}>+</button>
+<DialogInput
+title ='New Stock'
+content = 'Enter the name of your new stock : '
+acceptLabel = 'Perfect !'
+refuseLabel = 'Cancel this .. '
+onAccept = {()=>createStock}
+onRefuse={() => (null)}
+bind:show={createstock}
+bind:input={stockname}
+/>
+
+/>
   <div id="list-stock">
     {#each stocks as stock}
       <div class="stock-item">
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <a id="cat-link" on:click={()=>manageStock(stock)}>{stock.name}</a>
+        <button id="cat-link" on:click={()=>manageStock(stock)}>{stock.name}</button>
       </div>
     {/each}
 </div>
 
 {:else if searchUsers}
-<button class="bton" on:click={()=>{searchUsers = false; printstocks = false;}}>{translate('Manage.Back')}</button>
+<button class="bton" on:click={()=>{searchUsers = false; printstocks = true;}}>{translate('Manage.Back')}</button>
 <div id="container">
     <h1>{translate('Manage.SearchUser')}</h1>
     <input class="input" placeholder={translate("TypeHere")} type="text" bind:value={searchInput} on:input={handleInput} />
@@ -198,11 +214,9 @@
     {:else}
     <ul>
       {#each options as option}
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <li >
           {option.username}
           <button class="bton" on:click={()=>showDialogUserRm = true}>{option.text}</button>
-          {#if showDialogUserRm}
             <Dialog
             title ='Remove user from stock'
             content = 'Are you sure you want to remove {option.username} from the stock ?'
@@ -210,8 +224,8 @@
             refuseLabel = 'Refuse'
             onAccept = {()=>addUsertoStock(option)}
             onRefuse={() => showDialogUserRm = false}
+            bind:show={showDialogUserRm}
             />
-          {/if}
         </li>
       {/each}
     </ul>
