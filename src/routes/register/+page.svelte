@@ -2,7 +2,7 @@
   import { translate } from '$lib/locales/TranslationStore';
   import { goto } from '$app/navigation';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
-import constants from '$lib/constants';
+  import constants from '$lib/constants';
 
   let name = '';
   let username = '';
@@ -53,8 +53,8 @@ import constants from '$lib/constants';
       const data = await response.json();
       Cookies.set('username', username);
       Cookies.set('id', data.user_id);
-      Cookies.set('locale', 'en');
       isRegistered = true;
+      window.location.href = '/stock';
     }
   }
   }
@@ -69,7 +69,7 @@ import constants from '$lib/constants';
       <input type="text" placeholder="{translate('Register.FName')}" bind:value={name} required>
     </div>
     <div class="input-box">
-      <input type="text" placeholder="ENTER YOUR {translate('Register.Username')}" bind:value={username} required>
+      <input type="text" placeholder="{translate('Register.Username')}" bind:value={username} required>
     </div>
     <div class="input-box">
       <input type="text" placeholder="{translate('Register.Email')}" bind:value={email} required>
@@ -117,7 +117,7 @@ import constants from '$lib/constants';
     </div>
     <div class="policy">
       <input type="checkbox" bind:value={acceptedConditions}>
-      <h3>I accept all terms & condition</h3>
+      <h3>I accept the <a href="/toc">terms & condition</a></h3>
     </div>
     <div class="input-box button">
       <input type="Submit" value="{translate('Register.Register')}">
@@ -286,6 +286,11 @@ form .text h3 button:hover{
   padding-left: 1.25rem;
   margin-top: 0.25rem;
   list-style-type: disc;
+}
+
+a {
+  text-decoration: none;
+  color: var(--green-color);
 }
 
 </style>
