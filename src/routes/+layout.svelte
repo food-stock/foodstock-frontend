@@ -11,13 +11,12 @@
     import PopUpCookies from '$lib/notifications/PopUpCookies.svelte';
 
     let authLocal: boolean = false ;
-    let askCookies: boolean = false;
+    let askCookies: boolean;
 
     auth.subscribe((a: boolean) => {
         authLocal = a;
     });
   
-
     async function refreshToken() {
         const refresh_token = Cookies.get('refresh_token');
         if (refresh_token === undefined) {
@@ -40,16 +39,27 @@
     }
 
     onMount(() => {
+        console.log(Cookies.get('cookiesaccepted'));
+        if (Cookies.get('cookiesaccepted')==undefined) {
+            askCookies = true;
+        } else {
+            askCookies = false;
+        }
+
+        if ($page.url.pathname === '/login' || $page.url.pathname === '/register'){
+            return;
+        }
         if (authLocal) {
             loadTranslations;
-            if (Cookies.get('cookiesaccepted')!="true") {
-                askCookies = true;
-            }
         } else {
             const user = Cookies.get('id');
-            const req = fetch(`${constants.ADD_API}test_token?user_id=${user}`, {
+            const token = Cookies.get('access_token');
+            if (user === undefined || token === undefined) {
+                return;
+            }
+            const req = fetch(`${constants.ADD_API}test_token/?user_id=${user}`, {
                 headers: headers,
-                method: 'GET'
+                method: 'POST'
             });
             req.then(async (res) => {
                 if (res.status !== 200) {
@@ -61,9 +71,7 @@
     });
   </script>
   
-{#if askCookies}
-    <PopUpCookies />
-{/if}
+<PopUpCookies bind:showPopup={askCookies} />
 
 {#if $page.url.pathname === '/login' || $page.url.pathname === '/register' || $page.url.pathname === '/'}
 <slot></slot>
@@ -181,6 +189,11 @@
         background-color: var(--blue-color);
         background-color: var(--blue-color);
         color: var(--black-color);
+    }
+
+    :global(button){
+        background-color: transparent;
+        border : none;
     }
     
     </style>
