@@ -1,5 +1,4 @@
 <script>
-  import Toasts from "$lib/notifications/Toasts.svelte";
   import { addToast } from "$lib/stores/notif";
   import { translate } from "$lib/locales/TranslationStore";
   let message = "Hello, World!";
@@ -10,7 +9,6 @@
   addToast({ message: translate('Manage.UserAdded'), type: "success", dismissible: true, timeout: 2000 });
 </script>
 
-<Toasts />
 <form on:submit|preventDefault>
   <p>
     <label>

@@ -5,7 +5,6 @@
   import Cookies from 'js-cookie';
   import headers from '$lib/requests/headers';
   import constants from '$lib/constants';
-  import Toasts from '$lib/notifications/Toasts.svelte';
   import { addToast } from "$lib/stores/notif";
   import { debounce } from 'lodash-es';
   import Loading from '../../lib/nav/Loading.svelte';
@@ -166,7 +165,6 @@
     }
   });
 </script>
-<Toasts />
 
 
   {#if loading}

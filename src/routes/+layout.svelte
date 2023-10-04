@@ -9,6 +9,7 @@
     import SideBar from '$lib/nav/SideBar.svelte';
     import Cookies from 'js-cookie';
     import PopUpCookies from '$lib/notifications/PopUpCookies.svelte';
+    import Toasts from '$lib/notifications/Toasts.svelte';
 
     let authLocal: boolean = false ;
     let askCookies: boolean;
@@ -70,6 +71,8 @@
         }
     });
   </script>
+
+<Toasts />
   
 <PopUpCookies bind:showPopup={askCookies} />
 
