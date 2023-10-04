@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { loadTranslations, translate } from '$lib/locales/TranslationStore';
+    import { loadTranslations} from '$lib/locales/TranslationStore';
     import {onMount} from 'svelte';
     import {goto} from '$app/navigation';
     import {auth} from '$lib/stores/auth';
@@ -40,7 +40,6 @@
     }
 
     onMount(() => {
-        console.log(Cookies.get('cookiesaccepted'));
         if (Cookies.get('cookiesaccepted')==undefined) {
             askCookies = true;
         } else {
@@ -58,6 +57,7 @@
             if (user === undefined || token === undefined) {
                 return;
             }
+            console.log(user, token);
             const req = fetch(`${constants.ADD_API}test_token/?user_id=${user}`, {
                 headers: headers,
                 method: 'POST'
@@ -80,6 +80,8 @@
 <slot></slot>
 {:else}
 <SideBar />
+
+<!--Floating buttons-->
 <button on:click={()=>goto("/scanproduct")} id="bttonB"><i class="fa-solid fa-barcode"></i></button>
 <button on:click={()=>goto("/add")} id="bttonA"><i class="fa-solid fa-plus"></i></button>
 <button on:click={()=>goto("/stock")} id="bttonH"><i class="fa-solid fa-home"></i></button>
