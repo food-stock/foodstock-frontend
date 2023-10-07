@@ -2,13 +2,10 @@
   import { translate } from '$lib/locales/TranslationStore';
   import { onMount } from 'svelte';
   import Cookies from 'js-cookie';import headers from '$lib/requests/headers';
-import constants from '$lib/constants';
+  import constants from '$lib/constants';
   import { debounce } from 'lodash-es';
   import { goto } from '$app/navigation'; 
   import {page} from '$app/stores';
-
-  
-
 
   let defaultStock = {
     id: 1,
@@ -175,11 +172,9 @@ import constants from '$lib/constants';
           {translate('Add.SearchAStock')}
             {#if printedStocks.length > 0}
               <div id="list-stock">
-                <!-- svelte-ignore a11y-click-events-have-key-events -->
-              <a id="cat-link" on:click={gotoStock1}>{printedStocks[0].name}</a>
+              <button id="cat-link" on:click={gotoStock1}>{printedStocks[0].name}</button>
             {#if printedStocks.length > 1}
-              <!-- svelte-ignore a11y-click-events-have-key-events -->
-              <a id="cat-link" on:click={gotoStock2}>{printedStocks[1].name}</a>
+              <button id="cat-link" on:click={gotoStock2}>{printedStocks[1].name}</button>
             {/if}
             </div>
             {/if}
@@ -189,6 +184,7 @@ import constants from '$lib/constants';
               <ul>
                 {#each stockOptions as stock}
                   <!-- svelte-ignore a11y-click-events-have-key-events -->
+                  <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
                   <li on:click={() => selectStockOption(stock)}>{stock.name}</li>
                 {/each}
               </ul>
@@ -196,13 +192,14 @@ import constants from '$lib/constants';
           {:else}
           {translate('Add.WillBeAdded')} 
           <div id="btn">{stockchosen.name}</div>
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
           <p on:click={toogleDefaultStock}>{translate('Add.Nah')}</p> 
           {/if}
 
           {translate('Add.HowMany')}
           <input id="input" type="number" bind:value={quantity}/>
           {translate('Add.CDate')}
-          <input id="input" type="date" bind:value={date_of_consumption} />
+          <!--<input id="input" type="date" bind:value={date_of_consumption} />-->
           <div id="validation">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
           <div id="bttonY" on:click={validateAdd}><i class="fa-solid fa-check"></i></div>
