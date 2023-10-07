@@ -10,6 +10,21 @@
     import Cookies from 'js-cookie';
     import PopUpCookies from '$lib/notifications/PopUpCookies.svelte';
 
+    import "nprogress/nprogress.css";
+    import NProgress from "nprogress";
+    import { navigating } from "$app/stores";
+
+    NProgress.configure({
+        // Full list:
+        minimum: 0.16,
+    });
+
+    $: {
+        if ($navigating) {
+            NProgress.start();
+        } else NProgress.done();
+    }
+
     let authLocal: boolean = false ;
     let askCookies: boolean = false;
 
