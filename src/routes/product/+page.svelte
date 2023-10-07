@@ -183,7 +183,6 @@
   {/if}
 {/if}
 
-{#if yaPlusOpened}
   <Dialog
     title="{translate('Product.NoMore?')}"
     content ="Dialog description"
@@ -191,8 +190,8 @@
     refuseLabel = '{translate('Product.ThereAreSome')}'
     onAccept = {nomore}
     onRefuse={missclick}
+    bind:show={yaPlusOpened}
   />
-{/if}
 
 {#if openQuantityM}
 {translate('Product.QtyRemaining')}

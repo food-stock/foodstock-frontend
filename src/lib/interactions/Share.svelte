@@ -1,17 +1,18 @@
 <script>
     import { translate } from "$lib/locales/TranslationStore";
     function share() {
+      let text = "I'm using FoodStock to reduce food waste. Join me!"
       if (navigator.share) {
         navigator
           .share({
-            title: 'Your PWA Title',
-            text: 'Check out this awesome PWA!',
+            title: 'FoodStock',
+            text: text,
             url: window.location.href,
           })
           .then(() => console.log('Shared successfully'))
           .catch((error) => console.error('Error sharing:', error));
       } else {
-        alert('A link has been copied to your clipboard. Send it to your friends to join the stock!');
+        alert('A link has been copied to your clipboard. Send it to your friends to reduce food waste together!');
       }
     }
   </script>

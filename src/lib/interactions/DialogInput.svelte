@@ -5,7 +5,8 @@
     export let refuseLabel = 'Refuse';
     export let onAccept:Function;
     export let onRefuse:Function;
-    export let show = true;
+    export let input = "";
+    export let show = false;
   
     function handleAccept() {
       if (typeof onAccept === 'function') {
@@ -26,6 +27,7 @@
   <div class="dialog">
     <h2>{title}</h2>
     <p>{content}</p>
+    <input bind:value={input} type="text" name="input" autocomplete="off">
     <div class="buttons">
         <button class="no" on:click={handleRefuse}>{refuseLabel}</button>
         <button on:click={handleAccept}>{acceptLabel}</button>
@@ -72,6 +74,16 @@
         display: flex;
         justify-content: center;
         flex-direction: row;
+    }
+
+    input {
+        margin-top: 20px;
+        width: 200px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        font-size: 20px;
     }
 
     .no {

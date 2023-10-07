@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { loadTranslations, translate } from '$lib/locales/TranslationStore';
+    import { loadTranslations} from '$lib/locales/TranslationStore';
     import {onMount} from 'svelte';
     import {goto} from '$app/navigation';
     import {auth} from '$lib/stores/auth';
@@ -9,6 +9,7 @@
     import SideBar from '$lib/nav/SideBar.svelte';
     import Cookies from 'js-cookie';
     import PopUpCookies from '$lib/notifications/PopUpCookies.svelte';
+    import Toasts from '$lib/notifications/Toasts.svelte';
 
     import "nprogress/nprogress.css";
     import NProgress from "nprogress";
@@ -26,13 +27,12 @@
     }
 
     let authLocal: boolean = false ;
-    let askCookies: boolean = false;
+    let askCookies: boolean;
 
     auth.subscribe((a: boolean) => {
         authLocal = a;
     });
   
-
     async function refreshToken() {
         const refresh_token = Cookies.get('refresh_token');
         if (refresh_token === undefined) {
@@ -55,16 +55,27 @@
     }
 
     onMount(() => {
+        if (Cookies.get('cookiesaccepted')==undefined) {
+            askCookies = true;
+        } else {
+            askCookies = false;
+        }
+
+        if ($page.url.pathname === '/login' || $page.url.pathname === '/register'){
+            return;
+        }
         if (authLocal) {
             loadTranslations;
-            if (Cookies.get('cookiesaccepted')!="true") {
-                askCookies = true;
-            }
         } else {
             const user = Cookies.get('id');
-            const req = fetch(`${constants.ADD_API}test_token?user_id=${user}`, {
+            const token = Cookies.get('access_token');
+            if (user === undefined || token === undefined) {
+                return;
+            }
+            console.log(user, token);
+            const req = fetch(`${constants.ADD_API}test_token/?user_id=${user}`, {
                 headers: headers,
-                method: 'GET'
+                method: 'POST'
             });
             req.then(async (res) => {
                 if (res.status !== 200) {
@@ -75,15 +86,17 @@
         }
     });
   </script>
+
+<Toasts />
   
-{#if askCookies}
-    <PopUpCookies />
-{/if}
+<PopUpCookies bind:showPopup={askCookies} />
 
 {#if $page.url.pathname === '/login' || $page.url.pathname === '/register' || $page.url.pathname === '/'}
 <slot></slot>
 {:else}
 <SideBar />
+
+<!--Floating buttons-->
 <button on:click={()=>goto("/scanproduct")} id="bttonB"><i class="fa-solid fa-barcode"></i></button>
 <button on:click={()=>goto("/add")} id="bttonA"><i class="fa-solid fa-plus"></i></button>
 <button on:click={()=>goto("/stock")} id="bttonH"><i class="fa-solid fa-home"></i></button>
@@ -196,6 +209,11 @@
         background-color: var(--blue-color);
         background-color: var(--blue-color);
         color: var(--black-color);
+    }
+
+    :global(button){
+        background-color: transparent;
+        border : none;
     }
     
     </style>

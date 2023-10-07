@@ -26,19 +26,19 @@
         <i class="fa-solid fa-xmark"></i>
     </button>
     <button id="bder" on:click={()=>go("/stock")}>
-        <i class="fa-solid fa-house"></i> Home
+        <i class="fa-solid fa-house"></i> {translate("Nav.Home")}
+    </button>
+    <button id="bder" on:click={()=>go("/comingsoon")}>
+        <i class="fa-solid fa-heart"></i> {translate("Nav.Social")}
     </button>
     <button id="bder" on:click={()=>go("/settings")}>
-        <i class="fa-solid fa-heart"></i> Social
-    </button>
-    <button id="bder" on:click={()=>go("/settings")}>
-        <i class="fa-solid fa-gear"></i> Settings
+        <i class="fa-solid fa-gear"></i> {translate("Nav.Settings")}
     </button>
     <button id="bder" on:click={()=>go("/notifications")}>
-        <i class="fa-solid fa-bell"></i> Notifications
+        <i class="fa-solid fa-bell"></i> {translate("Nav.Notifications")}
     </button>
-    <button id="bder" on:click={()=>go("/settings")}>
-        <i class="fa-solid fa-money-bill"></i> Support us
+    <button id="bder" on:click={()=>go("/supportus")}>
+        <i class="fa-solid fa-money-bill"></i> {translate("Nav.Support")}
     </button>
     <button id="bder" on:click={toggleDarkMode}>
         <i class="fa-solid fa-moon"></i> {translate('Settings.DarkMode')} 

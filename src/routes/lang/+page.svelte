@@ -1,20 +1,24 @@
 <script lang='ts'>
-  import { translate } from '$lib/locales/TranslationStore';
+  import { translate, setPreferredLocale } from '$lib/locales/TranslationStore';
   import Cookies from 'js-cookie';
   import Back from '$lib/nav/Back.svelte';
   import { setContext } from 'svelte';
+  import { goto } from '$app/navigation';
 
-  // Back
+  // Back button
   let name = translate('Manage.Back');
-  let link = '/managestocks';
+  let backRoute = '/managestocks';
+  function navigateBack() {
+    goto(backRoute);
+  }
 
   // Gestion de la locale
   const supportedLocales = ['en', 'fr', 'de', 'it', 'es'];
-  let currentLocale = Cookies.get('locale') || 'en';
+  let currentLocale = Cookies.get('preferredLocale') || 'en';
 
   function changeLocale(locale: string) {
-    Cookies.set('locale', locale);
-    currentLocale = locale;
+    setPreferredLocale(locale);
+    currentLocale = locale; // Update the currentLocale
   }
 
   // Création d'un contexte Svelte pour rendre currentLocale réactif
@@ -22,9 +26,8 @@
 </script>
 
 
-  <Back {name} {link} />
-  {translate('Lang.Effect')}
-  <br>
+  <Back {name} {navigateBack} />
+  <div class="eff">{translate('Lang.Effect')}</div>
   <ul>
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     {#each supportedLocales as locale}
@@ -60,7 +63,7 @@
     margin: 10px;
   }
 
-  .selected {
+  li.selected {
     background-color: yellow;
   }
 </style>
