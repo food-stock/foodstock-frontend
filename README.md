@@ -27,7 +27,6 @@ The frontend and backend are separated in two different repositories. The backen
 - [x] Scanning barcodes to add food to the stock. If the product barcode is not registered, it uses OpenFoodFact API (an online collaborative database that collects and shares information about food products) to get product details 
 - [ ] Push notifications to warn the user of the expiration of a food : right now, I am able to get suscribe and unsuscribe of notifications. Just need to set cron job to check for product expiration
 - [x] A solid authentication system , it needs now to check response to maybe refresh the token using the implemented Django endpoint.
-- [ ] Diverse means of authentication (Google, Facebook, Apple, etc.)
 - [ ] OCR to enter food by reading barcode and date of validity on the product
 - [ ] Integrating proximity to find nearest NGOs or people to give food to including distance between the user and them
 - [ ] Responsivness for desktop -- in work
